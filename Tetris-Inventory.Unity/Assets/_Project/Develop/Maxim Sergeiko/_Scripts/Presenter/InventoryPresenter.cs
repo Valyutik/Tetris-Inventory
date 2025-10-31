@@ -4,11 +4,17 @@ namespace _Project.Services
 {
     public class InventoryPresenter : IDisposable
     {
-        private readonly IInventoryView _view;
+        private readonly IInventoryView _inventoryView;
 
-        public InventoryPresenter(IInventoryView view)
+        private readonly IDragDropView _dragDropView;
+        
+        private readonly IInputService _inputService;
+        
+        public InventoryPresenter(IInventoryView inventoryView, IDragDropView dragDropView, IInputService inputService)
         {
-            _view = view;
+            _inventoryView = inventoryView;
+            
+            _inputService = inputService;
         }
 
         public void Init()
@@ -23,7 +29,7 @@ namespace _Project.Services
 
         private void OnCreateItem()
         {
-
+            _inputService.InputHandler.OnChangePointerPosition += _dragDropView.Drag;
         }
 
         private void OnTakeItem()
@@ -33,7 +39,9 @@ namespace _Project.Services
 
         private void OnPlaceItem()
         {
-
+            _inputService.InputHandler.OnChangePointerPosition -= _dragDropView.Drag;
+            
+            _dragDropView.Drop();
         }
 
         private void OnDeleteItem()
@@ -43,24 +51,24 @@ namespace _Project.Services
 
         private void ApplySubscriptions()
         {
-            _view.InventoryHandler.OnRequestTakeItem += OnTakeItem;
+            _inventoryView.InventoryHandler.OnRequestTakeItem += OnTakeItem;
 
-            _view.InventoryHandler.OnRequestCreateItem += OnCreateItem;
+            _inventoryView.InventoryHandler.OnRequestCreateItem += OnCreateItem;
 
-            _view.InventoryHandler.OnRequestPlaceItem += OnPlaceItem;
+            _inventoryView.InventoryHandler.OnRequestPlaceItem += OnPlaceItem;
 
-            _view.InventoryHandler.OnRequestDeleteItem += OnDeleteItem;
+            _inventoryView.InventoryHandler.OnRequestDeleteItem += OnDeleteItem;
         }
 
         private void RemoveSubscriptions()
         {
-            _view.InventoryHandler.OnRequestTakeItem -= OnTakeItem;
+            _inventoryView.InventoryHandler.OnRequestTakeItem -= OnTakeItem;
 
-            _view.InventoryHandler.OnRequestCreateItem -= OnCreateItem;
+            _inventoryView.InventoryHandler.OnRequestCreateItem -= OnCreateItem;
 
-            _view.InventoryHandler.OnRequestPlaceItem -= OnPlaceItem;
+            _inventoryView.InventoryHandler.OnRequestPlaceItem -= OnPlaceItem;
 
-            _view.InventoryHandler.OnRequestDeleteItem -= OnDeleteItem;
+            _inventoryView.InventoryHandler.OnRequestDeleteItem -= OnDeleteItem;
         }
     }
 }
