@@ -36,13 +36,13 @@ namespace _Project.Develop.Alexey_Pasechnik.Scripts
         private void InitializeCreateButton()
         {
             var createButton = _root.Q<Button>("CreateButton");
-            createButton.RegisterCallback<ClickEvent>(evt => OnRequestCreateItem?.Invoke());
+            createButton?.RegisterCallback<ClickEvent>(evt => OnRequestCreateItem?.Invoke());
         }
 
         private void InitializeDeleteButton()
         {
             var deleteButton = _root.Q<Button>("DeleteButton");
-            deleteButton.RegisterCallback<PointerOverEvent>(evt => OnRequestDeleteItem?.Invoke());
+            deleteButton?.RegisterCallback<PointerOverEvent>(evt => OnRequestDeleteItem?.Invoke());
         }
     }
 }
