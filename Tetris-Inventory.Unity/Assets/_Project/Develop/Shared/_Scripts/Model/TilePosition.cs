@@ -4,5 +4,11 @@ namespace _Project.Model
     {
         public int X;
         public int Y;
+
+        public TilePosition(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }
