@@ -1,0 +1,39 @@
+.create-button {
+    min-height: 100px;
+    max-height: 100px;
+    background-color: rgb(212, 133, 3);
+    -unity-font-style: bold;
+    font-size: 45px;
+    color: rgb(255, 255, 255);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    transition-duration: 0.075s;
+    transition-delay: 0s;
+    transition-timing-function: ease-in;
+    min-width: 480px;
+    max-width: 480px;
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    margin-top: 80px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+}
+
+.create-button:active {
+    min-height: 95px;
+    max-height: 95px;
+    -unity-font-style: bold;
+    font-size: 45px;
+    color: rgb(255, 255, 255);
+    transition-duration: 0.075s;
+    transition-delay: 0s;
+    transition-timing-function: ease-in;
+    min-width: 470px;
+    max-width: 470px;
+}
