@@ -8,7 +8,7 @@
             </ui:VisualElement>
             <ui:VisualElement name="RightContainer" style="flex-grow: 1; min-width: 70%; max-width: 70%; max-height: 100%; min-height: 100%; margin-left: 60px; justify-content: flex-start; align-items: center;">
                 <ui:VisualElement name="Inventory" style="flex-grow: 1; max-width: 100%; min-width: 100%; min-height: 80%; max-height: 80%; background-color: rgb(34, 34, 34); border-top-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; border-bottom-left-radius: 25px;" />
-                <ui:Button text="Удалить&#10;" name="RemoveButton" class="create-button" style="background-color: rgb(171, 0, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255);" />
+                <ui:Button text="Удалить&#10;" name="DeleteButton" class="create-button" style="background-color: rgb(171, 0, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255);" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
