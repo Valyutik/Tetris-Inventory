@@ -1,19 +1,19 @@
-using Shared.Model;
+using UnityEngine;
 
 namespace TI.Sergei_Lind.Runtime.InventorySystem
 {
-    public sealed class Tile
+    public sealed class Cell
     {
-        public TilePosition Position { get; private set; }
-        public ItemInstance Item { get; private set; }
+        public Vector2Int Position { get; private set; }
+        public Item Item { get; private set; }
         public bool IsEmpty => Item == null;
         
-        public Tile(TilePosition position)
+        public Cell(Vector2Int position)
         {
             Position = position;
         }
 
-        public void SetItem(ItemInstance item)
+        public void SetItem(Item item)
         {
             Item = item;
         }

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace TI.Sergei_Lind.Runtime.InventorySystem
 {
     public class Item
@@ -7,8 +9,10 @@ namespace TI.Sergei_Lind.Runtime.InventorySystem
         public  string Description { get; }
         public bool[,] Shape { get; }
         
-        public int Width => Shape.GetLength(0);
-        public int Height => Shape.GetLength(1);
+        public Vector2Int? Position { get; private set; }
+        
+        public int Width => Shape.GetLength(1);
+        public int Height => Shape.GetLength(0);
         
         public Item(string id, string name, string description, bool[,] shape = null)
         {
@@ -16,6 +20,16 @@ namespace TI.Sergei_Lind.Runtime.InventorySystem
             Name = name;
             Description = description;
             Shape = shape ?? CreateDefaultShape();
+        }
+        
+        public void SetAnchorPosition(Vector2Int position)
+        {
+            Position = position;
+        }
+
+        public void ClearAnchorPosition()
+        {
+            Position = null;
         }
 
         private bool[,] CreateDefaultShape()

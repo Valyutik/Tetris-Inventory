@@ -1,52 +1,56 @@
 using System.Collections.Generic;
-using Shared.Model;
+using UnityEngine;
 
 namespace TI.Sergei_Lind.Runtime.InventorySystem
 {
     public class Inventory
     {
-        private readonly List<ItemInstance> _items;
+        private readonly List<Item> _items;
+        private readonly Grid _grid;
 
-        public TileMap TileMap { get; }
-
-        public int Width => TileMap.Width;
-        public int Height => TileMap.Height;
+        public int Width => _grid.Width;
+        public int Height => _grid.Height;
         
         public Inventory(int width, int height)
         { 
-            TileMap = new TileMap(width, height);
-            _items = new List<ItemInstance>();
+            _grid = new Grid(width, height);
+            _items = new List<Item>();
         }
 
-        public bool TryAddItem(ItemInstance instance, TilePosition position)
+        public bool TryAddItem(Item instance, Vector2Int position)
         {
-            if (!TileMap.TryAddItem(instance, position))
+            if (!_grid.TryAddItem(instance, position))
                 return false;
 
             _items.Add(instance);
             return true;
         }
 
-        public bool RemoveItem(ItemInstance instance)
+        public bool RemoveItem(Item instance)
         {
             if (!_items.Contains(instance))
                 return false;
 
-            TileMap.RemoveItem(instance);
+            _grid.RemoveItem(instance);
             _items.Remove(instance);
             return true;
         }
         
-        public IEnumerable<ItemInstance> GetAllItems() => _items.AsReadOnly();
+        public IEnumerable<Item> GetAllItems() => _items.AsReadOnly();
 
-        public ItemInstance GetItem(TilePosition position)
+        public Item GetItem(Vector2Int position)
         {
-            return TileMap.GetItem(position);
+            return _grid.GetItem(position);
+        }
+
+        public Cell GetCell(Vector2Int  position)
+        {
+            return _grid.GetCell(position.x, position.y);
         }
 
         public void Clear()
         {
-            TileMap.Clear();
+            _grid.Clear();
             _items.Clear();
         }
     }

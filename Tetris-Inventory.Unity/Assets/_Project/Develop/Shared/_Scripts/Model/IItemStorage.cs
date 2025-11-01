@@ -1,3 +1,5 @@
+using Shared.Model;
+
 namespace _Project.Model
 {
     public interface IItemStorage
