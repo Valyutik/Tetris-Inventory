@@ -1,4 +1,0 @@
-{
-	"name": "InventoryView",
-	"references":[ "Shared.Runtime" ]
-}
