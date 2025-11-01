@@ -1,0 +1,122 @@
+.create-button {
+    min-height: 100px;
+    max-height: 100px;
+    background-color: rgb(212, 133, 3);
+    -unity-font-style: bold;
+    font-size: 45px;
+    color: rgb(255, 255, 255);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    transition-duration: 0.1s;
+    transition-delay: 0s;
+    transition-timing-function: ease-in-out;
+    min-width: 580px;
+    max-width: 580px;
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    margin-top: 80px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+}
+
+.create-button:active {
+    -unity-font-style: bold;
+    font-size: 45px;
+    color: rgb(255, 255, 255);
+    transition-duration: 0.1s;
+    transition-delay: 0s;
+    transition-timing-function: ease-in-out;
+    width: auto;
+    min-width: 570px;
+    max-width: 570px;
+    min-height: 100px;
+    max-height: 100px;
+}
+
+.delete-button {
+    background-color: rgb(171, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    margin-top: 70px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    min-width: 1100px;
+    height: auto;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-size: 45px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    width: auto;
+    max-width: 1100px;
+    min-height: 100px;
+    max-height: 100px;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.1s;
+}
+
+.delete-button:active {
+    background-color: rgb(171, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    margin-top: 70px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    min-width: 1090px;
+    height: auto;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-size: 45px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    max-width: 1090px;
+    min-height: 100px;
+    max-height: 100px;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
+}
+
+.cell {
+    flex-grow: 1;
+    min-width: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    min-height: 100px;
+    background-color: rgb(48, 48, 48);
+    margin-top: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+}
