@@ -1,4 +1,4 @@
-namespace _Project.Model
+namespace Shared.Model
 {
     public struct TilePosition
     {

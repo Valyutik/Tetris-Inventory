@@ -1,0 +1,18 @@
+{
+    "name": "SergeiLind.Tests",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e5d36d8dc48ffe448a8ca0fae3bd97e4",
+        "GUID:9d85823235e53fe4982b9f4f9568de93",
+        "GUID:fed79fe84fd614f41b199fdaea304010"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

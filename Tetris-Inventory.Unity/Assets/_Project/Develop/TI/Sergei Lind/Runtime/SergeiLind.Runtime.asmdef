@@ -1,0 +1,16 @@
+{
+    "name": "SergeiLind.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fed79fe84fd614f41b199fdaea304010"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
