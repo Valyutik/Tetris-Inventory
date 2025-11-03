@@ -21,6 +21,8 @@ namespace Runtime.InventorySystem.Model
         IReadOnlyCollection<Item> GetAllItems();
         
         bool IsCellOccupied(Vector2Int position);
+        
+        bool[,] GetOccupancyMap();
 
         void Clear();
     }
