@@ -25,25 +25,25 @@ namespace Runtime.InventorySystem.Model
             }
         }
 
-        public bool TryAddItem(Item instance, Vector2Int anchoredPosition)
+        public bool TryAddItem(Item item, Vector2Int position)
         {
-            if (!CanPlaceItem(instance, anchoredPosition))
+            if (!CanPlaceItem(item, position))
                 return false;
             
-            ApplyPlacement(instance, anchoredPosition);
-            instance.SetAnchorPosition(anchoredPosition);
+            ApplyPlacement(item, position);
+            item.SetAnchorPosition(position);
             return true;
         }
         
-        public void RemoveItem(Item instance)
+        public void RemoveItem(Item item)
         {
-            foreach (var tile in _cells)
+            foreach (var cell in _cells)
             {
-                if (tile.Item == instance)
-                    tile.Clear();
+                if (cell.Item == item)
+                    cell.Clear();
             }
 
-            instance.ClearAnchorPosition();
+            item.ClearAnchorPosition();
         }
         
         public Cell GetCell(int x, int y) => _cells[x, y];
@@ -55,19 +55,19 @@ namespace Runtime.InventorySystem.Model
 
         public void Clear()
         {
-            foreach (var tile in _cells)
-                tile.Clear();
+            foreach (var cell in _cells)
+                cell.Clear();
         }
 
-        private void ApplyPlacement(Item instance, Vector2Int anchoredPosition)
+        private void ApplyPlacement(Item item, Vector2Int position)
         {
-            foreach (var occupiedTiles in GetOccupiedCells(instance, anchoredPosition))
+            foreach (var occupiedTiles in GetOccupiedCells(item, position))
             {
-                occupiedTiles.SetItem(instance);
+                occupiedTiles.SetItem(item);
             }
         }
 
-        private bool CanPlaceItem(Item item, Vector2Int anchoredPosition)
+        public bool CanPlaceItem(Item item, Vector2Int position)
         {
             for (var dy = 0; dy < item.Height; dy++)
             for (var dx = 0; dx < item.Width; dx++)
@@ -75,17 +75,17 @@ namespace Runtime.InventorySystem.Model
                 if (!item.Shape[dy, dx])
                     continue;
 
-                var x = anchoredPosition.x + dx;
-                var y = anchoredPosition.y + dy;
+                var x = position.x + dx;
+                var y = position.y + dy;
 
                 if (!IsInsideBounds(new Vector2Int(x, y)))
                     return false;
             }
 
-            return GetOccupiedCells(item, anchoredPosition).All(tile => tile.IsEmpty);
+            return GetOccupiedCells(item, position).All(tile => tile.IsEmpty);
         }
 
-        private IEnumerable<Cell> GetOccupiedCells(Item item, Vector2Int anchoredPosition)
+        private IEnumerable<Cell> GetOccupiedCells(Item item, Vector2Int position)
         {
             for (var dy = 0; dy < item.Height; dy++)
             for (var dx = 0; dx < item.Width; dx++)
@@ -93,7 +93,7 @@ namespace Runtime.InventorySystem.Model
                 if (!item.Shape[dy, dx])
                     continue;
 
-                yield return _cells[anchoredPosition.x + dx, anchoredPosition.y + dy];
+                yield return _cells[position.x + dx, position.y + dy];
             }
         }
         
