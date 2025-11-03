@@ -63,6 +63,19 @@ namespace Runtime.InventorySystem.Model
             return _grid.GetCell(position.x, position.y).IsEmpty;
         }
 
+        public bool[,] GetOccupancyMap()
+        {
+            var occupancyMap = new bool[Width, Height];
+
+            for (var y = 0; y < Height; y++)
+            {
+                for(var x = 0; x < Width; x++) 
+                    occupancyMap[x, y] = _grid.GetCell(x, y).IsEmpty;
+            }
+
+            return occupancyMap;
+        }
+
         public void Clear()
         {
             _grid.Clear();
