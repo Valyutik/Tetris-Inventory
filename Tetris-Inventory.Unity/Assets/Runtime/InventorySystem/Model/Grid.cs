@@ -67,7 +67,7 @@ namespace Runtime.InventorySystem.Model
             }
         }
 
-        private bool CanPlaceItem(Item item, Vector2Int anchoredPosition)
+        public bool CanPlaceItem(Item item, Vector2Int anchoredPosition)
         {
             for (var dy = 0; dy < item.Height; dy++)
             for (var dx = 0; dx < item.Width; dx++)
