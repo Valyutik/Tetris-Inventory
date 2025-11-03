@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Runtime.InventorySystem.Model
 {
-    public class Inventory
+    public class Inventory : IInventory
     {
         private readonly List<Item> _items;
         private readonly Grid _grid;
@@ -17,35 +17,50 @@ namespace Runtime.InventorySystem.Model
             _items = new List<Item>();
         }
 
-        public bool TryAddItem(Item instance, Vector2Int position)
+        public bool CanPlaceItem(Item item, Vector2Int position)
         {
-            if (!_grid.TryAddItem(instance, position))
+            return _grid.CanPlaceItem(item, position);
+        }
+
+        public bool TryPlaceItem(Item item, Vector2Int position)
+        {
+            if (!_grid.TryAddItem(item, position))
                 return false;
 
-            _items.Add(instance);
+            _items.Add(item);
             return true;
         }
 
-        public bool RemoveItem(Item instance)
+        public bool TryRemoveItem(Item item)
         {
-            if (!_items.Contains(instance))
+            if (!_items.Contains(item))
                 return false;
 
-            _grid.RemoveItem(instance);
-            _items.Remove(instance);
+            _grid.RemoveItem(item);
+            _items.Remove(item);
             return true;
         }
         
-        public IEnumerable<Item> GetAllItems() => _items.AsReadOnly();
+        public bool TryRemoveItem(Vector2Int position)
+        {
+            var item = _grid.GetItem(position);
+            if (item == null)
+                return false;
+            _grid.RemoveItem(item);
+            _items.Remove(item);
+            return true;
+        }
+        
+        public IReadOnlyCollection<Item> GetAllItems() => _items.AsReadOnly();
 
         public Item GetItem(Vector2Int position)
         {
             return _grid.GetItem(position);
         }
 
-        public Cell GetCell(Vector2Int  position)
+        public bool IsCellOccupied(Vector2Int position)
         {
-            return _grid.GetCell(position.x, position.y);
+            return _grid.GetCell(position.x, position.y).IsEmpty;
         }
 
         public void Clear()
