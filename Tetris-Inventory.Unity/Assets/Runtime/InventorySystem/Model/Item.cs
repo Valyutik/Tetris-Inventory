@@ -7,8 +7,8 @@ namespace Runtime.InventorySystem.Model
         public string Id { get; }
         public  string Name { get; }
         public  string Description { get; }
-        public bool[,] Shape { get; }
-        
+        public bool[,] Shape { get; private set; }
+
         public Vector2Int? Position { get; private set; }
         
         public int Width => Shape.GetLength(1);
@@ -30,6 +30,24 @@ namespace Runtime.InventorySystem.Model
         public void ClearAnchorPosition()
         {
             Position = null;
+        }
+        
+        public void RotateShape()
+        {
+            var height = Shape.GetLength(1);
+            var width = Shape.GetLength(0);
+            
+            var newShape = new bool[height, width];
+
+            for (var y = 0; y < height; y++)
+            {
+                for (var x = 0; x < width; x++)
+                {
+                    newShape[height - 1 - y, x] = Shape[x, y];
+                }
+            }
+
+            Shape = newShape;
         }
 
         private bool[,] CreateDefaultShape()
