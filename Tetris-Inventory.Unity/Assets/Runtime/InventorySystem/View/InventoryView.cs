@@ -5,15 +5,19 @@ namespace Runtime.InventorySystem.View
 {
     public class InventoryView : MonoBehaviour
     {
-        public IInventoryHandler InventoryHandler { get; private set; }
-
-        [SerializeField] private int previewCellsCount;
-        [SerializeField] private int inventoryCellsCount;
+        [Header("Configuration")]
+        [SerializeField] private int inventoryGridWidth;
+        [SerializeField] private int inventoryGridHeight;
+        [SerializeField] private int previewGridWidth;
+        [SerializeField] private int previewGridHeight;
+        [SerializeField] private int cellSize;
 
         private VisualElement _root;
+        
+        private IInventoryHandler _inventoryHandler;
         private UIDocument _document;
 
-        //HACK: Затычка
+        //HACK: Crutch
         private void Awake()
         {
             Initialize(GetComponent<InventoryHandler>(), GetComponent<UIDocument>());
@@ -21,53 +25,60 @@ namespace Runtime.InventorySystem.View
 
         public void Initialize(IInventoryHandler inventoryHandler, UIDocument document)
         {
-            InventoryHandler = inventoryHandler;
-            InventoryHandler.OnRequestCreateItem += ShowItem;
+            _inventoryHandler = inventoryHandler;
+            _inventoryHandler.OnRequestCreateItem += ShowItem;
 
             _document = document;
             _root = _document.rootVisualElement;
 
             InitializePreview();
-            InitializeGrid();
+            InitializeInventory();
         }
 
         private void InitializePreview()
         {
-            var previewGrid = _root.Q<VisualElement>("ItemPreview");
+            var preview = _root.Q<VisualElement>("ItemPreview");
+            var previewGrid = preview.Q<VisualElement>("Grid");
 
             if (previewGrid == null) return;
-
-            CreateGrid(previewCellsCount, previewGrid);
+            
+            DrawEmptyGrid(previewGridWidth, previewGridHeight, previewGrid);
         }
 
-        private void InitializeGrid()
+        private void InitializeInventory()
         {
-            var inventoryGrid = _root.Q<VisualElement>("Inventory");
+            var inventory =_root.Q<VisualElement>("Inventory");
+            var inventoryGrid =inventory.Q<VisualElement>("Grid");
 
             if (inventoryGrid == null) return;
 
-            CreateGrid(inventoryCellsCount, inventoryGrid);
+            DrawEmptyGrid(inventoryGridWidth, inventoryGridHeight, inventoryGrid);
         }
 
-        //TODO: Вынести в отдельный класс
-        private void CreateGrid(int cellCount, VisualElement container)
+        private void DrawEmptyGrid(int width, int height, VisualElement container)
         {
-            for (var i = 0; i < cellCount; i++)
+            container.style.height = height * cellSize;
+            container.style.width = width * cellSize;
+            
+            for (var y = 0; y < height; y++)
             {
-                var cell = new VisualElement();
-                cell.AddToClassList("cell");
-                container.Add(cell);
+                for (var x = 0; x < width; x++)
+                {
+                    var cell = new VisualElement();
+                    cell.AddToClassList("cell");
+                    
+                    cell.style.width = cellSize;
+                    cell.style.height = cellSize;
+                    
+                    container.Add(cell);
+                }
             }
         }
 
+        //TODO: Implement the logic of displaying an item
         private void ShowItem()
         {
             Debug.Log("ShowItem");
-        }
-
-        public void DrawInventory(bool[,] array)
-        {
-            Debug.Log("DrawInventory");
         }
     }
 }

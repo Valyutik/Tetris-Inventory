@@ -184,6 +184,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6351fef71160545aff60cf23a3ba01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryGridWidth: 7
+  inventoryGridHeight: 7
+  previewGridWidth: 7
+  previewGridHeight: 7
+  cellSize: 100
 --- !u!114 &916393338
 MonoBehaviour:
   m_ObjectHideFlags: 0
