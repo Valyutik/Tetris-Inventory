@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Runtime.InventorySystem.View
+namespace Runtime.InventorySystem.Inventory
 {
     public class InventoryView : MonoBehaviour
     {
@@ -47,7 +47,7 @@ namespace Runtime.InventorySystem.View
 
         private void InitializeInventory()
         {
-            var inventory =_root.Q<VisualElement>("Inventory");
+            var inventory =_root.Q<VisualElement>("InventoryModel");
             var inventoryGrid =inventory.Q<VisualElement>("Grid");
 
             if (inventoryGrid == null) return;

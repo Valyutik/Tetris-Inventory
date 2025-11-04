@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Runtime.InventorySystem.Common;
 using UnityEngine;
+using Grid = Runtime.InventorySystem.Common.Grid;
 
-namespace Runtime.InventorySystem.Model
+namespace Runtime.InventorySystem.Inventory
 {
-    public class Inventory : IInventory
+    public class InventoryModel : IInventory
     {
         private readonly List<Item> _items;
         private readonly Grid _grid;
@@ -11,7 +13,7 @@ namespace Runtime.InventorySystem.Model
         public int Width => _grid.Width;
         public int Height => _grid.Height;
         
-        public Inventory(int width, int height)
+        public InventoryModel(int width, int height)
         { 
             _grid = new Grid(width, height);
             _items = new List<Item>();

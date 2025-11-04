@@ -1,4 +1,4 @@
-using Runtime.InventorySystem.Config;
+using Runtime.InventorySystem.Common;
 using UnityEditor;
 using UnityEngine;
 

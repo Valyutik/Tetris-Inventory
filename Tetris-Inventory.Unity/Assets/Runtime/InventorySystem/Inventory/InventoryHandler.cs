@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Runtime.InventorySystem.View
+namespace Runtime.InventorySystem.Inventory
 {
     public class InventoryHandler : MonoBehaviour, IInventoryHandler
     {

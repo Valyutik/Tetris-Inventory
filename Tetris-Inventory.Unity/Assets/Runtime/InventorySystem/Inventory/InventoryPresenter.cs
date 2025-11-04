@@ -1,7 +1,7 @@
-using Runtime.InventorySystem.Model;
+using Runtime.InventorySystem.Common;
 using UnityEngine;
 
-namespace Runtime.InventorySystem.Presenter
+namespace Runtime.InventorySystem.Inventory
 {
     public class InventoryPresenter
     {

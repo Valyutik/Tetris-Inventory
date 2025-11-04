@@ -1,8 +1,7 @@
 #nullable enable
 using System.Collections.Generic;
-using Runtime.InventorySystem.Config;
 
-namespace Runtime.InventorySystem.Model
+namespace Runtime.InventorySystem.Common
 {
     public sealed class ItemDatabase
     {

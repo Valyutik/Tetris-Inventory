@@ -1,4 +1,4 @@
-using Runtime.InventorySystem.Model;
+using Runtime.InventorySystem.Common;
 using UnityEditor;
 using UnityEngine;
 

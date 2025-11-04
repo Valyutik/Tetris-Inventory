@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Runtime.InventorySystem.Model
+namespace Runtime.InventorySystem.Common
 {
     public sealed class Cell
     {

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Runtime.InventorySystem.Common;
 using UnityEngine;
 
-namespace Runtime.InventorySystem.Model
+namespace Runtime.InventorySystem.Inventory
 {
     public interface IInventory
     {

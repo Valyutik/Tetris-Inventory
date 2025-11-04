@@ -1,6 +1,4 @@
-using Runtime.InventorySystem.Model;
-
-namespace Runtime.InventorySystem.Config
+namespace Runtime.InventorySystem.Common
 {
     public static class ItemConfigAdapter
     {

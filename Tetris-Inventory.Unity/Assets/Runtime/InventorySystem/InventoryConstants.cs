@@ -1,6 +1,6 @@
-namespace Runtime
+namespace Runtime.InventorySystem
 {
-    public static class RuntimeConstants
+    public static class InventoryConstants
     {
         public static class Item
         {

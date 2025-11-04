@@ -1,6 +1,6 @@
 using System;
 
-namespace Runtime.InventorySystem.View
+namespace Runtime.InventorySystem.Inventory
 {
     public interface IInventoryHandler
     {

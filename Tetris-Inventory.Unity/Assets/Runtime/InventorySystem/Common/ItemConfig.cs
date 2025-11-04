@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Runtime.InventorySystem.Config
+namespace Runtime.InventorySystem.Common
 {
-    [CreateAssetMenu(fileName = "ItemConfig", menuName = "Inventory/Item")]
+    [CreateAssetMenu(fileName = "ItemConfig", menuName = "InventoryModel/Item")]
     public sealed class ItemConfig : ScriptableObject
     {
         [Header("Basic Info")]
