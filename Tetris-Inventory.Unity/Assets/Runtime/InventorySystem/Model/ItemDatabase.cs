@@ -1,0 +1,26 @@
+#nullable enable
+using System.Collections.Generic;
+using Runtime.InventorySystem.Config;
+
+namespace Runtime.InventorySystem.Model
+{
+    public sealed class ItemDatabase
+    {
+        private readonly Dictionary<string, Item> _itemsById;
+    
+        public ItemDatabase(IEnumerable<ItemConfig> configs)
+        {
+            _itemsById = new Dictionary<string, Item>();
+            foreach (var config in configs)
+            {
+                var item = ItemConfigAdapter.ToModel(config);
+                _itemsById[item.Id] = item;
+            }
+        }
+
+        public Item? TryGetItemById(string id)
+        {
+            return _itemsById.GetValueOrDefault(id);
+        }
+    }
+}
