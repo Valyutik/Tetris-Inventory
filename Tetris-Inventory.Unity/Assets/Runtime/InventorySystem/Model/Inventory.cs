@@ -24,6 +24,7 @@ namespace Runtime.InventorySystem.Model
 
         public bool TryPlaceItem(Item item, Vector2Int position)
         {
+            if (item == null) return false;
             if (!_grid.TryAddItem(item, position))
                 return false;
 
