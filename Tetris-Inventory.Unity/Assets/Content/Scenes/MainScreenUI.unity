@@ -186,9 +186,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryGridWidth: 7
   inventoryGridHeight: 7
-  previewGridWidth: 7
-  previewGridHeight: 7
+  previewGridWidth: 3
+  previewGridHeight: 3
   cellSize: 100
+  _document: {fileID: 0}
 --- !u!114 &916393338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,11 +197,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916393334}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f2d26d1bb2d444c800163ecbf4142ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _document: {fileID: 0}
 --- !u!1 &1115223201
 GameObject:
   m_ObjectHideFlags: 0
