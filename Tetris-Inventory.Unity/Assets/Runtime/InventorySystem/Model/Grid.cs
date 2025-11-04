@@ -72,7 +72,7 @@ namespace Runtime.InventorySystem.Model
             for (var dy = 0; dy < item.Height; dy++)
             for (var dx = 0; dx < item.Width; dx++)
             {
-                if (!item.Shape[dy, dx])
+                if (!item.Shape[dx, dy])
                     continue;
 
                 var x = position.x + dx;
@@ -90,7 +90,7 @@ namespace Runtime.InventorySystem.Model
             for (var dy = 0; dy < item.Height; dy++)
             for (var dx = 0; dx < item.Width; dx++)
             {
-                if (!item.Shape[dy, dx])
+                if (!item.Shape[dx, dy])
                     continue;
 
                 yield return _cells[position.x + dx, position.y + dy];

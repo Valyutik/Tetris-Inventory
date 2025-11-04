@@ -11,8 +11,8 @@ namespace Runtime.InventorySystem.Model
         
         public Vector2Int? Position { get; private set; }
         
-        public int Width => Shape.GetLength(1);
-        public int Height => Shape.GetLength(0);
+        public int Width => Shape.GetLength(0);
+        public int Height => Shape.GetLength(1);
         
         public Item(string id, string name, string description, bool[,] shape = null)
         {
