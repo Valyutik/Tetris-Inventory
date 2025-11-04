@@ -1,84 +1,41 @@
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Runtime.InventorySystem.Inventory
 {
-    public class InventoryView : MonoBehaviour
+    public class InventoryView
     {
-        [Header("Configuration")]
-        [SerializeField] private int inventoryGridWidth;
-        [SerializeField] private int inventoryGridHeight;
-        [SerializeField] private int previewGridWidth;
-        [SerializeField] private int previewGridHeight;
-        [SerializeField] private int cellSize;
-
-        private VisualElement _root;
+        private const int CellSize = 100;
         
-        private IInventoryHandler _inventoryHandler;
-        private UIDocument _document;
+        private int _gridWidth;
+        private int _gridHeight;
 
-        //HACK: Crutch
-        private void Awake()
+        private readonly VisualElement _inventoryGrid;
+        
+        public InventoryView(int gridWidth, int gridHeight, UIDocument document)
         {
-            Initialize(GetComponent<InventoryHandler>(), GetComponent<UIDocument>());
-        }
+            _gridWidth = gridWidth;
+            _gridHeight = gridHeight;
 
-        public void Initialize(IInventoryHandler inventoryHandler, UIDocument document)
-        {
-            _inventoryHandler = inventoryHandler;
-            _inventoryHandler.OnRequestCreateItem += ShowItem;
-
-            _document = document;
-            _root = _document.rootVisualElement;
-
-            InitializePreview();
-            InitializeInventory();
-        }
-
-        private void InitializePreview()
-        {
-            var preview = _root.Q<VisualElement>("ItemPreview");
-            var previewGrid = preview.Q<VisualElement>("Grid");
-
-            if (previewGrid == null) return;
+            var root = document.rootVisualElement;
             
-            DrawEmptyGrid(previewGridWidth, previewGridHeight, previewGrid);
+            var inventory =root.Q<VisualElement>("Inventory");
+            _inventoryGrid = inventory.Q<VisualElement>("Grid");
+        }
+        
+        public void SetUpGrid(int width, int height)
+        {
+            _inventoryGrid.style.height = height * CellSize;
+            _inventoryGrid.style.width = width * CellSize;
         }
 
-        private void InitializeInventory()
+        public VisualElement CreateCell()
         {
-            var inventory =_root.Q<VisualElement>("InventoryModel");
-            var inventoryGrid =inventory.Q<VisualElement>("Grid");
-
-            if (inventoryGrid == null) return;
-
-            DrawEmptyGrid(inventoryGridWidth, inventoryGridHeight, inventoryGrid);
-        }
-
-        private void DrawEmptyGrid(int width, int height, VisualElement container)
-        {
-            container.style.height = height * cellSize;
-            container.style.width = width * cellSize;
+            var cell = new VisualElement();
+            cell.AddToClassList("cell");
             
-            for (var y = 0; y < height; y++)
-            {
-                for (var x = 0; x < width; x++)
-                {
-                    var cell = new VisualElement();
-                    cell.AddToClassList("cell");
-                    
-                    cell.style.width = cellSize;
-                    cell.style.height = cellSize;
-                    
-                    container.Add(cell);
-                }
-            }
-        }
+            _inventoryGrid.Add(cell);
 
-        //TODO: Implement the logic of displaying an item
-        private void ShowItem()
-        {
-            Debug.Log("ShowItem");
+            return cell;
         }
     }
 }
