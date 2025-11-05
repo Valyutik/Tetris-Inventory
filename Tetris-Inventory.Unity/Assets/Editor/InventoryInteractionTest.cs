@@ -26,7 +26,13 @@ namespace Runtime.Core
                     { true, false } 
                 });
             
+            var item2 = new Item("0", "Test", "Description", new bool[,] 
+            {   { true, true, true }, 
+                { false, false, false } 
+            });
+            
             _model.TryPlaceItem(item, new Vector2Int(2, 0));
+            _model.TryPlaceItem(item2, new Vector2Int(0, 2));
 
             _view = new InventoryView(_document);
 
