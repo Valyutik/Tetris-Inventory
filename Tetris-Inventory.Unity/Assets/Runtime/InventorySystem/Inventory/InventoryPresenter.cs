@@ -39,9 +39,9 @@ namespace Runtime.InventorySystem.Inventory
                     
                     var targetPosition = new Vector2Int(x, y);
 
-                    visualElement.RegisterCallback<PointerDownEvent>(_ => OnTakeItem(targetPosition));
+                    visualElement.RegisterCallback<PointerDownEvent>(_ => TakeItem(targetPosition));
                     
-                    visualElement.RegisterCallback<PointerUpEvent>(_ => OnPlaceItem(targetPosition));
+                    visualElement.RegisterCallback<PointerUpEvent>(_ => PlaceItem(targetPosition));
                     
                     _cells[x, y] = visualElement;
                 }
@@ -50,16 +50,11 @@ namespace Runtime.InventorySystem.Inventory
             UpdateView();
         }
 
-        private void OnTakeItem(Vector2Int position)
+        public void TakeItem(Vector2Int position)
         {
-            //TODO: Fix the _model.
             var item =  _model.GetItem(position);
-            Debug.Log($"Item: {item}");
-            Debug.Log($"CachedItem: {_cachedItem}");
             
             if (item == null || _cachedItem != null) return;
-            
-            Debug.Log($"[InventoryPresenter] OnTakeItem: {position}]");
             
             _cachedItem = item;
             
@@ -70,13 +65,9 @@ namespace Runtime.InventorySystem.Inventory
             UpdateView();
         }
 
-        private void OnPlaceItem(Vector2Int position)
+        public void PlaceItem(Vector2Int position)
         {
-            Debug.Log($"OnClickUp");
-            
             if (_cachedItem == null) return;
-            
-            Debug.Log($"[InventoryPresenter] OnPlaceItem: {position}]");
             
             var success = _model.TryPlaceItem(_cachedItem, position);
 
