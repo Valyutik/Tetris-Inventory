@@ -4,18 +4,16 @@ using UnityEngine.UIElements;
 
 namespace Runtime.InventorySystem.Inventory
 {
-    public class InventoryPresenter
+    public class InventoryPresenter : IInventoryPresenter
     {
+        public Vector2Int SelectedPosition { get; private set; }
+
         private readonly InventoryModel _model;
         
         private readonly InventoryView _view;
 
-        private Item _cachedItem;
-        
-        private Vector2Int _cachedPosition;
-
         private VisualElement[,] _cells;
-        
+
         public InventoryPresenter(InventoryView view, InventoryModel model)
         {
             _view = view;
@@ -39,9 +37,9 @@ namespace Runtime.InventorySystem.Inventory
                     
                     var targetPosition = new Vector2Int(x, y);
 
-                    visualElement.RegisterCallback<PointerDownEvent>(_ => TakeItem(targetPosition));
+                    visualElement.RegisterCallback<PointerDownEvent>(_ => SelectedPosition = targetPosition);
                     
-                    visualElement.RegisterCallback<PointerUpEvent>(_ => PlaceItem(targetPosition));
+                    visualElement.RegisterCallback<PointerUpEvent>(_ => SelectedPosition =  targetPosition);
                     
                     _cells[x, y] = visualElement;
                 }
@@ -50,32 +48,27 @@ namespace Runtime.InventorySystem.Inventory
             UpdateView();
         }
 
-        public void TakeItem(Vector2Int position)
+
+        public bool TakeItem(Vector2Int position, out Item founded)
         {
-            var item =  _model.GetItem(position);
-            
-            if (item == null || _cachedItem != null) return;
-            
-            _cachedItem = item;
-            
-            _cachedPosition = position;
-            
-            _model.TryRemoveItem(position);
+            founded = _model.GetItem(position);
+
+            _model.TryRemoveItem(founded);
             
             UpdateView();
+            
+            return founded != null;
         }
 
-        public void PlaceItem(Vector2Int position)
+        public bool PlaceItem(Item item, Vector2Int position)
         {
-            if (_cachedItem == null) return;
-            
-            var success = _model.TryPlaceItem(_cachedItem, position);
+            var success = _model.CanPlaceItem(item, position);
 
-            if (!success) _model.TryPlaceItem(_cachedItem, _cachedPosition);
-            
-            _cachedItem = null;
+            if (success) _model.TryPlaceItem(item, position);
             
             UpdateView();
+            
+            return success;
         }
 
         private void UpdateView()
