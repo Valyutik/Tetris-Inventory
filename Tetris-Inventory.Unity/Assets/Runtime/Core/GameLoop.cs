@@ -1,60 +1,52 @@
 using Runtime.InventorySystem.Common;
 using Runtime.InventorySystem.Inventory;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Runtime.Core
 {
     public class GameLoop
     {
-        private readonly IInventoryPresenter _inventoryPresenter;
-        
-        private readonly PlayerControls _playerControls;
-
-        private IInventoryPresenter _currentInventoryPresenter;
+        private readonly IInventoryPresenter _inventory;
         
         private Item _cachedItem;
         
         private Vector2Int _cachedPosition;
+
+        private IInventoryPresenter _cachedInventory;
         
-        public GameLoop(IInventoryPresenter inventoryPresenter)
+        public GameLoop(IInventoryPresenter inventory)
         {
-            _playerControls = new PlayerControls();
-            
-            _inventoryPresenter = inventoryPresenter;
+            _inventory = inventory;
         }
         
         public void Run()
         {
-            _playerControls.Enable();
-
-            _playerControls.UI.Click.started += OnUIClickDown;
+            _inventory.OnPlaceItemInput += position => OnPlaceItem(position, _inventory);
             
-            _playerControls.UI.Click.canceled += OnUIClickUp;
-
-            _inventoryPresenter.OnSelected += position => OnSelectInventoryCell(position, _inventoryPresenter);
+            _inventory.OnTakeItemInput += position => OnTakeItem(position, _inventory);
         }
 
-        public void Quit()
+        private void OnPlaceItem(Vector2Int position, IInventoryPresenter inventory)
         {
-            _playerControls.Disable();
-        }
-
-        private void OnUIClickDown(InputAction.CallbackContext context)
-        {
-            _currentInventoryPresenter?.TakeItem(_cachedPosition, out _cachedItem);
-        }
-
-        private void OnUIClickUp(InputAction.CallbackContext context)
-        {
-            _currentInventoryPresenter?.PlaceItem(_cachedItem, _cachedPosition);
-        }
-
-        private void OnSelectInventoryCell(Vector2Int position, IInventoryPresenter presenter)
-        {
+            if (_cachedItem == null) return;
+            
             _cachedPosition = position;
-            
-            _currentInventoryPresenter = presenter;
+
+            if (inventory.PlaceItem(_cachedItem, position))
+                _cachedItem = null;
+            else
+                _cachedInventory.PlaceItem(_cachedItem, _cachedPosition);
+        }
+
+        private void OnTakeItem(Vector2Int position, IInventoryPresenter inventory)
+        {
+            if (_cachedItem != null) return;
+
+            if (!inventory.TakeItem(position, out _cachedItem)) return;
+                        
+            _cachedPosition = position;
+                
+            _cachedInventory = inventory;
         }
     }
 }

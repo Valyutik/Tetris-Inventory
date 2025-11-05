@@ -7,7 +7,8 @@ namespace Runtime.InventorySystem.Inventory
 {
     public class InventoryPresenter : IInventoryPresenter
     {
-        public event Action<Vector2Int> OnSelected;
+        public event Action<Vector2Int> OnPlaceItemInput;
+        public event Action<Vector2Int> OnTakeItemInput;
         
         private readonly InventoryModel _model;
         
@@ -38,9 +39,9 @@ namespace Runtime.InventorySystem.Inventory
                     
                     var targetPosition = new Vector2Int(x, y);
 
-                    visualElement.RegisterCallback<PointerDownEvent>(_ => OnSelected?.Invoke(targetPosition));
+                    visualElement.RegisterCallback<PointerDownEvent>(_ => OnTakeItemInput?.Invoke(targetPosition));
                     
-                    visualElement.RegisterCallback<PointerUpEvent>(_ => OnSelected?.Invoke(targetPosition));
+                    visualElement.RegisterCallback<PointerUpEvent>(_ => OnPlaceItemInput?.Invoke(targetPosition));
                     
                     _cells[x, y] = visualElement;
                 }
@@ -62,6 +63,8 @@ namespace Runtime.InventorySystem.Inventory
 
         public bool PlaceItem(Item item, Vector2Int position)
         {
+            if (item == null) return false;
+            
             var success = _model.CanPlaceItem(item, position);
 
             if (success) _model.TryPlaceItem(item, position);

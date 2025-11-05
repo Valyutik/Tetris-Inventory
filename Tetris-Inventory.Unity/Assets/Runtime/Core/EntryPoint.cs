@@ -1,3 +1,4 @@
+using Runtime.InventorySystem.Common;
 using Runtime.InventorySystem.Inventory;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -16,6 +17,19 @@ namespace Runtime.Core
             var inventoryView = new InventoryView(_document);
 
             var inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
+            
+            var item = new Item("0", "Test", "Description", new bool[,] 
+            {   { true, true }, 
+                { true, false } 
+            });
+            
+            var item2 = new Item("0", "Test", "Description", new bool[,] 
+            {   { true, true, true }, 
+                { false, false, false } 
+            });
+            
+            inventoryModel.TryPlaceItem(item, new Vector2Int(2, 0));
+            inventoryModel.TryPlaceItem(item2, new Vector2Int(0, 0));
             
             var inventoryPresenter = new InventoryPresenter(inventoryView, inventoryModel);
 
