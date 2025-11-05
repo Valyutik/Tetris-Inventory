@@ -50,7 +50,7 @@ namespace Runtime.InventorySystem.Common
 
         public Item GetItem(Vector2Int position)
         {
-            return IsInsideBounds(position) ? _cells[position.y, position.x].Item : null;
+            return IsInsideBounds(position) ? _cells[position.x, position.y].Item : null;
         }
 
         public void Clear()
