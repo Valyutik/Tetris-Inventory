@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Runtime.InventorySystem.Inventory
@@ -36,5 +37,7 @@ namespace Runtime.InventorySystem.Inventory
 
             return cell;
         }
+
+        public void RepaintCell(VisualElement cell, Color color) => cell.style.backgroundColor = color;
     }
 }
