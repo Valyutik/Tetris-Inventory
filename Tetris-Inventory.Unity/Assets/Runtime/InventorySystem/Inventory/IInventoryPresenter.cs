@@ -1,3 +1,4 @@
+using System;
 using Runtime.InventorySystem.Common;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ namespace Runtime.InventorySystem.Inventory
 {
     public interface IInventoryPresenter
     {
-        public Vector2Int SelectedPosition { get; }
+        public event Action<Vector2Int> OnSelected;
         
         bool TakeItem(Vector2Int position, out Item item);
         

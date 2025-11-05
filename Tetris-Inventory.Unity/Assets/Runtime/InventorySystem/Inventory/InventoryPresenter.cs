@@ -1,3 +1,4 @@
+using System;
 using Runtime.InventorySystem.Common;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -6,8 +7,8 @@ namespace Runtime.InventorySystem.Inventory
 {
     public class InventoryPresenter : IInventoryPresenter
     {
-        public Vector2Int SelectedPosition { get; private set; }
-
+        public event Action<Vector2Int> OnSelected;
+        
         private readonly InventoryModel _model;
         
         private readonly InventoryView _view;
@@ -20,10 +21,10 @@ namespace Runtime.InventorySystem.Inventory
             
             _model = model;
             
-            Init();
+            CreateView();
         }
 
-        private void Init()
+        private void CreateView()
         {
             _view.SetUpGrid(_model.Width, _model.Height);
             
@@ -37,9 +38,9 @@ namespace Runtime.InventorySystem.Inventory
                     
                     var targetPosition = new Vector2Int(x, y);
 
-                    visualElement.RegisterCallback<PointerDownEvent>(_ => SelectedPosition = targetPosition);
+                    visualElement.RegisterCallback<PointerDownEvent>(_ => OnSelected?.Invoke(targetPosition));
                     
-                    visualElement.RegisterCallback<PointerUpEvent>(_ => SelectedPosition =  targetPosition);
+                    visualElement.RegisterCallback<PointerUpEvent>(_ => OnSelected?.Invoke(targetPosition));
                     
                     _cells[x, y] = visualElement;
                 }
@@ -47,7 +48,6 @@ namespace Runtime.InventorySystem.Inventory
             
             UpdateView();
         }
-
 
         public bool TakeItem(Vector2Int position, out Item founded)
         {
