@@ -16,7 +16,7 @@ namespace Editor
             EditorGUILayout.LabelField("Description", EditorStyles.boldLabel);
             config.description = EditorGUILayout.TextArea(config.description, GUILayout.MinHeight(60));
             
-            config.icon = (Sprite)EditorGUILayout.ObjectField("Icon", config.icon, typeof(Sprite), false);
+            config.color = EditorGUILayout.ColorField("Color", config.color);
             
             EditorGUILayout.Space(10); 
             EditorGUILayout.LabelField("Shape", EditorStyles.boldLabel);

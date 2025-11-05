@@ -10,7 +10,7 @@ namespace Runtime.InventorySystem.Common
         public string id;
         public string displayName;
         public string description;
-        public Sprite icon;
+        public Color color;
 
         [Header("Size & Shape")]
         public int width;

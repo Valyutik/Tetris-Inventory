@@ -8,6 +8,7 @@ namespace Runtime.InventorySystem.Common
                 id: config.id,
                 name: config.displayName,
                 description: config.description,
+                color: config.color,
                 shape: config.GetShapeMatrix()
             );
         }

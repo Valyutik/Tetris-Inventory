@@ -15,7 +15,7 @@ namespace Editor
                 {true, true, true},
                 {true, true, false},
             };
-            var axe = new Item("axe", "Axe", "Very", shape);
+            var axe = new Item("axe", "Axe", "Very", Color.green, shape);
 
             DrawShape(axe);
             

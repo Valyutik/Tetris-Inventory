@@ -84,7 +84,9 @@ namespace Runtime.InventorySystem.Inventory
                     
                     var visualElement = _cells[x, y];
 
-                    var color = _model.IsCellOccupied(targetPosition) ? Color.gray : Color.red; 
+                    var item = _model.GetItem(targetPosition);
+                    
+                    var color = _model.IsCellOccupied(targetPosition) ? Color.gray : item.ItemColor; 
                     
                     _view.RepaintCell(visualElement, color);
                 }
