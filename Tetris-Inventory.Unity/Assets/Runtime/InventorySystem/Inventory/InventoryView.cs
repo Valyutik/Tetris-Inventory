@@ -38,6 +38,6 @@ namespace Runtime.InventorySystem.Inventory
             return cell;
         }
 
-        public void RepaintCell(VisualElement cell, Color color) => cell.style.backgroundColor = color;
+        public void RepaintCell(VisualElement cell, Color newColor) => cell.style.backgroundColor = newColor;
     }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   id: sword
   displayName: Sword
   description: A sharp two-handed sword
-  icon: {fileID: 0}
+  color: {r: 0, g: 0.65174127, b: 1, a: 1}
   width: 2
   height: 4
   flatShape: 0101010101010101
