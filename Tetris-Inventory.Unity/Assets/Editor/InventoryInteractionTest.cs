@@ -28,7 +28,7 @@ namespace Runtime.Core
             
             _model.TryPlaceItem(item, new Vector2Int(2, 0));
 
-            _view = new InventoryView(_inventorySize.x, _inventorySize.y, _document);
+            _view = new InventoryView(_document);
 
             _presenter = new InventoryPresenter(_view, _model);
             

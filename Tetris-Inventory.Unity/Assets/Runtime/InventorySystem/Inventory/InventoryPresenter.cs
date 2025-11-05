@@ -1,5 +1,4 @@
 using Runtime.InventorySystem.Common;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -88,7 +87,6 @@ namespace Runtime.InventorySystem.Inventory
             UpdateView();
         }
 
-        // TODO: Move this method to View
         private void UpdateView()
         {
             for (var y = 0; y < _model.Width; y++)
@@ -101,7 +99,7 @@ namespace Runtime.InventorySystem.Inventory
 
                     var color = _model.IsCellOccupied(targetPosition) ? Color.gray : Color.red; 
                     
-                    visualElement.style.backgroundColor = color;
+                    _view.RepaintCell(visualElement, color);
                 }
             }
         }
