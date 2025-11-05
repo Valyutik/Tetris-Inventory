@@ -6,32 +6,31 @@ namespace Runtime.InventorySystem.Inventory
     {
         private const int CellSize = 100;
         
-        private int _gridWidth;
-        private int _gridHeight;
+        private const string CellStyle = "cell";
 
         private readonly VisualElement _inventoryGrid;
         
-        public InventoryView(int gridWidth, int gridHeight, UIDocument document)
+        public InventoryView(UIDocument document)
         {
-            _gridWidth = gridWidth;
-            _gridHeight = gridHeight;
-
             var root = document.rootVisualElement;
             
             var inventory =root.Q<VisualElement>("Inventory");
+            
             _inventoryGrid = inventory.Q<VisualElement>("Grid");
         }
         
         public void SetUpGrid(int width, int height)
         {
             _inventoryGrid.style.height = height * CellSize;
+            
             _inventoryGrid.style.width = width * CellSize;
         }
 
         public VisualElement CreateCell()
         {
             var cell = new VisualElement();
-            cell.AddToClassList("cell");
+            
+            cell.AddToClassList(CellStyle);
             
             _inventoryGrid.Add(cell);
 
