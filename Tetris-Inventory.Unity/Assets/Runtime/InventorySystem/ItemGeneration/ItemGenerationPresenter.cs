@@ -1,0 +1,29 @@
+using System;
+using Runtime.InventorySystem.Common;
+
+namespace Runtime.InventorySystem.ItemGeneration
+{
+    public sealed class ItemGenerationPresenter
+    {
+        private readonly ItemGenerationView _view;
+        private readonly ItemGenerationModel _model;
+
+        public ItemGenerationPresenter(ItemGenerationView view, ItemGenerationModel model)
+        {
+            _view = view;
+            _model = model;
+
+            _view.OnGenerateClicked += HandleGenerateClicked;
+        }
+
+        private void HandleGenerateClicked()
+        {
+            var item = _model.GetRandomItem();
+            OnItemGenerated?.Invoke(item);
+        }
+
+        public event Action<Item> OnItemGenerated;
+        
+        
+    }
+}

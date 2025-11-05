@@ -1,5 +1,6 @@
 #nullable enable
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Runtime.InventorySystem.Common
 {
@@ -20,6 +21,11 @@ namespace Runtime.InventorySystem.Common
         public Item? TryGetItemById(string id)
         {
             return _itemsById.GetValueOrDefault(id);
+        }
+
+        public IReadOnlyCollection<Item> GetAllItems()
+        {
+            return _itemsById.Values.ToList();
         }
     }
 }

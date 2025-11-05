@@ -129,8 +129,6 @@ GameObject:
   m_Component:
   - component: {fileID: 916393336}
   - component: {fileID: 916393335}
-  - component: {fileID: 916393338}
-  - component: {fileID: 916393337}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -172,37 +170,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &916393337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 916393334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca6351fef71160545aff60cf23a3ba01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryGridWidth: 7
-  inventoryGridHeight: 7
-  previewGridWidth: 3
-  previewGridHeight: 3
-  cellSize: 100
-  _document: {fileID: 0}
---- !u!114 &916393338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 916393334}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f2d26d1bb2d444c800163ecbf4142ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _document: {fileID: 0}
 --- !u!1 &1115223201
 GameObject:
   m_ObjectHideFlags: 0
