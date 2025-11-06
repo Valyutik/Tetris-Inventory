@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e5a5cc9d12a49b18c1bbad0be6bd753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainUIDocument: {fileID: 244221743}
+  _document: {fileID: 244221743}
   _inventorySize: {x: 7, y: 7}
   _itemConfigs:
   - {fileID: 11400000, guid: c9997494cf50c2e4fb27826484f4c189, type: 2}

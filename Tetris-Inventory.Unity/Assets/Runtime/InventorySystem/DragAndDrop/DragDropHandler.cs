@@ -3,12 +3,14 @@ using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.DeleteConfirmation;
 using Runtime.InventorySystem.Inventory;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Runtime.Core
 {
-    public class GameLoop
+    public class DragDropHandler
     {
         private readonly IInventoryPresenter _inventory;
+        
         private readonly IInventoryPresenter _stash;
 
         private readonly IDeleteArea _deleteArea;
@@ -21,24 +23,26 @@ namespace Runtime.Core
 
         private IInventoryPresenter _cachedInventory;
 
-        public GameLoop(IInventoryPresenter inventory, IInventoryPresenter stash, IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
+        public DragDropHandler(IInventoryPresenter inventory, IInventoryPresenter stash, IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
         {
             _inventory = inventory;
+            
             _stash = stash;
 
             _deleteArea = deleteArea;
 
             _deleteConfirmation = deleteConfirmation;
         }
-        
-        public void Run()
-        {
-            _inventory.OnPlaceItemInput += position => OnPlaceItem(position, _inventory);
-            _inventory.OnTakeItemInput += position => OnTakeItem(position, _inventory);
-            
-            _stash.OnPlaceItemInput += position => OnPlaceItem(position, _stash);
-            _stash.OnTakeItemInput += position => OnTakeItem(position, _stash);
 
+        public void Run(VisualElement root)
+        {
+            root.RegisterCallback<PointerDownEvent>(OnPointerDown);
+            root.RegisterCallback<PointerUpEvent>(OnPointerUp);
+            root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
+
+            _inventory.OnSelected += OnSelectCell;
+            _stash.OnSelected += OnSelectCell;
+            
             _deleteArea.OnEnterDeleteArea += OnEnterDeleteArea;
             _deleteArea.OnLeaveDeleteArea += OnLeaveDeleteArea;
             _deleteArea.OnDeleteAreaInput += OnDropItemToDelete;
@@ -47,6 +51,40 @@ namespace Runtime.Core
             _deleteConfirmation.OnCancelDelete += OnCancelDelete;
         }
 
+        private void OnPointerUp(PointerUpEvent evt)
+        {
+            Debug.Log($"Pointer Up!");
+
+            if (_cachedInventory == null || _cachedItem == null) return;
+            
+            var success = _cachedInventory.PlaceItem(_cachedItem, _cachedPosition);
+            
+            if (success) _cachedInventory = null;
+        }
+
+        private void OnPointerDown(PointerDownEvent evt)
+        {
+            Debug.Log($"Pointer Down!");
+
+            if (_cachedInventory == null) return;
+
+            var success = _cachedInventory.TakeItem(_cachedPosition, out var item);
+
+            if (success) _cachedItem = item;
+        }
+
+        private void OnPointerMove(PointerMoveEvent evt)
+        {
+            
+        }
+
+        private void OnSelectCell(Vector2Int position, IInventoryPresenter target)
+        {
+            _cachedPosition = position;
+            
+            _cachedInventory = target;
+        }
+        
         private void OnPlaceItem(Vector2Int position, IInventoryPresenter inventory)
         {
             if (_cachedItem == null) return;
