@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Runtime.InventorySystem.Common;
+using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -29,8 +30,10 @@ namespace Runtime.Core
 
             var inventoryPresenter = new InventoryPresenter(inventoryView, inventoryModel);
 
-            var gameLoop = new GameLoop(inventoryPresenter);
-
+            var deleteArea = new DeleteAreaView(_document.rootVisualElement.Q<Button>("DeleteButton"));
+            
+            var gameLoop = new GameLoop(inventoryPresenter, deleteArea);
+            
             gameLoop.Run();
         }
     }

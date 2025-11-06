@@ -1,4 +1,5 @@
 using Runtime.InventorySystem.Common;
+using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
 using UnityEngine;
 
@@ -8,15 +9,19 @@ namespace Runtime.Core
     {
         private readonly IInventoryPresenter _inventory;
         
+        private readonly IDeleteArea _deleteArea;
+        
         private Item _cachedItem;
         
         private Vector2Int _cachedPosition;
 
         private IInventoryPresenter _cachedInventory;
-        
-        public GameLoop(IInventoryPresenter inventory)
+
+        public GameLoop(IInventoryPresenter inventory, IDeleteArea deleteArea)
         {
             _inventory = inventory;
+            
+            _deleteArea = deleteArea;
         }
         
         public void Run()
@@ -24,6 +29,12 @@ namespace Runtime.Core
             _inventory.OnPlaceItemInput += position => OnPlaceItem(position, _inventory);
             
             _inventory.OnTakeItemInput += position => OnTakeItem(position, _inventory);
+
+            _deleteArea.OnEnterDeleteArea += OnEnterDeleteArea;
+            
+            _deleteArea.OnLeaveDeleteArea += OnLeaveDeleteArea;
+            
+            _deleteArea.OnDeleteAreaInput += OnDeleteItem;
         }
 
         private void OnPlaceItem(Vector2Int position, IInventoryPresenter inventory)
@@ -48,5 +59,11 @@ namespace Runtime.Core
                 
             _cachedInventory = inventory;
         }
+
+        private void OnDeleteItem() => _cachedItem = null;
+
+        private void OnEnterDeleteArea() => _deleteArea.DrawInteractReady(_cachedInventory != null);
+
+        private void OnLeaveDeleteArea() => _deleteArea.DrawInteractReady(false);
     }
 }
