@@ -453,6 +453,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _document: {fileID: 760613687}
   _inventorySize: {x: 5, y: 5}
+  _itemConfigs:
+  - {fileID: 11400000, guid: e67b36503353c1a439da54db12f1ab88, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

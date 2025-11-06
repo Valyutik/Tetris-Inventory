@@ -6,9 +6,7 @@ namespace Runtime.InventorySystem.DeleteArea
     public class DeleteAreaView : IDeleteArea
     {
         public event Action OnDeleteAreaInput;
-
         public event Action OnEnterDeleteArea;
-        
         public event Action OnLeaveDeleteArea;
         
         private const string DeleteAreaStyle = "delete-button-ready";
