@@ -1,4 +1,4 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Content/UI/Styles/MainScreenStyles.uss?fileID=7433441132597879392&amp;guid=98f83c414cb8d22439d8d6bfa0af444d&amp;type=3#MainScreenStyles" />
-    <ui:VisualElement name="Content" style="flex-grow: 1; min-width: 100%; max-width: 100px; max-height: 100%; min-height: 100%; flex-direction: row; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px; margin-bottom: 0; flex-shrink: 0; justify-content: center; align-items: center; background-color: rgb(48, 48, 48);" />
+    <ui:Button name="DeleteButton" class="delete-button" style="margin-left: 40px; margin-right: 40px; margin-top: 40px; margin-bottom: 40px;" />
 </ui:UXML>

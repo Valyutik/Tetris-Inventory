@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Runtime.InventorySystem.Common;
+using Runtime.InventorySystem.ContentManager;
 using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
 using UnityEngine;
@@ -13,9 +14,20 @@ namespace Runtime.Core
         [SerializeField] private UIDocument _document;
         [SerializeField] private Vector2Int _inventorySize;
         [SerializeField] private List<ItemConfig> _itemConfigs;
+        
+        [Header("UI Elements")]
+        [SerializeField] private VisualTreeAsset _inventory;
+        [SerializeField] private VisualTreeAsset _stash;
+        [SerializeField] private VisualTreeAsset _createItemButton;
+        [SerializeField] private VisualTreeAsset _deleteItemButton;
 
         private void Start()
         {
+            var contentView = new ContentView(_document);
+            
+            contentView.AddElement(_deleteItemButton);
+            contentView.AddElement(_inventory);
+            
             var inventoryView = new InventoryView(_document);
 
             var inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
