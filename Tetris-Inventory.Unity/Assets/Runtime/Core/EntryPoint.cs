@@ -1,4 +1,5 @@
 using Runtime.InventorySystem.DeleteConfirmation;
+using Runtime.InventorySystem.ContentManager;
 using Runtime.InventorySystem.ItemGeneration;
 using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
@@ -17,6 +18,12 @@ namespace Runtime.Core
         [SerializeField] private Vector2Int _inventorySize;
         [SerializeField] private List<ItemConfig> _itemConfigs;
         
+        [Header("UI Elements")]
+        [SerializeField] private VisualTreeAsset _inventory;
+        [SerializeField] private VisualTreeAsset _stash;
+        [SerializeField] private VisualTreeAsset _createItemButton;
+        [SerializeField] private VisualTreeAsset _deleteItemButton;
+        
         [Header("Popup")]
         [SerializeField] private VisualTreeAsset _deleteConfirmationAsset;
         [SerializeField] private UIDocument _popupUIDocument;
@@ -25,8 +32,12 @@ namespace Runtime.Core
     
         private void Start()
         {
-            var itemDatabase = new ItemDatabase(ItemConfigLoader.LoadAll());
+            var contentView = new ContentView(_document);
             
+            contentView.AddElement(_deleteItemButton);
+            contentView.AddElement(_inventory);
+            
+            var itemDatabase = new ItemDatabase(ItemConfigLoader.LoadAll());
             
             var inventoryView = new InventoryView(_document);
 
