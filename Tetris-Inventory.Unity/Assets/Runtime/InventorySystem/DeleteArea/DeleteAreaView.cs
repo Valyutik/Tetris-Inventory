@@ -11,6 +11,8 @@ namespace Runtime.InventorySystem.DeleteArea
         
         private const string DeleteAreaStyle = "delete-button-ready";
         
+        public bool InDeleteArea { get; private set; }
+        
         private readonly VisualElement _root;
         
         public DeleteAreaView(VisualElement root)
@@ -24,6 +26,7 @@ namespace Runtime.InventorySystem.DeleteArea
             _root.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
         }
 
+
         public void DrawInteractReady(bool isReady)
         {
             if (isReady) _root.AddToClassList(DeleteAreaStyle);
@@ -35,10 +38,20 @@ namespace Runtime.InventorySystem.DeleteArea
             OnDeleteAreaInput?.Invoke();
             
             DrawInteractReady(false);
-        } 
+        }
 
-        private void OnPointerEnter(PointerEnterEvent evt) => OnEnterDeleteArea?.Invoke();
+        private void OnPointerEnter(PointerEnterEvent evt)
+        {
+            InDeleteArea = true;
+            
+            OnEnterDeleteArea?.Invoke();   
+        }
 
-        private void OnPointerLeave(PointerLeaveEvent evt) => OnLeaveDeleteArea?.Invoke();
+        private void OnPointerLeave(PointerLeaveEvent evt)
+        {
+            InDeleteArea = false;
+            
+            OnLeaveDeleteArea?.Invoke();
+        }
     }
 }

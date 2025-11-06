@@ -28,6 +28,8 @@ namespace Runtime.Core
             };
             
             _draggingElement.AddToClassList(InventoryConstants.UI.CellStyle);
+
+            IsDragging = false;
             
             root.Add(_draggingElement);
         }
