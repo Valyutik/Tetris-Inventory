@@ -7,7 +7,7 @@ namespace Runtime.InventorySystem.Inventory
 {
     public class InventoryPresenter : IInventoryPresenter
     {
-        public event Action<Vector2Int, IInventoryPresenter> OnSelected;
+        public event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
         
         private readonly InventoryModel _model;
         
@@ -38,7 +38,7 @@ namespace Runtime.InventorySystem.Inventory
                     
                     var targetPosition = new Vector2Int(x, y);
 
-                    visualElement.RegisterCallback<PointerEnterEvent>(_ => OnSelected?.Invoke(targetPosition, this));
+                    visualElement.RegisterCallback<PointerEnterEvent>(_ => OnPointerEnterCell?.Invoke(targetPosition, this));
                     
                     _cells[x, y] = visualElement;
                 }

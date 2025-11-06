@@ -44,8 +44,8 @@ namespace Runtime.Core
             root.RegisterCallback<PointerUpEvent>(OnPointerUp);
             root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
 
-            _inventory.OnSelected += OnSelectCell;
-            _stash.OnSelected += OnSelectCell;
+            _inventory.OnPointerEnterCell += OnSelectCell;
+            _stash.OnPointerEnterCell += OnSelectCell;
             
             _deleteArea.OnEnterDeleteArea += OnEnterDeleteArea;
             _deleteArea.OnLeaveDeleteArea += OnLeaveDeleteArea;

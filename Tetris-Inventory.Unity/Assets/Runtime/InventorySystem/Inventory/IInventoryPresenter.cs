@@ -6,7 +6,7 @@ namespace Runtime.InventorySystem.Inventory
 {
     public interface IInventoryPresenter
     {
-        event Action<Vector2Int, IInventoryPresenter> OnSelected;
+        event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
         
         bool TakeItem(Vector2Int position, out Item item);
         
