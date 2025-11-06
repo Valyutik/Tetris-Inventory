@@ -13,7 +13,7 @@ namespace Runtime.InventorySystem.ItemGeneration
         public ItemGenerationView(VisualElement root)
         {
             _root = root;
-            _generateButton = root.Q<Button>("ItemGenerateButton");
+            _generateButton = root.Q<Button>("CreateButton");
 
             if (_generateButton != null)
             {
