@@ -7,8 +7,7 @@ namespace Runtime.InventorySystem.Inventory
 {
     public class InventoryPresenter : IInventoryPresenter
     {
-        public event Action<Vector2Int> OnPlaceItemInput;
-        public event Action<Vector2Int> OnTakeItemInput;
+        public event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
         
         private readonly InventoryModel _model;
         
@@ -39,9 +38,7 @@ namespace Runtime.InventorySystem.Inventory
                     
                     var targetPosition = new Vector2Int(x, y);
 
-                    visualElement.RegisterCallback<PointerDownEvent>(_ => OnTakeItemInput?.Invoke(targetPosition));
-                    
-                    visualElement.RegisterCallback<PointerUpEvent>(_ => OnPlaceItemInput?.Invoke(targetPosition));
+                    visualElement.RegisterCallback<PointerEnterEvent>(_ => OnPointerEnterCell?.Invoke(targetPosition, this));
                     
                     _cells[x, y] = visualElement;
                 }

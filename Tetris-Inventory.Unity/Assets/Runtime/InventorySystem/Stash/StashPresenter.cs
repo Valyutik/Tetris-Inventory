@@ -10,6 +10,7 @@ namespace Runtime.InventorySystem.Stash
         private readonly StashView  _stashView;
         private readonly StashModel _stashModel;
 
+        public event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
         public event Action<Vector2Int> OnPlaceItemInput;
         public event Action<Vector2Int> OnTakeItemInput;
 

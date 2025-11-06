@@ -66,9 +66,9 @@ namespace Runtime.Core
 
             var deleteConfirmation = new DeleteConfirmationView(_popupUIDocument, _deleteConfirmationAsset);
             
-            var gameLoop = new GameLoop(inventoryPresenter, _stashPresenter, deleteArea, deleteConfirmation);
+            var gameLoop = new DragDropHandler(inventoryPresenter, _stashPresenter, deleteArea, deleteConfirmation);
 
-            gameLoop.Run();
+            gameLoop.Init(_document.rootVisualElement);
         }
     }
 }
