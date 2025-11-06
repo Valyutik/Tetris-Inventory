@@ -44,8 +44,8 @@ namespace Runtime.Core
             root.RegisterCallback<PointerUpEvent>(OnPointerUp);
             root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
 
-            _inventory.OnPointerEnterCell += OnSelectCell;
-            _stash.OnPointerEnterCell += OnSelectCell;
+            _inventory.OnPointerEnterCell += OnPointerEnterCell;
+            _stash.OnPointerEnterCell += OnPointerEnterCell;
             
             _deleteArea.OnEnterDeleteArea += OnEnterDeleteArea;
             _deleteArea.OnLeaveDeleteArea += OnLeaveDeleteArea;
@@ -92,35 +92,13 @@ namespace Runtime.Core
             _view.Move(evt.position);
         }
 
-        private void OnSelectCell(Vector2Int position, IInventoryPresenter target)
+        private void OnPointerEnterCell(Vector2Int position, IInventoryPresenter target)
         {
             _cachedPosition = position;
             
             _cachedInventory = target;
         }
         
-        private void OnPlaceItem(Vector2Int position, IInventoryPresenter inventory)
-        {
-            if (_cachedItem == null) return;
-            
-            _cachedPosition = position;
-
-            if (inventory.PlaceItem(_cachedItem, position))
-                _cachedItem = null;
-            else
-                _cachedInventory.PlaceItem(_cachedItem, _cachedPosition);
-        }
-
-        private void OnTakeItem(Vector2Int position, IInventoryPresenter inventory)
-        {
-            if (_cachedItem != null) return;
-
-            if (!inventory.TakeItem(position, out _cachedItem)) return;
-                        
-            _cachedPosition = position;
-            _cachedInventory = inventory;
-        }
-
         private void OnEnterDeleteArea()
         {
             var hasItemInHand = _cachedItem != null;
