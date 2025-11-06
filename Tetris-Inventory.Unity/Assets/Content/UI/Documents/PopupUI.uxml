@@ -1,0 +1,4 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Content/UI/Styles/PopupStyles.uss?fileID=7433441132597879392&amp;guid=41c19d7f6089c404f8e563a2d764b3f7&amp;type=3#PopupStyles" />
+    <ui:VisualElement name="Popup-container" enabled="true" class="popup-container-size" style="flex-grow: 1; justify-content: flex-start; align-items: auto; align-self: auto; display: none; align-content: flex-start; visibility: visible; overflow: visible;" />
+</ui:UXML>

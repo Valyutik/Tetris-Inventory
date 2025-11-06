@@ -1,11 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
-using Runtime.InventorySystem.Common;
+using Runtime.InventorySystem.DeleteConfirmation;
 using Runtime.InventorySystem.ContentManager;
+using Runtime.InventorySystem.ItemGeneration;
 using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
-using UnityEngine;
+using Runtime.InventorySystem.Common;
+using Runtime.InventorySystem.Stash;
+using System.Collections.Generic;
 using UnityEngine.UIElements;
+using System.Linq;
+using UnityEngine;
 
 namespace Runtime.Core
 {
@@ -20,7 +23,13 @@ namespace Runtime.Core
         [SerializeField] private VisualTreeAsset _stash;
         [SerializeField] private VisualTreeAsset _createItemButton;
         [SerializeField] private VisualTreeAsset _deleteItemButton;
-
+        
+        [Header("Popup")]
+        [SerializeField] private VisualTreeAsset _deleteConfirmationAsset;
+        [SerializeField] private UIDocument _popupUIDocument;
+        
+        private StashPresenter _stashPresenter;
+    
         private void Start()
         {
             var contentView = new ContentView(_document);
@@ -28,11 +37,12 @@ namespace Runtime.Core
             contentView.AddElement(_deleteItemButton);
             contentView.AddElement(_inventory);
             
+            var itemDatabase = new ItemDatabase(ItemConfigLoader.LoadAll());
+            
             var inventoryView = new InventoryView(_document);
 
             var inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
 
-            //TODO: Remove the attempt to place an item in the inventory from here
             foreach (var item in _itemConfigs.Select(itemConfig => new Item(itemConfig.id, itemConfig.name,
                          itemConfig.description, itemConfig.color,
                          itemConfig.GetShapeMatrix())))
@@ -41,11 +51,23 @@ namespace Runtime.Core
             }
 
             var inventoryPresenter = new InventoryPresenter(inventoryView, inventoryModel);
+            
+            var stashView = new StashView(_document.rootVisualElement);
+            var stashModel = new StashModel();
+            _stashPresenter = new StashPresenter(stashView, stashModel);
+            _stashPresenter.Initialize();
 
+            var itemGenerationModel = new ItemGenerationModel(itemDatabase.GetAllItems().ToList());
+            var itemGenerationView = new ItemGenerationView(_document.rootVisualElement);
+            var itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView, itemGenerationModel);
+            itemGenerationPresenter.OnItemGenerated += _stashPresenter.ShowItem;
+            
             var deleteArea = new DeleteAreaView(_document.rootVisualElement.Q<Button>("DeleteButton"));
+
+            var deleteConfirmation = new DeleteConfirmationView(_popupUIDocument, _deleteConfirmationAsset);
             
-            var gameLoop = new GameLoop(inventoryPresenter, deleteArea);
-            
+            var gameLoop = new GameLoop(inventoryPresenter, _stashPresenter, deleteArea, deleteConfirmation);
+
             gameLoop.Run();
         }
     }

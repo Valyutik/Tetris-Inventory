@@ -7,6 +7,8 @@ namespace Runtime.InventorySystem.ItemGeneration
     {
         private readonly ItemGenerationView _view;
         private readonly ItemGenerationModel _model;
+        
+        public event Action<Item> OnItemGenerated;
 
         public ItemGenerationPresenter(ItemGenerationView view, ItemGenerationModel model)
         {
@@ -21,9 +23,5 @@ namespace Runtime.InventorySystem.ItemGeneration
             var item = _model.GetRandomItem();
             OnItemGenerated?.Invoke(item);
         }
-
-        public event Action<Item> OnItemGenerated;
-        
-        
     }
 }
