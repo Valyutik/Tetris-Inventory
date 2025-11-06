@@ -36,7 +36,7 @@ namespace Runtime.Core
             _deleteConfirmation = deleteConfirmation;
         }
 
-        public void Run(VisualElement root)
+        public void Init(VisualElement root)
         {
             _view = new DragDropView(root);
             

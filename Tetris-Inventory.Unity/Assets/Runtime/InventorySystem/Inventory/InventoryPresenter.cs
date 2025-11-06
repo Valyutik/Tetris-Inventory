@@ -38,9 +38,7 @@ namespace Runtime.InventorySystem.Inventory
                     
                     var targetPosition = new Vector2Int(x, y);
 
-                    visualElement.RegisterCallback<PointerDownEvent>(_ => OnSelected?.Invoke(targetPosition, this));
-                    
-                    visualElement.RegisterCallback<PointerUpEvent>(_ => OnSelected?.Invoke(targetPosition, this));
+                    visualElement.RegisterCallback<PointerEnterEvent>(_ => OnSelected?.Invoke(targetPosition, this));
                     
                     _cells[x, y] = visualElement;
                 }

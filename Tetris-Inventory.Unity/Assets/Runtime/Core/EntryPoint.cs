@@ -57,7 +57,7 @@ namespace Runtime.Core
             
             var gameLoop = new DragDropHandler(inventoryPresenter, _stashPresenter, deleteArea, deleteConfirmation);
 
-            gameLoop.Run(_document.rootVisualElement);
+            gameLoop.Init(_document.rootVisualElement);
         }
     }
 }
