@@ -20,7 +20,7 @@ namespace Runtime.Core
         private readonly IDeleteConfirmation _deleteConfirmation;
         
         private Item _cachedItem;
-        
+
         private Vector2Int _cachedPosition;
 
         private IInventoryPresenter _cachedInventory;
@@ -75,11 +75,18 @@ namespace Runtime.Core
             Debug.Log($"Pointer Up!");
 
             if (_cachedInventory == null || _cachedItem == null) return;
+
+            if (_deleteArea.InDeleteArea)
+            {
+                OnDropItemToDelete();
+                
+                return;
+            }
             
             var success = _cachedInventory.PlaceItem(_cachedItem, _cachedPosition);
 
             if (!success) return;
-            
+
             _cachedItem = null;
             
             _view.Drop();
@@ -99,12 +106,8 @@ namespace Runtime.Core
             _cachedInventory = target;
         }
         
-        private void OnEnterDeleteArea()
-        {
-            var hasItemInHand = _cachedItem != null;
-            _deleteArea.DrawInteractReady(hasItemInHand);
-        }
-        
+        private void OnEnterDeleteArea() => _deleteArea.DrawInteractReady(_cachedItem != null);
+
         private void OnLeaveDeleteArea() => _deleteArea.DrawInteractReady(false);
 
         private void OnDropItemToDelete()
@@ -117,6 +120,10 @@ namespace Runtime.Core
         private void OnConfirmDelete()
         {
             _cachedItem = null;
+            
+            _view.Drop();
+            
+            _cachedInventory.TakeItem(_cachedPosition, out var item);
             
             _deleteConfirmation.HidePopup();
             
