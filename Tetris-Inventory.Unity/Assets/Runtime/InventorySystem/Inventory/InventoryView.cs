@@ -5,10 +5,6 @@ namespace Runtime.InventorySystem.Inventory
 {
     public class InventoryView
     {
-        private const int CellSize = 100;
-        
-        private const string CellStyle = "cell";
-
         private readonly VisualElement _inventoryGrid;
         
         public InventoryView(UIDocument document)
@@ -22,16 +18,16 @@ namespace Runtime.InventorySystem.Inventory
         
         public void SetUpGrid(int width, int height)
         {
-            _inventoryGrid.style.height = height * CellSize;
+            _inventoryGrid.style.height = height * InventoryConstants.UI.CellSize;
             
-            _inventoryGrid.style.width = width * CellSize;
+            _inventoryGrid.style.width = width * InventoryConstants.UI.CellSize;
         }
 
         public VisualElement CreateCell()
         {
             var cell = new VisualElement();
             
-            cell.AddToClassList(CellStyle);
+            cell.AddToClassList(InventoryConstants.UI.CellStyle);
             
             _inventoryGrid.Add(cell);
 

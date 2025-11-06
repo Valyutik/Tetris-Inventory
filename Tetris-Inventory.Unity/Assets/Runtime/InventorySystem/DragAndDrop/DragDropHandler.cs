@@ -9,6 +9,8 @@ namespace Runtime.Core
 {
     public class DragDropHandler
     {
+        private DragDropView _view;
+        
         private readonly IInventoryPresenter _inventory;
         
         private readonly IInventoryPresenter _stash;
@@ -36,6 +38,8 @@ namespace Runtime.Core
 
         public void Run(VisualElement root)
         {
+            _view = new DragDropView(root);
+            
             root.RegisterCallback<PointerDownEvent>(OnPointerDown);
             root.RegisterCallback<PointerUpEvent>(OnPointerUp);
             root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
@@ -51,17 +55,6 @@ namespace Runtime.Core
             _deleteConfirmation.OnCancelDelete += OnCancelDelete;
         }
 
-        private void OnPointerUp(PointerUpEvent evt)
-        {
-            Debug.Log($"Pointer Up!");
-
-            if (_cachedInventory == null || _cachedItem == null) return;
-            
-            var success = _cachedInventory.PlaceItem(_cachedItem, _cachedPosition);
-            
-            if (success) _cachedInventory = null;
-        }
-
         private void OnPointerDown(PointerDownEvent evt)
         {
             Debug.Log($"Pointer Down!");
@@ -70,12 +63,33 @@ namespace Runtime.Core
 
             var success = _cachedInventory.TakeItem(_cachedPosition, out var item);
 
-            if (success) _cachedItem = item;
+            if (!success) return;
+            
+            _cachedItem = item;
+            
+            _view.Drag(_cachedItem);
+        }
+
+        private void OnPointerUp(PointerUpEvent evt)
+        {
+            Debug.Log($"Pointer Up!");
+
+            if (_cachedInventory == null || _cachedItem == null) return;
+            
+            var success = _cachedInventory.PlaceItem(_cachedItem, _cachedPosition);
+
+            if (!success) return;
+            
+            _cachedItem = null;
+            
+            _view.Drop();
         }
 
         private void OnPointerMove(PointerMoveEvent evt)
         {
+            Debug.Log($"Pointer Move!");
             
+            _view.Move(evt.position);
         }
 
         private void OnSelectCell(Vector2Int position, IInventoryPresenter target)
