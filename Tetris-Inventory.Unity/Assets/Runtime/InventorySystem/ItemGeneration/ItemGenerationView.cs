@@ -1,10 +1,9 @@
 using UnityEngine.UIElements;
-using UnityEngine;
 using System;
 
 namespace Runtime.InventorySystem.ItemGeneration
 {
-    public sealed class ItemGenerationView : MonoBehaviour, IDisposable
+    public sealed class ItemGenerationView : IDisposable
     {
         private readonly VisualElement _root;
         private readonly Button _generateButton;

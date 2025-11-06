@@ -9,7 +9,8 @@ namespace Runtime.Core
     public class GameLoop
     {
         private readonly IInventoryPresenter _inventory;
-        
+        private readonly IInventoryPresenter _stash;
+
         private readonly IDeleteArea _deleteArea;
 
         private readonly IDeleteConfirmation _deleteConfirmation;
@@ -20,10 +21,11 @@ namespace Runtime.Core
 
         private IInventoryPresenter _cachedInventory;
 
-        public GameLoop(IInventoryPresenter inventory, IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
+        public GameLoop(IInventoryPresenter inventory, IInventoryPresenter stash, IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
         {
             _inventory = inventory;
-            
+            _stash = stash;
+
             _deleteArea = deleteArea;
 
             _deleteConfirmation = deleteConfirmation;
@@ -32,8 +34,10 @@ namespace Runtime.Core
         public void Run()
         {
             _inventory.OnPlaceItemInput += position => OnPlaceItem(position, _inventory);
-            
             _inventory.OnTakeItemInput += position => OnTakeItem(position, _inventory);
+            
+            _stash.OnPlaceItemInput += position => OnPlaceItem(position, _stash);
+            _stash.OnTakeItemInput += position => OnTakeItem(position, _stash);
 
             _deleteArea.OnEnterDeleteArea += OnEnterDeleteArea;
             _deleteArea.OnLeaveDeleteArea += OnLeaveDeleteArea;
