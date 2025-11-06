@@ -380,12 +380,12 @@ MonoBehaviour:
   _itemConfigs:
   - {fileID: 11400000, guid: c9997494cf50c2e4fb27826484f4c189, type: 2}
   - {fileID: 11400000, guid: e67b36503353c1a439da54db12f1ab88, type: 2}
-  _deleteConfirmationAsset: {fileID: 9197481963319205126, guid: 28d73a08a0fec5c4c94c5bc89cb2d049, type: 3}
-  _popupUIDocument: {fileID: 1384974881}
   _inventory: {fileID: 9197481963319205126, guid: 05f97cbfee2cbc3428d6e981da5c67a4, type: 3}
   _stash: {fileID: 9197481963319205126, guid: d88e2d7222e6d3c459702eb8336cc730, type: 3}
   _createItemButton: {fileID: 9197481963319205126, guid: 9ada57e7f8d190e45913d63afb2ad7cb, type: 3}
   _deleteItemButton: {fileID: 9197481963319205126, guid: 427cdd8c0a9855147b6ae7208068433f, type: 3}
+  _deleteConfirmationAsset: {fileID: 9197481963319205126, guid: 28d73a08a0fec5c4c94c5bc89cb2d049, type: 3}
+  _popupUIDocument: {fileID: 1384974881}
 --- !u!4 &1794183512
 Transform:
   m_ObjectHideFlags: 0

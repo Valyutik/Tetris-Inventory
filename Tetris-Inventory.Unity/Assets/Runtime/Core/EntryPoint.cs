@@ -34,6 +34,8 @@ namespace Runtime.Core
         {
             var contentView = new ContentView(_document);
             
+            contentView.AddElement(_stash);
+            contentView.AddElement(_createItemButton);
             contentView.AddElement(_deleteItemButton);
             contentView.AddElement(_inventory);
             

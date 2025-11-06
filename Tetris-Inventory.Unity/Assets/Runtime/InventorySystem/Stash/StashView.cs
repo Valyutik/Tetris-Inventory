@@ -16,7 +16,7 @@ namespace Runtime.InventorySystem.Stash
         
         public StashView(VisualElement root)
         {
-            _grid = root.Q<VisualElement>("StashGrid");
+            _grid = root.Q<VisualElement>("Grid");
         }
 
         public void BuildGrid(int width, int height)
