@@ -7,7 +7,6 @@ using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
 using Runtime.InventorySystem.Stash;
 using UnityEngine.UIElements;
-using System.Linq;
 using Runtime.InventorySystem;
 using UnityEngine;
 
@@ -73,7 +72,7 @@ namespace Runtime.Core
         private void InitializeItemGeneration()
         {
             var itemDatabase = new ItemDatabase(ItemConfigLoader.LoadAll());
-            var itemGenerationModel = new ItemGenerationModel(itemDatabase.GetAllItems().ToList());
+            var itemGenerationModel = new ItemGenerationModel(itemDatabase);
             var itemGenerationView = new ItemGenerationView(_document.rootVisualElement);
 
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView, itemGenerationModel);
