@@ -42,7 +42,7 @@ namespace Runtime.Core
             
             var itemDatabase = new ItemDatabase(ItemConfigLoader.LoadAll());
             
-            var inventoryView = new InventoryView(_document);
+            var inventoryView = new InventoryView(_document.rootVisualElement.Q<VisualElement>("InventoryGrid"));
 
             var inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
 
@@ -55,10 +55,9 @@ namespace Runtime.Core
 
             var inventoryPresenter = new InventoryPresenter(inventoryView, inventoryModel);
             
-            var stashView = new StashView(_document.rootVisualElement);
+            var stashView = new InventoryView(_document.rootVisualElement.Q<VisualElement>("StashGrid"));
             var stashModel = new StashModel();
             _stashPresenter = new StashPresenter(stashView, stashModel);
-            _stashPresenter.Initialize();
 
             var itemGenerationModel = new ItemGenerationModel(itemDatabase.GetAllItems().ToList());
             var itemGenerationView = new ItemGenerationView(_document.rootVisualElement);
