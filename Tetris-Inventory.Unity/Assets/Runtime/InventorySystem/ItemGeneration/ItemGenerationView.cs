@@ -5,14 +5,12 @@ namespace Runtime.InventorySystem.ItemGeneration
 {
     public sealed class ItemGenerationView : IDisposable
     {
-        private readonly VisualElement _root;
         private readonly Button _generateButton;
 
         public event Action OnGenerateClicked;
         
         public ItemGenerationView(VisualElement root)
         {
-            _root = root;
             _generateButton = root.Q<Button>("CreateButton");
 
             if (_generateButton != null)
@@ -21,7 +19,7 @@ namespace Runtime.InventorySystem.ItemGeneration
             }
         }
 
-        private void HandleGenerateClick()
+        private void HandleGenerateClick()  
         {
             OnGenerateClicked?.Invoke();
         }

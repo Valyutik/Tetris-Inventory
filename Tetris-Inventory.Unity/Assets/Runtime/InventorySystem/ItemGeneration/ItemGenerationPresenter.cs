@@ -1,5 +1,5 @@
-using System;
 using Runtime.InventorySystem.Common;
+using System;
 
 namespace Runtime.InventorySystem.ItemGeneration
 {

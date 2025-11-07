@@ -3,7 +3,6 @@ using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
 using UnityEngine.UIElements;
-using Runtime.Core;
 using UnityEngine;
 
 namespace Runtime.InventorySystem.DragAndDrop
@@ -118,7 +117,7 @@ namespace Runtime.InventorySystem.DragAndDrop
             
             _view.Drop();
             
-            _cachedInventory.TakeItem(_cachedPosition, out var item);
+            _cachedInventory.TakeItem(_cachedPosition, out _);
             
             _deleteConfirmation.HidePopup();
             
