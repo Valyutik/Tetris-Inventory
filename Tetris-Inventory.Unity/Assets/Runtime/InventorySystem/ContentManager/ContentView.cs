@@ -5,11 +5,10 @@ namespace Runtime.InventorySystem.ContentManager
     public class ContentView
     {
         private readonly VisualElement _mainRoot;
-        private const string contentRoot = "Content";
         
         public ContentView(UIDocument document)
         {
-            _mainRoot = document.rootVisualElement.Q<VisualElement>(contentRoot);
+            _mainRoot = document.rootVisualElement.Q<VisualElement>(InventoryConstants.UI.ContentRoot);
         }
         
         public void AddElement(VisualTreeAsset asset, string root)

@@ -6,7 +6,7 @@ namespace Runtime.InventorySystem.Common
     {
         public static ItemConfig[] LoadAll()
         {
-            return Resources.LoadAll<ItemConfig>(InventoryConstants.Item.configPath);
+            return Resources.LoadAll<ItemConfig>(InventoryConstants.Item.ConfigPath);
         }
     }
 }

@@ -1,9 +1,8 @@
-using Runtime.InventorySystem;
 using Runtime.InventorySystem.Common;
-using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine;
 
-namespace Runtime.Core
+namespace Runtime.InventorySystem.DragAndDrop
 {
     public class DragDropView
     {

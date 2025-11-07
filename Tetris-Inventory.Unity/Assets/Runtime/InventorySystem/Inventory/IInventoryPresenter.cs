@@ -1,6 +1,6 @@
-using System;
 using Runtime.InventorySystem.Common;
 using UnityEngine;
+using System;
 
 namespace Runtime.InventorySystem.Inventory
 {

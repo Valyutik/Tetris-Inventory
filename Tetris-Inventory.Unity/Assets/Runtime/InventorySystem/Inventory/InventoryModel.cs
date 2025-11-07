@@ -1,11 +1,11 @@
-using System.Collections.Generic;
 using Runtime.InventorySystem.Common;
+using System.Collections.Generic;
 using UnityEngine;
 using Grid = Runtime.InventorySystem.Common.Grid;
 
 namespace Runtime.InventorySystem.Inventory
 {
-    public class InventoryModel : IInventory
+    public class InventoryModel
     {
         private readonly List<Item> _items;
         private readonly Grid _grid;

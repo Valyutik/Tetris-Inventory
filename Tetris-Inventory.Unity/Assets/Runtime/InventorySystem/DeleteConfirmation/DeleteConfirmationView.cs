@@ -1,5 +1,6 @@
-using System;
+using static Runtime.InventorySystem.InventoryConstants.UI;
 using UnityEngine.UIElements;
+using System;
 
 namespace Runtime.InventorySystem.DeleteConfirmation
 {
@@ -10,11 +11,12 @@ namespace Runtime.InventorySystem.DeleteConfirmation
         
         private readonly VisualElement _root;
         private readonly VisualTreeAsset _panelAsset;
+        
         private TemplateContainer _deletePopup;
         
         public DeleteConfirmationView(UIDocument document, VisualTreeAsset panel)
         {
-            _root = document.rootVisualElement.Q<VisualElement>(DeleteConfirmationConst.popupRootTitle);
+            _root = document.rootVisualElement.Q<VisualElement>(DeleteConfirmationConst.PopupRootTitle);
             _panelAsset =  panel;
         }
 
@@ -24,11 +26,11 @@ namespace Runtime.InventorySystem.DeleteConfirmation
             
             _deletePopup = _panelAsset.CloneTree();   
             
-            var _confirmButton = _deletePopup.Q<Button>(DeleteConfirmationConst.confirmButtonTitle);
-            var _cancelButton = _deletePopup.Q<Button>(DeleteConfirmationConst.cancelButtonTitle);
+            var confirmButton = _deletePopup.Q<Button>(DeleteConfirmationConst.ConfirmButtonTitle);
+            var cancelButton = _deletePopup.Q<Button>(DeleteConfirmationConst.CancelButtonTitle);
             
-            _confirmButton.clicked += () => OnConfirmDelete?.Invoke();
-            _cancelButton.clicked += () => OnCancelDelete?.Invoke();
+            confirmButton.clicked += () => OnConfirmDelete?.Invoke();
+            cancelButton.clicked += () => OnCancelDelete?.Invoke();
             
             _root.Add(_deletePopup);
         }

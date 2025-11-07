@@ -1,12 +1,10 @@
-using UnityEngine.UIElements;
-
 namespace Runtime.InventorySystem
 {
     public static class InventoryConstants
     {
         public static class Item
         {
-            public const string configPath = "Configs/Items";
+            public const string ConfigPath = "Configs/Items";
         }
 
         public static class UI
@@ -14,6 +12,26 @@ namespace Runtime.InventorySystem
             public const int CellSize = 100;
 
             public const string CellStyle = "cell";
+            
+            public const string ContentRoot = "content";
+            
+            public const string DeleteAreaStyle = "delete-button-ready";
+            
+            public const string CreateButton = "create-button";
+            public const string DeleteButton = "delete-button";
+
+            public static class Inventory
+            {
+                public const string InventoryGrid = "inventory-grid";
+                public const string StashGrid = "stash-grid";
+            }
+            
+            public static class DeleteConfirmationConst
+            {
+                public const string PopupRootTitle = "popup-container";
+                public const string ConfirmButtonTitle = "confirm-button";
+                public const string CancelButtonTitle = "cancel-button";
+            }
         }
     }
 }
