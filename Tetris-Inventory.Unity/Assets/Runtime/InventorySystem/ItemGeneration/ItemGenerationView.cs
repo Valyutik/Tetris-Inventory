@@ -11,7 +11,7 @@ namespace Runtime.InventorySystem.ItemGeneration
         
         public ItemGenerationView(VisualElement root)
         {
-            _generateButton = root.Q<Button>("CreateButton");
+            _generateButton = root.Q<Button>(InventoryConstants.UI.CreateButton);
 
             if (_generateButton != null)
             {

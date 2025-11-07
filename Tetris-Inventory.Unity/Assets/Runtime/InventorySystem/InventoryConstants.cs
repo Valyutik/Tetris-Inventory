@@ -13,15 +13,24 @@ namespace Runtime.InventorySystem
 
             public const string CellStyle = "cell";
             
-            public const string ContentRoot = "Content";
+            public const string ContentRoot = "content";
             
             public const string DeleteAreaStyle = "delete-button-ready";
             
+            public const string CreateButton = "create-button";
+            public const string DeleteButton = "delete-button";
+
+            public static class Inventory
+            {
+                public const string InventoryGrid = "inventory-grid";
+                public const string StashGrid = "stash-grid";
+            }
+            
             public static class DeleteConfirmationConst
             {
-                public const string PopupRootTitle = "Popup-container";
-                public const string ConfirmButtonTitle = "Confirm-button";
-                public const string CancelButtonTitle = "Cancel-button";
+                public const string PopupRootTitle = "popup-container";
+                public const string ConfirmButtonTitle = "confirm-button";
+                public const string CancelButtonTitle = "cancel-button";
             }
         }
     }

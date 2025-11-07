@@ -8,6 +8,7 @@ using Runtime.InventorySystem.Common;
 using Runtime.InventorySystem.Stash;
 using UnityEngine.UIElements;
 using System.Linq;
+using Runtime.InventorySystem;
 using UnityEngine;
 
 namespace Runtime.Core
@@ -53,14 +54,18 @@ namespace Runtime.Core
 
         private void InitializeInventory()
         {
-            var inventoryView = new InventoryView(_document.rootVisualElement.Q<VisualElement>("InventoryGrid"));
+            var inventoryView =
+                new InventoryView(
+                    _document.rootVisualElement.Q<VisualElement>(InventoryConstants.UI.Inventory.InventoryGrid));
             var inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
             _inventoryPresenter = new InventoryPresenter(inventoryView, inventoryModel);
         }
 
         private void InitializeStash()
         {
-            var stashView = new InventoryView(_document.rootVisualElement.Q<VisualElement>("StashGrid"));
+            var stashView =
+                new InventoryView(
+                    _document.rootVisualElement.Q<VisualElement>(InventoryConstants.UI.Inventory.StashGrid));
             var stashModel = new StashModel();
             _stashPresenter = new StashPresenter(stashView, stashModel);
         }
@@ -77,10 +82,12 @@ namespace Runtime.Core
 
         private void InitializeDeleteSystem()
         {
-            var deleteArea = new DeleteAreaView(_document.rootVisualElement.Q<Button>("DeleteButton"));
+            var deleteArea =
+                new DeleteAreaView(_document.rootVisualElement.Q<Button>(InventoryConstants.UI.DeleteButton));
             var deleteConfirmation = new DeleteConfirmationView(_popupUIDocument, _deleteConfirmationAsset);
 
-            _dragDropHandler = new DragDropHandler(_inventoryPresenter, _stashPresenter, deleteArea, deleteConfirmation);
+            _dragDropHandler =
+                new DragDropHandler(_inventoryPresenter, _stashPresenter, deleteArea, deleteConfirmation);
         }
 
         private void InitializeDragAndDrop()
