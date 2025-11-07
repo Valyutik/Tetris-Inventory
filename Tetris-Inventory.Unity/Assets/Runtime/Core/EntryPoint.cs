@@ -32,7 +32,7 @@ namespace Runtime.Core
         
         private InventoryPresenter _inventoryPresenter;
         private StashPresenter _stashPresenter;
-        private DragDropHandler _dragDropHandler;
+        private DragDropPresenter _dragDropPresenter;
         private ItemGenerationPresenter _itemGenerationPresenter;
         private ItemRotationHandler _itemRotationHandler;
     
@@ -103,16 +103,16 @@ namespace Runtime.Core
                 new DeleteAreaView(_document.rootVisualElement.Q<Button>(InventoryConstants.UI.DeleteButton));
             var deleteConfirmation = new DeleteConfirmationView(_popupUIDocument, _deleteConfirmationAsset);
 
-            _dragDropHandler =
-                new DragDropHandler(_inventoryPresenter, _stashPresenter, deleteArea, deleteConfirmation);
+            _dragDropPresenter =
+                new DragDropPresenter(_inventoryPresenter, _stashPresenter, deleteArea, deleteConfirmation);
         }
 
         private void InitializeDragAndDrop()
         {
-            _dragDropHandler.Init(_document.rootVisualElement);
+            _dragDropPresenter.Init(_document.rootVisualElement);
             _itemRotationHandler.OnItemRotated += _dragDropHandler.UpdateDragView;
         }
-
+        
         private void InitializeItemRotation()
         {
             _itemRotationHandler = new ItemRotationHandler(_playerControls, () => _dragDropHandler.CurrentItem);

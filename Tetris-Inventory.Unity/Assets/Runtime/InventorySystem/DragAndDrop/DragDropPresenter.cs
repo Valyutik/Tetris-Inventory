@@ -7,11 +7,10 @@ using UnityEngine;
 
 namespace Runtime.InventorySystem.DragAndDrop
 {
-    public class DragDropHandler
+    public class DragDropPresenter
     {
-        public Item CurrentItem => _cachedItem;
         
-        private DragDropView _view;
+        public Item CurrentItem => _model.CachedItem;
         
         private readonly IInventoryPresenter _inventory;
         
@@ -21,13 +20,11 @@ namespace Runtime.InventorySystem.DragAndDrop
 
         private readonly IDeleteConfirmation _deleteConfirmation;
         
-        private Item _cachedItem;
+        private readonly DragDropModel _model;
 
-        private Vector2Int _cachedPosition;
+        private DragDropView _view; 
 
-        private IInventoryPresenter _cachedInventory;
-
-        public DragDropHandler(IInventoryPresenter inventory, IInventoryPresenter stash, IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
+        public DragDropPresenter(IInventoryPresenter inventory, IInventoryPresenter stash, IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
         {
             _inventory = inventory;
             
@@ -36,6 +33,8 @@ namespace Runtime.InventorySystem.DragAndDrop
             _deleteArea = deleteArea;
 
             _deleteConfirmation = deleteConfirmation;
+            
+            _model = new DragDropModel();
         }
 
         public void Init(VisualElement root)
@@ -58,25 +57,25 @@ namespace Runtime.InventorySystem.DragAndDrop
         }
         public void UpdateDragView()
         {
-            _view.UpdateDragView(_cachedItem);
+            _view.UpdateDragView(_model.CachedItem);
         }
-                    
+        
         private void OnPointerDown(PointerDownEvent evt)
         {
-            if (_cachedInventory == null) return;
+            if (_model.CachedInventory == null || _model.CachedItem != null) return;
 
-            var success = _cachedInventory.TakeItem(_cachedPosition, out var item);
+            var success = _model.CachedInventory.TakeItem(_model.CachedPosition, out var item);
 
             if (!success) return;
             
-            _cachedItem = item;
+            _model.CachedItem = item;
             
-            _view.Drag(_cachedItem);
+            _view.Drag(_model.CachedItem);
         }
 
         private void OnPointerUp(PointerUpEvent evt)
         {
-            if (_cachedInventory == null || _cachedItem == null) return;
+            if (_model.CachedInventory == null || _model.CachedItem == null) return;
 
             if (_deleteArea.InDeleteArea)
             {
@@ -85,11 +84,11 @@ namespace Runtime.InventorySystem.DragAndDrop
                 return;
             }
             
-            var success = _cachedInventory.PlaceItem(_cachedItem, _cachedPosition);
+            var success = _model.CachedInventory.PlaceItem(_model.CachedItem, _model.CachedPosition);
 
             if (!success) return;
 
-            _cachedItem = null;
+            _model.CachedItem = null;
             
             _view.Drop();
         }
@@ -101,29 +100,29 @@ namespace Runtime.InventorySystem.DragAndDrop
 
         private void OnPointerEnterCell(Vector2Int position, IInventoryPresenter target)
         {
-            _cachedPosition = position;
+            _model.CachedPosition = position;
             
-            _cachedInventory = target;
+            _model.CachedInventory = target;
         }
         
-        private void OnEnterDeleteArea() => _deleteArea.DrawInteractReady(_cachedItem != null);
+        private void OnEnterDeleteArea() => _deleteArea.DrawInteractReady(_model.CachedItem != null);
 
         private void OnLeaveDeleteArea() => _deleteArea.DrawInteractReady(false);
 
         private void OnDropItemToDelete()
         {
-            if (_cachedItem == null) return;
+            if (_model.CachedItem == null) return;
             
             _deleteConfirmation.ShowPopup();
         }
 
         private void OnConfirmDelete()
         {
-            _cachedItem = null;
+            _model.CachedItem = null;
             
             _view.Drop();
             
-            _cachedInventory.TakeItem(_cachedPosition, out _);
+            _model.CachedInventory.TakeItem(_model.CachedPosition, out _);
             
             _deleteConfirmation.HidePopup();
             
@@ -134,12 +133,12 @@ namespace Runtime.InventorySystem.DragAndDrop
         {
             _deleteConfirmation.HidePopup();
             
-            if (_cachedItem != null && _cachedInventory != null)
+            if (_model.CachedItem != null && _model.CachedInventory != null)
             {
-                _cachedInventory.PlaceItem(_cachedItem, _cachedPosition);
+                _model.CachedInventory.PlaceItem(_model.CachedItem, _model.CachedPosition);
             }
             
-            _cachedItem = null;
+            _model.CachedItem = null;
         }
     }
 }
