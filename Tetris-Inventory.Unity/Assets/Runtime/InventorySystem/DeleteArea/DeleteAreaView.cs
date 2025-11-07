@@ -9,8 +9,6 @@ namespace Runtime.InventorySystem.DeleteArea
         public event Action OnEnterDeleteArea;
         public event Action OnLeaveDeleteArea;
         
-        private const string DeleteAreaStyle = "delete-button-ready";
-        
         public bool InDeleteArea { get; private set; }
         
         private readonly VisualElement _root;
@@ -29,8 +27,8 @@ namespace Runtime.InventorySystem.DeleteArea
 
         public void DrawInteractReady(bool isReady)
         {
-            if (isReady) _root.AddToClassList(DeleteAreaStyle);
-            else _root.RemoveFromClassList(DeleteAreaStyle);
+            if (isReady) _root.AddToClassList(InventoryConstants.UI.DeleteAreaStyle);
+            else _root.RemoveFromClassList(InventoryConstants.UI.DeleteAreaStyle);
         }
 
         private void OnPointerUp(PointerUpEvent evt)
