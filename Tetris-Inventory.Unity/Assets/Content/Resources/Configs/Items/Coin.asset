@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c39d6c810f6543e88ecb3c41ee5fe2cd, type: 3}
-  m_Name: Sword
+  m_Name: Coin
   m_EditorClassIdentifier: 
-  id: sword
-  displayName: Sword
-  description: A sharp two-handed sword
-  color: {r: 0, g: 0.65174127, b: 1, a: 1}
+  id: coin
+  displayName: Coin
+  description: Just one ruble coin
+  color: {r: 0.8490566, g: 0.46376407, b: 0.12415449, a: 1}
   width: 1
-  height: 4
-  flatShape: 01010101
+  height: 1
+  flatShape: 01
