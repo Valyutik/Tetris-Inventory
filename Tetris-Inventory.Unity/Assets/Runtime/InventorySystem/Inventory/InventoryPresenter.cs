@@ -42,7 +42,7 @@ namespace Runtime.InventorySystem.Inventory
             var item = _model.GetItem(position);
             return _model.IsCellOccupied(position)
                 ? Color.gray
-                : item?.ItemColor ?? Color.grey;
+                : item?.Color ?? Color.grey;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Runtime.InventorySystem.Common
         public  string Name { get; }
         public  string Description { get; }
         public bool[,] Shape { get; private set; }
-        public Color ItemColor { get; private set; }
+        public Color Color { get; private set; }
         public Vector2Int? Position { get; private set; }
         
         public int Width => Shape.GetLength(0);
@@ -19,7 +19,7 @@ namespace Runtime.InventorySystem.Common
             Id = id;
             Name = name;
             Description = description;
-            ItemColor =  color; 
+            Color =  color; 
             Shape = shape ?? CreateDefaultShape();
         }
         
