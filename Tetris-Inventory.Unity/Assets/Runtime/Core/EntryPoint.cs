@@ -8,6 +8,7 @@ using Runtime.InventorySystem.Common;
 using Runtime.InventorySystem.Stash;
 using UnityEngine.UIElements;
 using Runtime.InventorySystem;
+using Runtime.InventorySystem.ItemRotation;
 using UnityEngine;
 
 namespace Runtime.Core
@@ -26,22 +27,33 @@ namespace Runtime.Core
         [Header("Popup")]
         [SerializeField] private VisualTreeAsset _deleteConfirmationAsset;
         [SerializeField] private UIDocument _popupUIDocument;
+
+        private PlayerControls _playerControls;
         
         private InventoryPresenter _inventoryPresenter;
         private StashPresenter _stashPresenter;
         private DragDropPresenter _dragDropPresenter;
         private ItemGenerationPresenter _itemGenerationPresenter;
+        private ItemRotationHandler _itemRotationHandler;
     
         private void Start()
         {
             InitializeUI();
+            InitializeInput();
             InitializeInventory();
             InitializeStash();
             InitializeItemGeneration();
             InitializeDeleteSystem();
+            InitializeItemRotation();
             InitializeDragAndDrop();
         }
-        
+
+        private void OnDestroy()
+        {
+            _playerControls?.Disable();
+            _itemRotationHandler.Dispose();
+        }
+
         private void InitializeUI()
         {
             var contentView = new ContentView(_document);
@@ -49,6 +61,12 @@ namespace Runtime.Core
             contentView.AddElement(_createItemButton);
             contentView.AddElement(_deleteItemButton);
             contentView.AddElement(_inventory);
+        }
+
+        private void InitializeInput()
+        {
+            _playerControls = new PlayerControls();
+            _playerControls.Enable();
         }
 
         private void InitializeInventory()
@@ -92,6 +110,12 @@ namespace Runtime.Core
         private void InitializeDragAndDrop()
         {
             _dragDropPresenter.Init(_document.rootVisualElement);
+            _itemRotationHandler.OnItemRotated += _dragDropHandler.UpdateDragView;
+        }
+        
+        private void InitializeItemRotation()
+        {
+            _itemRotationHandler = new ItemRotationHandler(_playerControls, () => _dragDropHandler.CurrentItem);
         }
     }
 }

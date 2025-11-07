@@ -1,6 +1,7 @@
 using Runtime.InventorySystem.DeleteConfirmation;
 using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
+using Runtime.InventorySystem.Common;
 using UnityEngine.UIElements;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ namespace Runtime.InventorySystem.DragAndDrop
 {
     public class DragDropPresenter
     {
+        
+        public Item CurrentItem => _model.CachedItem;
+        
         private readonly IInventoryPresenter _inventory;
         
         private readonly IInventoryPresenter _stash;
@@ -51,7 +55,11 @@ namespace Runtime.InventorySystem.DragAndDrop
             _deleteConfirmation.OnConfirmDelete += OnConfirmDelete;
             _deleteConfirmation.OnCancelDelete += OnCancelDelete;
         }
-
+        public void UpdateDragView()
+        {
+            _view.UpdateDragView(_model.CachedItem);
+        }
+        
         private void OnPointerDown(PointerDownEvent evt)
         {
             if (_model.CachedInventory == null || _model.CachedItem != null) return;

@@ -41,6 +41,14 @@ namespace Runtime.InventorySystem.DragAndDrop
             
             _draggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
         }
+        
+        public void UpdateDragView(Item item)
+        {
+            if (!IsDragging) return;
+
+            _draggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
+            _draggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
+        }
 
         public void Move(Vector2 screenPosition)
         {
