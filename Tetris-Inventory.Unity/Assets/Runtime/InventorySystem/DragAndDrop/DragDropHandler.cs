@@ -9,6 +9,8 @@ namespace Runtime.InventorySystem.DragAndDrop
 {
     public class DragDropHandler
     {
+        public Item CurrentItem => _cachedItem;
+        
         private DragDropView _view;
         
         private readonly IInventoryPresenter _inventory;
@@ -54,7 +56,11 @@ namespace Runtime.InventorySystem.DragAndDrop
             _deleteConfirmation.OnConfirmDelete += OnConfirmDelete;
             _deleteConfirmation.OnCancelDelete += OnCancelDelete;
         }
-
+        public void UpdateDragView()
+        {
+            _view.UpdateDragView(_cachedItem);
+        }
+                    
         private void OnPointerDown(PointerDownEvent evt)
         {
             if (_cachedInventory == null) return;
