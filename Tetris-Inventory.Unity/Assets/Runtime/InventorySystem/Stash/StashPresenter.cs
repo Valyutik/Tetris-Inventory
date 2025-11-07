@@ -1,78 +1,53 @@
-using System;
-using Runtime.InventorySystem.Common;
 using Runtime.InventorySystem.Inventory;
+using Runtime.InventorySystem.Common;
 using UnityEngine;
 
 namespace Runtime.InventorySystem.Stash
 {
-    public sealed class StashPresenter : IInventoryPresenter
+    public sealed class StashPresenter : InventoryPresenterBase
     {
-        private readonly StashView  _stashView;
-        private readonly StashModel _stashModel;
+        private readonly StashModel _model;
 
-        public event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
-        public event Action<Vector2Int> OnPlaceItemInput;
-        public event Action<Vector2Int> OnTakeItemInput;
+        protected override int Width => _model.CurrentItem?.Width ?? 1;
+        protected override int Height => _model.CurrentItem?.Height ?? 1;
 
-        public StashPresenter(StashView stashView, StashModel stashModel)
+        public StashPresenter(InventoryView view, StashModel model) : base(view)
         {
-            _stashModel = stashModel;
-            _stashView = stashView;
-
-            _stashView.OnCellClicked += HandleCellClicked;
-
+            _model = model;
+            CreateView();
+            UpdateView();
         }
-
-        private void HandleCellClicked(Vector2Int position)
-        {
-            if (_stashModel.CurrentItem != null)
-                OnTakeItemInput?.Invoke(position);
-            else
-                OnPlaceItemInput?.Invoke(position);
-        }
-
-        public void Initialize()
-        {
-            _stashView.Clear();
-            _stashView.BuildGrid(2, 2);
-        }
-
-        public void ShowItem(Item item)
-        {
-            if (_stashModel.CurrentItem != null) return;
-            
-            _stashModel.SetItem(item);
-            _stashView.Clear();
-            _stashView.BuildGrid(item.Width, item.Height);
-            for (var y = 0; y < item.Height; y++)
-            for (var x = 0; x < item.Width; x++)
-            {
-                if (item.Shape[x, y])
-                {
-                    _stashView.SetCellVisual(new Vector2Int(x, y), item.ItemColor);
-                }
-            }
-        }
-
-        public void Clear()
-        {
-            _stashModel.Clear();
-            _stashView.Clear();
-        }
-        public bool TakeItem(Vector2Int position, out Item item)
+        
+        public override bool TakeItem(Vector2Int position, out Item item)
         {
             item = null;
-
-            if (_stashModel.CurrentItem == null)
+            if (_model.CurrentItem == null || !_model.CurrentItem.Shape[position.x, position.y])
                 return false;
 
-            if (!_stashModel.CurrentItem.Shape[position.x, position.y]) return false;
-            item = _stashModel.CurrentItem;
-            _stashModel.Clear();
-            _stashView.Clear();
+            item = _model.CurrentItem;
+            _model.Clear();
+            RedrawView();
             return true;
         }
 
-        public bool PlaceItem(Item item, Vector2Int position) => false;
+        public override bool PlaceItem(Item item, Vector2Int position) => false;
+        
+        protected override Color GetCellColor(Vector2Int pos)
+        {
+            if (_model.CurrentItem == null)
+                return Color.grey;
+
+            return _model.CurrentItem.Shape[pos.x, pos.y]
+                ? _model.CurrentItem.ItemColor
+                : Color.grey;
+        }
+
+        public void SetItem(Item item)
+        {
+            if (_model.CurrentItem != null) return;
+            
+            _model.SetItem(item);
+            RedrawView();
+        }
     }
 }

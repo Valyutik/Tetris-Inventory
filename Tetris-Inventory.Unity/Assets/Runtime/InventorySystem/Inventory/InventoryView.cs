@@ -1,5 +1,5 @@
-using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine;
 
 namespace Runtime.InventorySystem.Inventory
 {
@@ -7,15 +7,11 @@ namespace Runtime.InventorySystem.Inventory
     {
         private readonly VisualElement _inventoryGrid;
         
-        public InventoryView(UIDocument document)
+        public InventoryView(VisualElement inventoryGrid)
         {
-            var root = document.rootVisualElement;
-            
-            var inventory =root.Q<VisualElement>("Inventory");
-            
-            _inventoryGrid = inventory.Q<VisualElement>("Grid");
+            _inventoryGrid = inventoryGrid;
         }
-        
+
         public void SetUpGrid(int width, int height)
         {
             _inventoryGrid.style.height = height * InventoryConstants.UI.CellSize;
@@ -35,5 +31,10 @@ namespace Runtime.InventorySystem.Inventory
         }
 
         public void RepaintCell(VisualElement cell, Color newColor) => cell.style.backgroundColor = newColor;
+        
+        public void ClearGrid()
+        {
+            _inventoryGrid.Clear();
+        }
     }
 }

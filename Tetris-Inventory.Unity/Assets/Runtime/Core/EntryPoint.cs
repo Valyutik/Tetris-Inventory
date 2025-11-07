@@ -1,5 +1,7 @@
 using Runtime.InventorySystem.DeleteConfirmation;
 using Runtime.InventorySystem.ItemGeneration;
+using Runtime.InventorySystem.ContentManager;
+using Runtime.InventorySystem.DragAndDrop;
 using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
@@ -7,7 +9,6 @@ using Runtime.InventorySystem.Stash;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using System.Linq;
-using Runtime.InventorySystem.ContentManager;
 using UnityEngine;
 
 namespace Runtime.Core
@@ -41,7 +42,7 @@ namespace Runtime.Core
             
             var itemDatabase = new ItemDatabase(ItemConfigLoader.LoadAll());
             
-            var inventoryView = new InventoryView(_document);
+            var inventoryView = new InventoryView(_document.rootVisualElement.Q<VisualElement>("InventoryGrid"));
 
             var inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
 
@@ -54,15 +55,14 @@ namespace Runtime.Core
 
             var inventoryPresenter = new InventoryPresenter(inventoryView, inventoryModel);
             
-            var stashView = new StashView(_document.rootVisualElement);
+            var stashView = new InventoryView(_document.rootVisualElement.Q<VisualElement>("StashGrid"));
             var stashModel = new StashModel();
             _stashPresenter = new StashPresenter(stashView, stashModel);
-            _stashPresenter.Initialize();
 
             var itemGenerationModel = new ItemGenerationModel(itemDatabase.GetAllItems().ToList());
             var itemGenerationView = new ItemGenerationView(_document.rootVisualElement);
             var itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView, itemGenerationModel);
-            itemGenerationPresenter.OnItemGenerated += _stashPresenter.ShowItem;
+            itemGenerationPresenter.OnItemGenerated += _stashPresenter.SetItem;
             
             var deleteArea = new DeleteAreaView(_document.rootVisualElement.Q<Button>("DeleteButton"));
 

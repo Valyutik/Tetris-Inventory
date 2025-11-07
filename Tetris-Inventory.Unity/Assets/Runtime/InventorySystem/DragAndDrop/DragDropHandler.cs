@@ -1,11 +1,12 @@
-using Runtime.InventorySystem.Common;
-using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.DeleteConfirmation;
+using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
-using UnityEngine;
+using Runtime.InventorySystem.Common;
 using UnityEngine.UIElements;
+using Runtime.Core;
+using UnityEngine;
 
-namespace Runtime.Core
+namespace Runtime.InventorySystem.DragAndDrop
 {
     public class DragDropHandler
     {
@@ -57,8 +58,6 @@ namespace Runtime.Core
 
         private void OnPointerDown(PointerDownEvent evt)
         {
-            Debug.Log($"Pointer Down!");
-
             if (_cachedInventory == null) return;
 
             var success = _cachedInventory.TakeItem(_cachedPosition, out var item);
@@ -72,8 +71,6 @@ namespace Runtime.Core
 
         private void OnPointerUp(PointerUpEvent evt)
         {
-            Debug.Log($"Pointer Up!");
-
             if (_cachedInventory == null || _cachedItem == null) return;
 
             if (_deleteArea.InDeleteArea)
@@ -94,8 +91,6 @@ namespace Runtime.Core
 
         private void OnPointerMove(PointerMoveEvent evt)
         {
-            Debug.Log($"Pointer Move!");
-            
             _view.Move(evt.position);
         }
 
