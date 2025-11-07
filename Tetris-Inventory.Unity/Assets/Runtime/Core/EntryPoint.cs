@@ -113,12 +113,8 @@ namespace Runtime.Core
                 new DragDropPresenter(_inventoryPresenter, _stashPresenter, deleteArea, deleteConfirmation);
         }
 
-        private void InitializeDragAndDrop()
-        {
-            _dragDropPresenter.Init(_document.rootVisualElement);
-            _itemRotationHandler.OnItemRotated += _dragDropPresenter.UpdateDragView;
-        }
-        
+        private void InitializeDragAndDrop() => _dragDropPresenter.Init(_document.rootVisualElement, _itemRotationHandler);
+
         private void InitializeItemRotation()
         {
             _itemRotationHandler = new ItemRotationHandler(_playerControls, () => _dragDropPresenter.CurrentItem);

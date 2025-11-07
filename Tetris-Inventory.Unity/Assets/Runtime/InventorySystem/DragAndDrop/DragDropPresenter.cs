@@ -2,6 +2,7 @@ using Runtime.InventorySystem.DeleteConfirmation;
 using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
+using Runtime.InventorySystem.ItemRotation;
 using UnityEngine.UIElements;
 using UnityEngine;
 
@@ -22,7 +23,9 @@ namespace Runtime.InventorySystem.DragAndDrop
         
         private readonly DragDropModel _model;
 
-        private DragDropView _view; 
+        private DragDropView _view;
+        
+        private ItemRotationHandler _rotationHandler;
 
         public DragDropPresenter(IInventoryPresenter inventory, IInventoryPresenter stash, IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
         {
@@ -37,9 +40,13 @@ namespace Runtime.InventorySystem.DragAndDrop
             _model = new DragDropModel();
         }
 
-        public void Init(VisualElement root)
+        public void Init(VisualElement root, ItemRotationHandler rotationHandler)
         {
             _view = new DragDropView(root);
+            
+            _rotationHandler = rotationHandler;
+
+            _rotationHandler.OnItemRotated += RotateItem;
             
             root.RegisterCallback<PointerDownEvent>(OnPointerDown);
             root.RegisterCallback<PointerUpEvent>(OnPointerUp);
@@ -55,9 +62,11 @@ namespace Runtime.InventorySystem.DragAndDrop
             _deleteConfirmation.OnConfirmDelete += OnConfirmDelete;
             _deleteConfirmation.OnCancelDelete += OnCancelDelete;
         }
-        public void UpdateDragView()
+        private void RotateItem()
         {
-            _view.UpdateDragView(_model.CachedItem);
+            if (_model.CachedItem == null) return;
+            
+            _view.Drag(_model.CachedItem);
         }
         
         private void OnPointerDown(PointerDownEvent evt)
@@ -93,10 +102,7 @@ namespace Runtime.InventorySystem.DragAndDrop
             _view.Drop();
         }
 
-        private void OnPointerMove(PointerMoveEvent evt)
-        {
-            _view.Move(evt.position);
-        }
+        private void OnPointerMove(PointerMoveEvent evt) => _view.Move(evt.position);
 
         private void OnPointerEnterCell(Vector2Int position, IInventoryPresenter target)
         {

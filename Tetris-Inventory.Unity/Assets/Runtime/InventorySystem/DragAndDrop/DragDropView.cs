@@ -1,3 +1,4 @@
+using Codice.Client.GameUI.Checkin;
 using Runtime.InventorySystem.Common;
 using UnityEngine.UIElements;
 using UnityEngine;
@@ -17,6 +18,8 @@ namespace Runtime.InventorySystem.DragAndDrop
 
         private Vector2 _dragOffset;
 
+        private Vector2 _cachedPointerPosition;
+        
         public DragDropView(VisualElement root)
         {
             _draggingElement = new VisualElement
@@ -39,23 +42,22 @@ namespace Runtime.InventorySystem.DragAndDrop
         {
             IsDragging = true;
 
-            _draggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
-            
-            _draggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
-            
+            UpdateVisualByItem(item);
+
             _dragOffset = GetOffsetByItem(item);
             
             Move(startPosition);
         }
-        
-        public void UpdateDragView(Item item)
-        {
-            if (!IsDragging) return;
 
-            _draggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
-            _draggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
+        public void Drag(Item item)
+        {
+            IsDragging = true;
+            
+            UpdateVisualByItem(item);
             
             _dragOffset = GetOffsetByItem(item);
+            
+            Move(_cachedPointerPosition);
         }
 
         public void Move(Vector2 screenPosition)
@@ -64,9 +66,18 @@ namespace Runtime.InventorySystem.DragAndDrop
 
             _draggingElement.style.left = screenPosition.x - _dragOffset.x;
             _draggingElement.style.top = screenPosition.y - _dragOffset.y;
+
+            _cachedPointerPosition = screenPosition;
         }
 
         public void Drop() => IsDragging = false;
+
+        private void UpdateVisualByItem(Item item)
+        {
+            _draggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
+
+            _draggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
+        }
 
         private Vector2 GetOffsetByItem(Item item) 
             => new Vector2(item.Width * InventoryConstants.UI.CellSize, item.Height * InventoryConstants.UI.CellSize) / 2f;
