@@ -1,9 +1,9 @@
-using Runtime.InventorySystem.Inventory;
+using Runtime.InventorySystem.Common;
 using UnityEngine.UIElements;
 using UnityEngine;
 using System;
 
-namespace Runtime.InventorySystem.Common
+namespace Runtime.InventorySystem.Inventory
 {
     public abstract class InventoryPresenterBase: IInventoryPresenter
     {
