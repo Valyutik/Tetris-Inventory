@@ -110,12 +110,12 @@ namespace Runtime.Core
         private void InitializeDragAndDrop()
         {
             _dragDropPresenter.Init(_document.rootVisualElement);
-            _itemRotationHandler.OnItemRotated += _dragDropHandler.UpdateDragView;
+            _itemRotationHandler.OnItemRotated += _dragDropPresenter.UpdateDragView;
         }
         
         private void InitializeItemRotation()
         {
-            _itemRotationHandler = new ItemRotationHandler(_playerControls, () => _dragDropHandler.CurrentItem);
+            _itemRotationHandler = new ItemRotationHandler(_playerControls, () => _dragDropPresenter.CurrentItem);
         }
     }
 }
