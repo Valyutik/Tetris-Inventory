@@ -21,7 +21,7 @@ namespace Runtime.InventorySystem.Stash
         public override bool TakeItem(Vector2Int position, out Item item)
         {
             item = null;
-            if (_model.CurrentItem == null || !_model.CurrentItem.Shape[position.x, position.y])
+            if (!_model.HasItem || !_model.CurrentItem.Shape[position.x, position.y])
                 return false;
 
             item = _model.CurrentItem;
@@ -34,7 +34,7 @@ namespace Runtime.InventorySystem.Stash
         
         protected override Color GetCellColor(Vector2Int pos)
         {
-            if (_model.CurrentItem == null)
+            if (!_model.HasItem)
                 return Color.grey;
 
             return _model.CurrentItem.Shape[pos.x, pos.y]
@@ -44,7 +44,7 @@ namespace Runtime.InventorySystem.Stash
 
         public void SetItem(Item item)
         {
-            if (_model.CurrentItem != null) return;
+            if (_model.HasItem) return;
             
             _model.SetItem(item);
             RedrawView();
