@@ -38,7 +38,7 @@ namespace Runtime.InventorySystem.Stash
                 return Color.grey;
 
             return _model.CurrentItem.Shape[pos.x, pos.y]
-                ? _model.CurrentItem.ItemColor
+                ? _model.CurrentItem.Color
                 : Color.grey;
         }
 

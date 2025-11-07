@@ -27,5 +27,22 @@ namespace Runtime.InventorySystem.Common
         {
             return _itemsById.Values.ToList();
         }
+        
+        public Item? CreateItemInstance(string id)
+        {
+            var template = TryGetItemById(id);
+            if (template != null)
+            {
+                return new Item(
+                    id: template.Id,
+                    name: template.Name,
+                    description: template.Description,
+                    color: template.Color,
+                    shape: template.Shape
+                );
+            }
+
+            return null;
+        }
     }
 }
