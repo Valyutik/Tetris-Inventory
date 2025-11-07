@@ -15,6 +15,8 @@ namespace Runtime.InventorySystem.DragAndDrop
         
         private readonly VisualElement _draggingElement;
 
+        private Vector2 _dragOffset;
+
         public DragDropView(VisualElement root)
         {
             _draggingElement = new VisualElement
@@ -33,13 +35,17 @@ namespace Runtime.InventorySystem.DragAndDrop
             root.Add(_draggingElement);
         }
 
-        public void Drag(Item item)
+        public void Drag(Item item, Vector2 startPosition)
         {
             IsDragging = true;
 
             _draggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
             
             _draggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
+            
+            _dragOffset = GetOffsetByItem(item);
+            
+            Move(startPosition);
         }
         
         public void UpdateDragView(Item item)
@@ -48,19 +54,21 @@ namespace Runtime.InventorySystem.DragAndDrop
 
             _draggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
             _draggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
+            
+            _dragOffset = GetOffsetByItem(item);
         }
 
         public void Move(Vector2 screenPosition)
         {
             if (!IsDragging) return;
-            
-            var offsetX = _draggingElement.resolvedStyle.width / 2f;
-            var offsetY = _draggingElement.resolvedStyle.height / 2f;
 
-            _draggingElement.style.left = screenPosition.x - offsetX;
-            _draggingElement.style.top = screenPosition.y - offsetY;
+            _draggingElement.style.left = screenPosition.x - _dragOffset.x;
+            _draggingElement.style.top = screenPosition.y - _dragOffset.y;
         }
 
         public void Drop() => IsDragging = false;
+
+        private Vector2 GetOffsetByItem(Item item) 
+            => new Vector2(item.Width * InventoryConstants.UI.CellSize, item.Height * InventoryConstants.UI.CellSize) / 2f;
     }
 }

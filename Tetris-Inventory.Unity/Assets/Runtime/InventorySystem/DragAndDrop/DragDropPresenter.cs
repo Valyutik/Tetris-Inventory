@@ -70,7 +70,7 @@ namespace Runtime.InventorySystem.DragAndDrop
             
             _model.CachedItem = item;
             
-            _view.Drag(_model.CachedItem);
+            _view.Drag(_model.CachedItem, evt.position);
         }
 
         private void OnPointerUp(PointerUpEvent evt)
