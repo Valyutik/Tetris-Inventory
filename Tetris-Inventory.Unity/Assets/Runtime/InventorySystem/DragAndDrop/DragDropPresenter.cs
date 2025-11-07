@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Runtime.InventorySystem.DeleteConfirmation;
 using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
@@ -10,12 +11,9 @@ namespace Runtime.InventorySystem.DragAndDrop
 {
     public class DragDropPresenter
     {
-        
         public Item CurrentItem => _model.CurrentItem;
         
-        private readonly IInventoryPresenter _inventory;
-        
-        private readonly IInventoryPresenter _stash;
+        private readonly List<IInventoryPresenter> _inventories;
 
         private readonly IDeleteArea _deleteArea;
 
@@ -27,17 +25,22 @@ namespace Runtime.InventorySystem.DragAndDrop
         
         private ItemRotationHandler _rotationHandler;
 
-        public DragDropPresenter(IInventoryPresenter inventory, IInventoryPresenter stash, IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
+        public DragDropPresenter(IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
         {
-            _inventory = inventory;
+            _inventories = new List<IInventoryPresenter>();
             
-            _stash = stash;
-
             _deleteArea = deleteArea;
 
             _deleteConfirmation = deleteConfirmation;
             
             _model = new DragDropModel();
+        }
+        
+        public void RegisterInventory(IInventoryPresenter inventory)
+        {
+            _inventories.Add(inventory);
+            
+            inventory.OnPointerEnterCell += OnPointerEnterCell;
         }
 
         public void Init(VisualElement root, ItemRotationHandler rotationHandler)
@@ -51,9 +54,6 @@ namespace Runtime.InventorySystem.DragAndDrop
             root.RegisterCallback<PointerDownEvent>(OnPointerDown);
             root.RegisterCallback<PointerUpEvent>(OnPointerUp);
             root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
-
-            _inventory.OnPointerEnterCell += OnPointerEnterCell;
-            _stash.OnPointerEnterCell += OnPointerEnterCell;
             
             _deleteArea.OnEnterDeleteArea += OnEnterDeleteArea;
             _deleteArea.OnLeaveDeleteArea += OnLeaveDeleteArea;
@@ -131,8 +131,6 @@ namespace Runtime.InventorySystem.DragAndDrop
             _model.CurrentItem = null;
             
             _view.Drop();
-            
-            _model.CurrentInventory.TakeItem(_model.CurrentPosition, out _);
             
             _deleteConfirmation.HidePopup();
             
