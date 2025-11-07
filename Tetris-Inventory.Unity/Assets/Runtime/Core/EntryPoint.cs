@@ -62,7 +62,7 @@ namespace Runtime.Core
             var itemGenerationModel = new ItemGenerationModel(itemDatabase.GetAllItems().ToList());
             var itemGenerationView = new ItemGenerationView(_document.rootVisualElement);
             var itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView, itemGenerationModel);
-            itemGenerationPresenter.OnItemGenerated += _stashPresenter.ShowItem;
+            itemGenerationPresenter.OnItemGenerated += _stashPresenter.SetItem;
             
             var deleteArea = new DeleteAreaView(_document.rootVisualElement.Q<Button>("DeleteButton"));
 
