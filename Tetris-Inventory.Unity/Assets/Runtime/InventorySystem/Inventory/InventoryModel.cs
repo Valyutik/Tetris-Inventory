@@ -5,7 +5,7 @@ using Grid = Runtime.InventorySystem.Common.Grid;
 
 namespace Runtime.InventorySystem.Inventory
 {
-    public class InventoryModel
+    public sealed class InventoryModel
     {
         private readonly List<Item> _items;
         private readonly Grid _grid;
@@ -40,7 +40,7 @@ namespace Runtime.InventorySystem.Inventory
             return true;
         }
         
-        public virtual bool TryPlaceItem(Item item)
+        public bool TryPlaceItem(Item item)
         {
             if (item == null) return false;
             if (!_grid.TryAddItem(item))
