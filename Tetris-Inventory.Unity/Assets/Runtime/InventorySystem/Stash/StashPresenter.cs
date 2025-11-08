@@ -1,5 +1,6 @@
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Runtime.InventorySystem.Stash
@@ -21,9 +22,16 @@ namespace Runtime.InventorySystem.Stash
 
         public override bool PlaceItem(Item item, Vector2Int position) => false;
 
-        public void SetItem(Item item)
+        public void SetItems(IEnumerable<Item> items)
         {
-            Model.TryPlaceItem(item);
+            if (Model.GetAllItems().Count == 0)
+            {
+                Model.Clear();
+                foreach (var item in items)
+                {
+                    Model.TryPlaceItem(item);
+                }
+            }
             RedrawView();
         }
     }

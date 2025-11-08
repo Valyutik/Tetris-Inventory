@@ -1,4 +1,5 @@
 using Runtime.InventorySystem.Common;
+using System.Collections.Generic;
 using System;
 
 namespace Runtime.InventorySystem.ItemGeneration
@@ -9,7 +10,7 @@ namespace Runtime.InventorySystem.ItemGeneration
         private readonly ItemGenerationModel _model;
         private readonly int _numberItemsGenerated;
         
-        public event Action<Item> OnItemGenerated;
+        public event Action<IEnumerable<Item>> OnItemGenerated;
 
         public ItemGenerationPresenter(ItemGenerationView view, ItemGenerationModel model, int numberItemsGenerated)
         {
@@ -22,11 +23,8 @@ namespace Runtime.InventorySystem.ItemGeneration
 
         private void HandleGenerateClicked()
         {
-            for (var i = 0; i < _numberItemsGenerated; i++)
-            {
-                var item = _model.GetRandomItem();
-                OnItemGenerated?.Invoke(item);
-            }
+            var item = _model.GetRandomItem(_numberItemsGenerated);
+            OnItemGenerated?.Invoke(item);
         }
     }
 }

@@ -97,7 +97,7 @@ namespace Runtime.Core
             var itemGenerationView = new ItemGenerationView(_document.rootVisualElement);
 
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView, itemGenerationModel, _numberOfItemsGenerated);
-            _itemGenerationPresenter.OnItemGenerated += _stashPresenter.SetItem;
+            _itemGenerationPresenter.OnItemGenerated += _stashPresenter.SetItems;
         }
 
         private void InitializeDeleteSystem()

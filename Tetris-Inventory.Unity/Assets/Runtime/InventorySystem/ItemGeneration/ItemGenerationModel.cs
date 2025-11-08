@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Runtime.InventorySystem.Common;
 using System.Linq;
 
@@ -14,10 +15,13 @@ namespace Runtime.InventorySystem.ItemGeneration
             _itemIds = _database.GetAllItems().Select(i => i.Id).ToArray();
         }
         
-        public Item GetRandomItem()
+        public IEnumerable<Item> GetRandomItem(int count)
         {
-            var randomId = _itemIds[UnityEngine.Random.Range(0, _itemIds.Length)];
-            return _database.CreateItemInstance(randomId);
+            for (var i = 0; i < count; i++)
+            {
+                var randomId = _itemIds[UnityEngine.Random.Range(0, _itemIds.Length)];
+                yield return _database.CreateItemInstance(randomId);
+            }
         }
     }
 }
