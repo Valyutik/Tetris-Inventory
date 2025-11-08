@@ -1,10 +1,11 @@
 using Runtime.InventorySystem.Common;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Runtime.InventorySystem.Inventory
 {
     public class InventoryPresenter : InventoryPresenterBase
-    { 
+    {
         public InventoryPresenter(InventoryView view, InventoryModel model) : base(view, model)
         {
             
@@ -28,6 +29,11 @@ namespace Runtime.InventorySystem.Inventory
 
             UpdateView();
             return success;
+        }
+
+        public bool CanFitItems(IEnumerable<Item> items)
+        {
+            return Model.CanFitItems(items);
         }
     }
 }
