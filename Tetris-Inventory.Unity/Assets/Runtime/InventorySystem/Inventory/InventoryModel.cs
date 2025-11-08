@@ -18,6 +18,12 @@ namespace Runtime.InventorySystem.Inventory
             _grid = new Grid(width, height);
             _items = new List<Item>();
         }
+        
+        public InventoryModel(Grid grid)
+        {
+            _grid = grid;
+            _items = new List<Item>();
+        }
 
         public bool CanPlaceItem(Item item, Vector2Int position)
         {

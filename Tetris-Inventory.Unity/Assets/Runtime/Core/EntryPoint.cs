@@ -83,7 +83,7 @@ namespace Runtime.Core
             var stashView =
                 new InventoryView(
                     _document.rootVisualElement.Q<VisualElement>(InventoryConstants.UI.Inventory.StashGrid));
-            var stashModel = new StashModel();
+            var stashModel = new InventoryModel(new DynamicGrid(7,7));
             _stashPresenter = new StashPresenter(stashView, stashModel);
         }
 
