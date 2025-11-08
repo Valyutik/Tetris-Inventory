@@ -11,12 +11,12 @@ namespace Runtime.InventorySystem.Common
         
         protected Cell[,] Cells;
         
-        public Grid(int width, int height)
+        public Grid(int initialWidth, int initialHeight)
         {
-            Cells = new Cell[width, height];
-            for (var y = 0; y < Cells.GetLength(1); y++)
+            Cells = new Cell[initialWidth, initialHeight];
+            for (var y = 0; y < Height; y++)
             {
-                for (var x = 0; x < Cells.GetLength(0); x++)
+                for (var x = 0; x < Width; x++)
                 {
                     Cells[x, y] = new Cell(new Vector2Int(x, y));
                 }
@@ -81,10 +81,10 @@ namespace Runtime.InventorySystem.Common
                     return false;
             }
 
-            return GetOccupiedCells(item, position).All(tile => tile.IsEmpty);
+            return GetOccupiedCells(item, position).All(cell => cell.IsEmpty);
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             foreach (var cell in Cells)
                 cell.Clear();

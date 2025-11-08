@@ -7,12 +7,16 @@ namespace Runtime.InventorySystem.Common
     {
         private readonly int _maxWidth;
         private readonly int _maxHeight;
-        
-        public DynamicGrid(int maxWidth, int maxHeight, int width = 0, int height = 0) : base(width,
-            height)
+        private readonly int _initialWidth;
+        private readonly int _initialHeight;
+
+        public DynamicGrid(int maxWidth, int maxHeight, int initialWidth = 0, int initialHeight = 0) : base(initialWidth,
+            initialHeight)
         {
             _maxWidth = maxWidth;
             _maxHeight = maxHeight;
+            _initialWidth = initialWidth;
+            _initialHeight = initialHeight;
         }
 
         public override bool TryAddItem(Item item)
@@ -21,7 +25,16 @@ namespace Runtime.InventorySystem.Common
             ExpandToFit(item);
             return base.TryAddItem(item);
         }
-        
+
+        public override void Clear()
+        {
+            base.Clear();
+            Cells = new Cell[_initialWidth, _initialHeight];
+            for (var y = 0; y < Height; y++)
+            for (var x = 0; x < Width; x++)
+                Cells[x, y] = new Cell(new Vector2Int(x, y));
+        }
+
         private void ExpandToFit(Item item)
         {
             var newWidth = Width;
