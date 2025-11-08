@@ -4,23 +4,16 @@ using UnityEngine;
 namespace Runtime.InventorySystem.Inventory
 {
     public class InventoryPresenter : InventoryPresenterBase
-    {
-        private readonly InventoryModel _model;
-        
-        protected override int Width => _model.Width;
-        protected override int Height => _model.Height;
-
-        public InventoryPresenter(InventoryView view, InventoryModel model) : base(view)
+    { 
+        public InventoryPresenter(InventoryView view, InventoryModel model) : base(view, model)
         {
-            _model = model;
-            CreateView();
-            UpdateView();
+            
         }
         
         public override bool TakeItem(Vector2Int position, out Item item)
         {
-            item = _model.GetItem(position);
-            _model.TryRemoveItem(item);
+            item = Model.GetItem(position);
+            Model.TryRemoveItem(item);
             UpdateView();
             return item != null;
         }
@@ -29,20 +22,12 @@ namespace Runtime.InventorySystem.Inventory
         {
             if (item == null) return false;
 
-            var success = _model.CanPlaceItem(item, position);
+            var success = Model.CanPlaceItem(item, position);
             if (success)
-                _model.TryPlaceItem(item, position);
+                Model.TryPlaceItem(item, position);
 
             UpdateView();
             return success;
-        }
-
-        protected override Color GetCellColor(Vector2Int position)
-        {
-            var item = _model.GetItem(position);
-            return _model.IsCellOccupied(position)
-                ? Color.gray
-                : item?.Color ?? Color.grey;
         }
     }
 }

@@ -6,21 +6,19 @@ namespace Runtime.InventorySystem.Common
 {
     public class Grid
     {
-        public int Width { get; }
-        public int Height { get; }
-
-        private readonly Cell[,] _cells;
+        public int Width => Cells.GetLength(0);
+        public int Height => Cells.GetLength(1);
+        
+        protected Cell[,] Cells;
         
         public Grid(int width, int height)
         {
-            Width = width;
-            Height = height;
-            _cells = new Cell[width, height];
-            for (var y = 0; y < _cells.GetLength(1); y++)
+            Cells = new Cell[width, height];
+            for (var y = 0; y < Cells.GetLength(1); y++)
             {
-                for (var x = 0; x < _cells.GetLength(0); x++)
+                for (var x = 0; x < Cells.GetLength(0); x++)
                 {
-                    _cells[x, y] = new Cell(new Vector2Int(x, y));
+                    Cells[x, y] = new Cell(new Vector2Int(x, y));
                 }
             }
         }
@@ -52,7 +50,7 @@ namespace Runtime.InventorySystem.Common
         
         public void RemoveItem(Item item)
         {
-            foreach (var cell in _cells)
+            foreach (var cell in Cells)
             {
                 if (cell.Item == item)
                     cell.Clear();
@@ -61,27 +59,13 @@ namespace Runtime.InventorySystem.Common
             item.ClearAnchorPosition();
         }
         
-        public Cell GetCell(int x, int y) => _cells[x, y];
+        public Cell GetCell(int x, int y) => Cells[x, y];
 
         public Item GetItem(Vector2Int position)
         {
-            return IsInsideBounds(position) ? _cells[position.x, position.y].Item : null;
+            return IsInsideBounds(position) ? Cells[position.x, position.y].Item : null;
         }
-
-        public void Clear()
-        {
-            foreach (var cell in _cells)
-                cell.Clear();
-        }
-
-        private void ApplyPlacement(Item item, Vector2Int position)
-        {
-            foreach (var occupiedTiles in GetOccupiedCells(item, position))
-            {
-                occupiedTiles.SetItem(item);
-            }
-        }
-
+        
         public bool CanPlaceItem(Item item, Vector2Int position)
         {
             for (var dy = 0; dy < item.Height; dy++)
@@ -100,6 +84,20 @@ namespace Runtime.InventorySystem.Common
             return GetOccupiedCells(item, position).All(tile => tile.IsEmpty);
         }
 
+        public void Clear()
+        {
+            foreach (var cell in Cells)
+                cell.Clear();
+        }
+
+        private void ApplyPlacement(Item item, Vector2Int position)
+        {
+            foreach (var occupiedTiles in GetOccupiedCells(item, position))
+            {
+                occupiedTiles.SetItem(item);
+            }
+        }
+
         private IEnumerable<Cell> GetOccupiedCells(Item item, Vector2Int position)
         {
             for (var dy = 0; dy < item.Height; dy++)
@@ -108,7 +106,7 @@ namespace Runtime.InventorySystem.Common
                 if (!item.Shape[dx, dy])
                     continue;
 
-                yield return _cells[position.x + dx, position.y + dy];
+                yield return Cells[position.x + dx, position.y + dy];
             }
         }
         
