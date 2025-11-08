@@ -1,6 +1,7 @@
 using Runtime.InventorySystem.DeleteConfirmation;
 using Runtime.InventorySystem.ItemGeneration;
 using Runtime.InventorySystem.ContentManager;
+using Runtime.InventorySystem.ItemRotation;
 using Runtime.InventorySystem.DragAndDrop;
 using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
@@ -8,7 +9,6 @@ using Runtime.InventorySystem.Common;
 using Runtime.InventorySystem.Stash;
 using UnityEngine.UIElements;
 using Runtime.InventorySystem;
-using Runtime.InventorySystem.ItemRotation;
 using UnityEngine;
 
 namespace Runtime.Core
@@ -27,6 +27,9 @@ namespace Runtime.Core
         [Header("Popup")]
         [SerializeField] private VisualTreeAsset _deleteConfirmationAsset;
         [SerializeField] private UIDocument _popupUIDocument;
+        
+        [Header("Item Generation Settings")]
+        [SerializeField] private int _numberOfItemsGenerated = 3;
 
         private PlayerControls _playerControls;
         
@@ -93,7 +96,7 @@ namespace Runtime.Core
             var itemGenerationModel = new ItemGenerationModel(itemDatabase);
             var itemGenerationView = new ItemGenerationView(_document.rootVisualElement);
 
-            _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView, itemGenerationModel);
+            _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView, itemGenerationModel, _numberOfItemsGenerated);
             _itemGenerationPresenter.OnItemGenerated += _stashPresenter.SetItem;
         }
 

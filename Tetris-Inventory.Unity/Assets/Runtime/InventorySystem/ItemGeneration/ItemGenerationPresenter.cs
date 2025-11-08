@@ -7,21 +7,26 @@ namespace Runtime.InventorySystem.ItemGeneration
     {
         private readonly ItemGenerationView _view;
         private readonly ItemGenerationModel _model;
+        private readonly int _numberItemsGenerated;
         
         public event Action<Item> OnItemGenerated;
 
-        public ItemGenerationPresenter(ItemGenerationView view, ItemGenerationModel model)
+        public ItemGenerationPresenter(ItemGenerationView view, ItemGenerationModel model, int numberItemsGenerated)
         {
             _view = view;
             _model = model;
+            _numberItemsGenerated = numberItemsGenerated;
 
             _view.OnGenerateClicked += HandleGenerateClicked;
         }
 
         private void HandleGenerateClicked()
         {
-            var item = _model.GetRandomItem();
-            OnItemGenerated?.Invoke(item);
+            for (var i = 0; i < _numberItemsGenerated; i++)
+            {
+                var item = _model.GetRandomItem();
+                OnItemGenerated?.Invoke(item);
+            }
         }
     }
 }
