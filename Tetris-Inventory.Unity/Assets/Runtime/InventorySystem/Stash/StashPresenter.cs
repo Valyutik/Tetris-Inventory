@@ -44,9 +44,7 @@ namespace Runtime.InventorySystem.Stash
 
         public void SetItem(Item item)
         {
-            if (_model.HasItem) return;
-            
-            _model.SetItem(item);
+            Model.TryPlaceItem(item);
             RedrawView();
         }
     }

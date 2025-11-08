@@ -35,6 +35,21 @@ namespace Runtime.InventorySystem.Common
             return true;
         }
         
+        public virtual bool TryAddItem(Item item)
+        {
+            for (var y = 0; y <= Height - item.Height; y++)
+            for (var x = 0; x <= Width - item.Width; x++)
+            {
+                var position = new Vector2Int(x, y);
+                
+                if (!CanPlaceItem(item, position)) continue;
+                ApplyPlacement(item, position);
+                item.SetAnchorPosition(position);
+                return true;
+            }
+            return false;
+        }
+        
         public void RemoveItem(Item item)
         {
             foreach (var cell in _cells)

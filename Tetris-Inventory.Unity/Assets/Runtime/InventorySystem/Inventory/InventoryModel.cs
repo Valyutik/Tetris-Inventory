@@ -33,6 +33,16 @@ namespace Runtime.InventorySystem.Inventory
             _items.Add(item);
             return true;
         }
+        
+        public virtual bool TryPlaceItem(Item item)
+        {
+            if (item == null) return false;
+            if (!_grid.TryAddItem(item))
+                return false;
+
+            _items.Add(item);
+            return true;
+        }
 
         public bool TryRemoveItem(Item item)
         {
