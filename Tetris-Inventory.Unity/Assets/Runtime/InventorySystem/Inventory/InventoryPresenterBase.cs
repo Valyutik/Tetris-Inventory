@@ -9,23 +9,35 @@ namespace Runtime.InventorySystem.Inventory
     {
         public event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
 
+        private int Width => Model.Width;
+        private int Height => Model.Height;
+        
+        protected readonly InventoryModel Model;
+        
         private readonly InventoryView _view;
         private VisualElement[,] _cells;
 
-        protected InventoryPresenterBase(InventoryView view)
+        protected InventoryPresenterBase(InventoryView view, InventoryModel model)
         {
+            Model = model;
             _view = view;
+            
+            CreateView();
+            UpdateView();
         }
-
-        protected abstract int Width { get; }
-        protected abstract int Height { get; }
 
         public abstract bool TakeItem(Vector2Int position, out Item item);
         public abstract bool PlaceItem(Item item, Vector2Int position);
 
-        protected abstract Color GetCellColor(Vector2Int position);
+        private Color GetCellColor(Vector2Int position)
+        {
+            var item = Model.GetItem(position);
+            return Model.IsCellOccupied(position)
+                ? Color.gray
+                : item?.Color ?? Color.grey;
+        }
 
-        protected void CreateView()
+        private void CreateView()
         {
             _view.SetUpGrid(Width, Height);
             _cells = new VisualElement[Width, Height];

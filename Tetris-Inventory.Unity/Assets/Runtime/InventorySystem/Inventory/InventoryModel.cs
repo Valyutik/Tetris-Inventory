@@ -5,7 +5,7 @@ using Grid = Runtime.InventorySystem.Common.Grid;
 
 namespace Runtime.InventorySystem.Inventory
 {
-    public class InventoryModel
+    public sealed class InventoryModel
     {
         private readonly List<Item> _items;
         private readonly Grid _grid;
@@ -18,6 +18,12 @@ namespace Runtime.InventorySystem.Inventory
             _grid = new Grid(width, height);
             _items = new List<Item>();
         }
+        
+        public InventoryModel(Grid grid)
+        {
+            _grid = grid;
+            _items = new List<Item>();
+        }
 
         public bool CanPlaceItem(Item item, Vector2Int position)
         {
@@ -28,6 +34,16 @@ namespace Runtime.InventorySystem.Inventory
         {
             if (item == null) return false;
             if (!_grid.TryAddItem(item, position))
+                return false;
+
+            _items.Add(item);
+            return true;
+        }
+        
+        public bool TryPlaceItem(Item item)
+        {
+            if (item == null) return false;
+            if (!_grid.TryAddItem(item))
                 return false;
 
             _items.Add(item);

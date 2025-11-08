@@ -1,52 +1,37 @@
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Runtime.InventorySystem.Stash
 {
     public sealed class StashPresenter : InventoryPresenterBase
     {
-        private readonly StashModel _model;
-
-        protected override int Width => _model.CurrentItem?.Width ?? 1;
-        protected override int Height => _model.CurrentItem?.Height ?? 1;
-
-        public StashPresenter(InventoryView view, StashModel model) : base(view)
+        public StashPresenter(InventoryView view, InventoryModel model) : base(view, model)
         {
-            _model = model;
-            CreateView();
-            UpdateView();
+            
         }
         
         public override bool TakeItem(Vector2Int position, out Item item)
         {
-            item = null;
-            if (!_model.HasItem || !_model.CurrentItem.Shape[position.x, position.y])
-                return false;
-
-            item = _model.CurrentItem;
-            _model.Clear();
-            RedrawView();
-            return true;
+            item = Model.GetItem(position);
+            Model.TryRemoveItem(item);
+            UpdateView();
+            return item != null;
         }
 
         public override bool PlaceItem(Item item, Vector2Int position) => false;
-        
-        protected override Color GetCellColor(Vector2Int pos)
-        {
-            if (!_model.HasItem)
-                return Color.grey;
 
-            return _model.CurrentItem.Shape[pos.x, pos.y]
-                ? _model.CurrentItem.Color
-                : Color.grey;
-        }
-
-        public void SetItem(Item item)
+        public void SetItems(IEnumerable<Item> items)
         {
-            if (_model.HasItem) return;
-            
-            _model.SetItem(item);
+            if (Model.GetAllItems().Count == 0)
+            {
+                Model.Clear();
+                foreach (var item in items)
+                {
+                    Model.TryPlaceItem(item);
+                }
+            }
             RedrawView();
         }
     }
