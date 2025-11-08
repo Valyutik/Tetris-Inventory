@@ -8,7 +8,9 @@ namespace Runtime.InventorySystem.Inventory
     public abstract class InventoryPresenterBase: IInventoryPresenter
     {
         public event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
-
+        
+        public bool HasItems => Model.HasItems;
+        
         private int Width => Model.Width;
         private int Height => Model.Height;
         

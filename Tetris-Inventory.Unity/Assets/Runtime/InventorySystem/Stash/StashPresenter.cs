@@ -24,14 +24,12 @@ namespace Runtime.InventorySystem.Stash
 
         public void SetItems(IEnumerable<Item> items)
         {
-            if (Model.GetAllItems().Count == 0)
+            Model.Clear();
+            foreach (var item in items)
             {
-                Model.Clear();
-                foreach (var item in items)
-                {
-                    Model.TryPlaceItem(item);
-                }
+                Model.TryPlaceItem(item);
             }
+            
             RedrawView();
         }
     }

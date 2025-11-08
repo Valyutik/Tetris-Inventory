@@ -13,6 +13,8 @@ namespace Runtime.InventorySystem.Inventory
         public int Width => _grid.Width;
         public int Height => _grid.Height;
         
+        public bool HasItems => _items.Count > 0;
+        
         public InventoryModel(int width, int height)
         { 
             _grid = new Grid(width, height);
@@ -28,6 +30,26 @@ namespace Runtime.InventorySystem.Inventory
         public bool CanPlaceItem(Item item, Vector2Int position)
         {
             return _grid.CanPlaceItem(item, position);
+        }
+        
+        public bool CanFitItems(IEnumerable<Item> items)
+        {
+            var totalRequiredCells = 0;
+            foreach (var item in items)
+            {
+                for (var x = 0; x < item.Width; x++)
+                for (var y = 0; y < item.Height; y++)
+                    if (item.Shape[x, y])
+                        totalRequiredCells++;
+            }
+
+            var freeCells = 0;
+            for (var y = 0; y < Height; y++)
+            for (var x = 0; x < Width; x++)
+                if (_grid.GetCell(x, y).IsEmpty)
+                    freeCells++;
+
+            return freeCells >= totalRequiredCells;
         }
 
         public bool TryPlaceItem(Item item, Vector2Int position)

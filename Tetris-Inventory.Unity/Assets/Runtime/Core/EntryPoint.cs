@@ -96,7 +96,10 @@ namespace Runtime.Core
             var itemGenerationModel = new ItemGenerationModel(itemDatabase);
             var itemGenerationView = new ItemGenerationView(_document.rootVisualElement);
 
-            _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView, itemGenerationModel, _numberOfItemsGenerated);
+            _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
+                itemGenerationModel,
+                new ItemGenerationRules(_inventoryPresenter, _stashPresenter),
+                _numberOfItemsGenerated);
             _itemGenerationPresenter.OnItemGenerated += _stashPresenter.SetItems;
         }
 
