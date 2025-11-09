@@ -11,6 +11,5 @@ namespace Runtime.InventorySystem.Inventory
         bool TakeItem(Vector2Int position, out Item item);
         
         bool PlaceItem(Item item, Vector2Int position);
-
     }
 }
