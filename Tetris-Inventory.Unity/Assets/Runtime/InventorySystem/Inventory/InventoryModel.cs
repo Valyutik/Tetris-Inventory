@@ -118,23 +118,6 @@ namespace Runtime.InventorySystem.Inventory
 
             return occupancyMap;
         }
-        
-        public void LogMap()
-        {
-            var stringMap = string.Empty;
-
-            for (var y = 0; y < Height; y++)
-            {
-                for (var x = 0; x < Width; x++)
-                {
-                    stringMap += _grid.GetCell(x, y).IsEmpty ? "F" : "T";
-                }
-                stringMap += "\n";
-            }
-            
-            Debug.Log(stringMap);
-        }
-        
 
         public void Clear()
         {
