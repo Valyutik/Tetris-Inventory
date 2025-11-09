@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: c043a06d8dab6f24fab59d61bee11047
   m_SerializeEntries:
+  - m_GUID: 9f6bfde83d4bdd446a0f039f9272e6e3
+    m_Address: Assets/Content/Configs/ItemGeneration/ItemGenerationConfig.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - item_generation_config
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b154c55d9bb315c43a450f0a8e1f34d6
     m_Address: Configs/Items/First aid kit
     m_ReadOnly: 0
