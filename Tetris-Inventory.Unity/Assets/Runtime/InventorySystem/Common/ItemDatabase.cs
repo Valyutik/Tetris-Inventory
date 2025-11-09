@@ -1,7 +1,8 @@
 #nullable enable
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Runtime.Utilities;
+using System.Linq;
 
 namespace Runtime.InventorySystem.Common
 {
@@ -21,7 +22,7 @@ namespace Runtime.InventorySystem.Common
         
         public static async Task<ItemDatabase> CreateAsync(string label)
         {
-            var configs = await ItemConfigAddressablesLoader.LoadAllAsync(label);
+            var configs = await AddressablesLoader.LoadAllAsync<ItemConfig>(label);
 
             return new ItemDatabase(configs);
         }

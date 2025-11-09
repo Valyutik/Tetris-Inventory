@@ -1,26 +1,28 @@
-using System.Collections.Generic;
 using Runtime.InventorySystem.Common;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Runtime.InventorySystem.ItemGeneration
 {
     public sealed class ItemGenerationModel
     {
-        private readonly ItemDatabase _database;
-        private readonly string[] _itemIds;
+        private readonly ItemGenerationConfig _config;
+        private readonly ItemConfig[] _availableConfigs;
 
-        public ItemGenerationModel(ItemDatabase database)
+        public ItemGenerationModel(ItemGenerationConfig config, IEnumerable<ItemConfig> allItems)
         {
-            _database = database;
-            _itemIds = _database.GetAllItems().Select(i => i.Id).ToArray();
+            _config = config;
+            _availableConfigs = config.useAllItemsFromDatabase
+                ? allItems.ToArray()
+                : config.itemConfigs.ToArray();
         }
         
-        public IEnumerable<Item> GetRandomItem(int count)
+        public IEnumerable<Item> GetRandomItems()
         {
-            for (var i = 0; i < count; i++)
+            for (var i = 0; i < _config.defaultCount; i++)
             {
-                var randomId = _itemIds[UnityEngine.Random.Range(0, _itemIds.Length)];
-                yield return _database.CreateItemInstance(randomId);
+                var randomConfig = _availableConfigs[UnityEngine.Random.Range(0, _availableConfigs.Length)];
+                yield return ItemConfigAdapter.ToModel(randomConfig);
             }
         }
     }
