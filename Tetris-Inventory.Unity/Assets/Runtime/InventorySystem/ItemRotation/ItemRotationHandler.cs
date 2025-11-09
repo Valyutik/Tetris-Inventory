@@ -1,7 +1,6 @@
 using Runtime.InventorySystem.Common;
 using UnityEngine.InputSystem;
 using System;
-using UnityEngine;
 
 namespace Runtime.InventorySystem.ItemRotation
 {
@@ -30,8 +29,6 @@ namespace Runtime.InventorySystem.ItemRotation
             var item = _getCurrentItem?.Invoke();
             
             item?.RotateShape();
-            
-            var pointerPosition = _playerControls.UI.Point.ReadValue<Vector2>();
             
             OnItemRotated?.Invoke();
         }
