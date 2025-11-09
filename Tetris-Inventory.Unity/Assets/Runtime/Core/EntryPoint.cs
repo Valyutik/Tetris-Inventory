@@ -90,9 +90,9 @@ namespace Runtime.Core
             _stashPresenter = new StashPresenter(stashView, stashModel);
         }
 
-        private void InitializeItemGeneration()
+        private async void InitializeItemGeneration()
         {
-            var itemDatabase = new ItemDatabase(ItemConfigLoader.LoadAll());
+            var itemDatabase = new ItemDatabase(await ItemConfigAddressablesLoader.LoadAllAsync("items"));
             var itemGenerationModel = new ItemGenerationModel(itemDatabase);
             var itemGenerationView = new ItemGenerationView(_document.rootVisualElement);
 

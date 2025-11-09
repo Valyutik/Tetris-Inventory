@@ -1,6 +1,7 @@
 #nullable enable
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Runtime.InventorySystem.Common
 {
@@ -16,6 +17,13 @@ namespace Runtime.InventorySystem.Common
                 var item = ItemConfigAdapter.ToModel(config);
                 _itemsById[item.Id] = item;
             }
+        }
+        
+        public static async Task<ItemDatabase> CreateAsync(string label)
+        {
+            var configs = await ItemConfigAddressablesLoader.LoadAllAsync(label);
+
+            return new ItemDatabase(configs);
         }
 
         public Item? TryGetItemById(string id)

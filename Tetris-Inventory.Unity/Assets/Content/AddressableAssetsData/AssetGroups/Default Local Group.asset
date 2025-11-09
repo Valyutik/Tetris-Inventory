@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_GUID: c043a06d8dab6f24fab59d61bee11047
+  m_SerializeEntries:
+  - m_GUID: b154c55d9bb315c43a450f0a8e1f34d6
+    m_Address: Configs/Items/First aid kit
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - items
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c576ce598a9422a469418be3845bde1a
+    m_Address: Configs/Items/Coin
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - items
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9997494cf50c2e4fb27826484f4c189
+    m_Address: Configs/Items/Sword
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - items
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e67b36503353c1a439da54db12f1ab88
+    m_Address: Configs/Items/Axe
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - items
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 3a0c95b5740a374489888b3317178a60, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ea6bfaeeeb3ee554cab5651a90a774ee, type: 2}
+    - {fileID: 11400000, guid: f922807af7b4bec4b81e4df30a8a3738, type: 2}
