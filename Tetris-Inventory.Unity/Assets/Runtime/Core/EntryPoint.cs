@@ -9,6 +9,7 @@ using Runtime.InventorySystem.Common;
 using Runtime.InventorySystem.Stash;
 using UnityEngine.UIElements;
 using Runtime.InventorySystem;
+using Runtime.Utilities;
 using UnityEngine;
 
 namespace Runtime.Core
@@ -28,9 +29,6 @@ namespace Runtime.Core
         [SerializeField] private VisualTreeAsset _deleteConfirmationAsset;
         [SerializeField] private UIDocument _popupUIDocument;
         
-        [Header("Item Generation Settings")]
-        [SerializeField] private int _numberOfItemsGenerated = 3;
-
         private PlayerControls _playerControls;
         
         private InventoryPresenter _inventoryPresenter;
@@ -92,14 +90,17 @@ namespace Runtime.Core
 
         private async void InitializeItemGeneration()
         {
-            var itemDatabase = new ItemDatabase(await ItemConfigAddressablesLoader.LoadAllAsync("items"));
-            var itemGenerationModel = new ItemGenerationModel(itemDatabase);
+            var itemConfigs = await AddressablesLoader.LoadAllAsync<ItemConfig>("items");
+            
+            var itemGenerationModel = new ItemGenerationModel(
+                await AddressablesLoader.LoadAsync<ItemGenerationConfig>("item_generation_config"),
+                itemConfigs);
+            
             var itemGenerationView = new ItemGenerationView(_document.rootVisualElement);
 
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
                 itemGenerationModel,
-                new ItemGenerationRules(_inventoryPresenter, _stashPresenter),
-                _numberOfItemsGenerated);
+                new ItemGenerationRules(_inventoryPresenter, _stashPresenter));
             _itemGenerationPresenter.OnItemGenerated += _stashPresenter.SetItems;
         }
 
