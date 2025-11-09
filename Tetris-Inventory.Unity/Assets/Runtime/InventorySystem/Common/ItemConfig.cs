@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Runtime.InventorySystem.Common
 {
-    [CreateAssetMenu(fileName = "ItemConfig", menuName = "InventoryModel/Item")]
+    [CreateAssetMenu(fileName = "ItemConfig", menuName = "Items/Item")]
     public sealed class ItemConfig : ScriptableObject
     {
         [Header("Basic Info")]
