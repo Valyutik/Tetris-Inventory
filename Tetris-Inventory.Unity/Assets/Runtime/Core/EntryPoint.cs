@@ -116,7 +116,11 @@ namespace Runtime.Core
             _dragDropPresenter.RegisterInventory(_stashPresenter);
         }
 
-        private void InitializeDragAndDrop() => _dragDropPresenter.Init(_document.rootVisualElement, _itemRotationHandler);
+        private void InitializeDragAndDrop()
+        {
+            _dragDropPresenter.Init(_document.rootVisualElement);
+            _itemRotationHandler.OnItemRotated += _dragDropPresenter.UpdateItem;
+        }
 
         private void InitializeItemRotation()
         {

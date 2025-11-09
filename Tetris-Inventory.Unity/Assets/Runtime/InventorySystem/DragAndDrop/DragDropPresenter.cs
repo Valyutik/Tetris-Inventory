@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using Runtime.InventorySystem.DeleteConfirmation;
 using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
-using Runtime.InventorySystem.ItemRotation;
 using UnityEngine.UIElements;
 using UnityEngine;
 
@@ -12,8 +10,6 @@ namespace Runtime.InventorySystem.DragAndDrop
     public class DragDropPresenter
     {
         public Item CurrentItem => _model.CurrentItem;
-        
-        private readonly List<IInventoryPresenter> _inventories;
 
         private readonly IDeleteArea _deleteArea;
 
@@ -22,13 +18,9 @@ namespace Runtime.InventorySystem.DragAndDrop
         private readonly DragDropModel _model;
 
         private DragDropView _view;
-        
-        private ItemRotationHandler _rotationHandler;
 
         public DragDropPresenter(IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
         {
-            _inventories = new List<IInventoryPresenter>();
-            
             _deleteArea = deleteArea;
 
             _deleteConfirmation = deleteConfirmation;
@@ -38,18 +30,12 @@ namespace Runtime.InventorySystem.DragAndDrop
         
         public void RegisterInventory(IInventoryPresenter inventory)
         {
-            _inventories.Add(inventory);
-            
             inventory.OnPointerEnterCell += OnPointerEnterCell;
         }
 
-        public void Init(VisualElement root, ItemRotationHandler rotationHandler)
+        public void Init(VisualElement root)
         {
             _view = new DragDropView(root);
-            
-            _rotationHandler = rotationHandler;
-
-            _rotationHandler.OnItemRotated += RotateItem;
             
             root.RegisterCallback<PointerDownEvent>(OnPointerDown);
             root.RegisterCallback<PointerUpEvent>(OnPointerUp);
@@ -62,7 +48,8 @@ namespace Runtime.InventorySystem.DragAndDrop
             _deleteConfirmation.OnConfirmDelete += OnConfirmDelete;
             _deleteConfirmation.OnCancelDelete += OnCancelDelete;
         }
-        private void RotateItem()
+        
+        public void UpdateItem()
         {
             if (_model.CurrentItem == null) return;
             
