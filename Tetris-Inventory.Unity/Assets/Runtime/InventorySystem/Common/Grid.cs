@@ -29,7 +29,7 @@ namespace Runtime.InventorySystem.Common
                 return false;
             
             ApplyPlacement(item, position);
-            item.SetAnchorPosition(position);
+            item.AnchorPosition = position;
             return true;
         }
         
@@ -42,7 +42,7 @@ namespace Runtime.InventorySystem.Common
                 
                 if (!CanPlaceItem(item, position)) continue;
                 ApplyPlacement(item, position);
-                item.SetAnchorPosition(position);
+                item.AnchorPosition = position;
                 return true;
             }
             return false;
@@ -55,8 +55,6 @@ namespace Runtime.InventorySystem.Common
                 if (cell.Item == item)
                     cell.Clear();
             }
-
-            item.ClearAnchorPosition();
         }
         
         public Cell GetCell(int x, int y) => Cells[x, y];

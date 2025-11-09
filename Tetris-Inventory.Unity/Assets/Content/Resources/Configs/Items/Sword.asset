@@ -15,7 +15,7 @@ MonoBehaviour:
   id: sword
   displayName: Sword
   description: A sharp two-handed sword
-  color: {r: 0, g: 0.65174127, b: 1, a: 1}
+  color: {r: 0.10282379, g: 0.066037595, b: 1, a: 1}
   width: 1
   height: 4
   flatShape: 01010101

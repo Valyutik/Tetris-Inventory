@@ -74,6 +74,8 @@ namespace Runtime.InventorySystem.Inventory
 
         public bool TryRemoveItem(Item item)
         {
+            if  (item == null) return false;
+            
             if (!_items.Contains(item))
                 return false;
 

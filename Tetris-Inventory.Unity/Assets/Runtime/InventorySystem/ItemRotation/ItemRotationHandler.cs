@@ -27,7 +27,9 @@ namespace Runtime.InventorySystem.ItemRotation
         private void RotateCurrentItem(InputAction.CallbackContext callbackContext)
         {
             var item = _getCurrentItem?.Invoke();
+            
             item?.RotateShape();
+            
             OnItemRotated?.Invoke();
         }
     }

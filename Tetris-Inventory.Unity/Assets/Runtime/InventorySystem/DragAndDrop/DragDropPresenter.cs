@@ -9,12 +9,7 @@ namespace Runtime.InventorySystem.DragAndDrop
 {
     public class DragDropPresenter
     {
-        
-        public Item CurrentItem => _model.CachedItem;
-        
-        private readonly IInventoryPresenter _inventory;
-        
-        private readonly IInventoryPresenter _stash;
+        public Item CurrentItem => _model.CurrentItem;
 
         private readonly IDeleteArea _deleteArea;
 
@@ -22,19 +17,20 @@ namespace Runtime.InventorySystem.DragAndDrop
         
         private readonly DragDropModel _model;
 
-        private DragDropView _view; 
+        private DragDropView _view;
 
-        public DragDropPresenter(IInventoryPresenter inventory, IInventoryPresenter stash, IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
+        public DragDropPresenter(IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
         {
-            _inventory = inventory;
-            
-            _stash = stash;
-
             _deleteArea = deleteArea;
 
             _deleteConfirmation = deleteConfirmation;
             
             _model = new DragDropModel();
+        }
+        
+        public void RegisterInventory(IInventoryPresenter inventory)
+        {
+            inventory.OnPointerEnterCell += OnPointerEnterCell;
         }
 
         public void Init(VisualElement root)
@@ -44,9 +40,6 @@ namespace Runtime.InventorySystem.DragAndDrop
             root.RegisterCallback<PointerDownEvent>(OnPointerDown);
             root.RegisterCallback<PointerUpEvent>(OnPointerUp);
             root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
-
-            _inventory.OnPointerEnterCell += OnPointerEnterCell;
-            _stash.OnPointerEnterCell += OnPointerEnterCell;
             
             _deleteArea.OnEnterDeleteArea += OnEnterDeleteArea;
             _deleteArea.OnLeaveDeleteArea += OnLeaveDeleteArea;
@@ -55,27 +48,34 @@ namespace Runtime.InventorySystem.DragAndDrop
             _deleteConfirmation.OnConfirmDelete += OnConfirmDelete;
             _deleteConfirmation.OnCancelDelete += OnCancelDelete;
         }
-        public void UpdateDragView()
+        
+        public void UpdateItem()
         {
-            _view.UpdateDragView(_model.CachedItem);
+            if (_model.CurrentItem == null) return;
+            
+            _view.Drag(_model.CurrentItem);
         }
         
         private void OnPointerDown(PointerDownEvent evt)
         {
-            if (_model.CachedInventory == null || _model.CachedItem != null) return;
+            if (_model.CurrentInventory == null || _model.CurrentItem != null) return;
 
-            var success = _model.CachedInventory.TakeItem(_model.CachedPosition, out var item);
+            var success = _model.CurrentInventory.TakeItem(_model.CurrentPosition, out var item);
 
             if (!success) return;
             
-            _model.CachedItem = item;
+            _model.CurrentItem = item;
             
-            _view.Drag(_model.CachedItem);
+            _model.StartPosition = item.AnchorPosition;
+                        
+            _model.StartInventory = _model.CurrentInventory;
+            
+            _view.Drag(_model.CurrentItem, evt.position);
         }
 
         private void OnPointerUp(PointerUpEvent evt)
         {
-            if (_model.CachedInventory == null || _model.CachedItem == null) return;
+            if (_model.CurrentInventory == null || _model.CurrentItem == null) return;
 
             if (_deleteArea.InDeleteArea)
             {
@@ -84,45 +84,40 @@ namespace Runtime.InventorySystem.DragAndDrop
                 return;
             }
             
-            var success = _model.CachedInventory.PlaceItem(_model.CachedItem, _model.CachedPosition);
+            var success = _model.CurrentInventory.PlaceItem(_model.CurrentItem, _model.CurrentPosition);
 
-            if (!success) return;
-
-            _model.CachedItem = null;
+            if (!success) _model.StartInventory.PlaceItem(_model.CurrentItem, _model.StartPosition);
+            
+            _model.CurrentItem = null;
             
             _view.Drop();
         }
 
-        private void OnPointerMove(PointerMoveEvent evt)
-        {
-            _view.Move(evt.position);
-        }
+        private void OnPointerMove(PointerMoveEvent evt) => _view.Move(evt.position);
 
         private void OnPointerEnterCell(Vector2Int position, IInventoryPresenter target)
         {
-            _model.CachedPosition = position;
+            _model.CurrentPosition = position;
             
-            _model.CachedInventory = target;
+            _model.CurrentInventory = target;
         }
         
-        private void OnEnterDeleteArea() => _deleteArea.DrawInteractReady(_model.CachedItem != null);
+        private void OnEnterDeleteArea() => _deleteArea.DrawInteractReady(_model.CurrentItem != null);
 
         private void OnLeaveDeleteArea() => _deleteArea.DrawInteractReady(false);
 
         private void OnDropItemToDelete()
         {
-            if (_model.CachedItem == null) return;
+            if (_model.CurrentItem == null) return;
             
             _deleteConfirmation.ShowPopup();
         }
 
         private void OnConfirmDelete()
         {
-            _model.CachedItem = null;
+            _model.CurrentItem = null;
             
             _view.Drop();
-            
-            _model.CachedInventory.TakeItem(_model.CachedPosition, out _);
             
             _deleteConfirmation.HidePopup();
             
@@ -133,12 +128,12 @@ namespace Runtime.InventorySystem.DragAndDrop
         {
             _deleteConfirmation.HidePopup();
             
-            if (_model.CachedItem != null && _model.CachedInventory != null)
+            if (_model.CurrentItem != null && _model.CurrentInventory != null)
             {
-                _model.CachedInventory.PlaceItem(_model.CachedItem, _model.CachedPosition);
+                _model.CurrentInventory.PlaceItem(_model.CurrentItem, _model.CurrentPosition);
             }
             
-            _model.CachedItem = null;
+            _model.CurrentItem = null;
         }
     }
 }

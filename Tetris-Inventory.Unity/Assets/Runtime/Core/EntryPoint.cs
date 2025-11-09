@@ -109,19 +109,22 @@ namespace Runtime.Core
                 new DeleteAreaView(_document.rootVisualElement.Q<Button>(InventoryConstants.UI.DeleteButton));
             var deleteConfirmation = new DeleteConfirmationView(_popupUIDocument, _deleteConfirmationAsset);
 
-            _dragDropPresenter =
-                new DragDropPresenter(_inventoryPresenter, _stashPresenter, deleteArea, deleteConfirmation);
-        }
-
-        private void InitializeDragAndDrop()
-        {
-            _dragDropPresenter.Init(_document.rootVisualElement);
-            _itemRotationHandler.OnItemRotated += _dragDropPresenter.UpdateDragView;
+            _dragDropPresenter = new DragDropPresenter(deleteArea, deleteConfirmation);
+            
+            _dragDropPresenter.RegisterInventory(_inventoryPresenter);
+            
+            _dragDropPresenter.RegisterInventory(_stashPresenter);
         }
         
         private void InitializeItemRotation()
         {
             _itemRotationHandler = new ItemRotationHandler(_playerControls, () => _dragDropPresenter.CurrentItem);
+        }
+
+        private void InitializeDragAndDrop()
+        {
+            _dragDropPresenter.Init(_document.rootVisualElement);
+            _itemRotationHandler.OnItemRotated += _dragDropPresenter.UpdateItem;
         }
     }
 }

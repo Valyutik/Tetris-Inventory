@@ -15,6 +15,10 @@ namespace Runtime.InventorySystem.DragAndDrop
         
         private readonly VisualElement _draggingElement;
 
+        private Vector2 _dragOffset;
+
+        private Vector2 _cachedPointerPosition;
+        
         public DragDropView(VisualElement root)
         {
             _draggingElement = new VisualElement
@@ -33,34 +37,48 @@ namespace Runtime.InventorySystem.DragAndDrop
             root.Add(_draggingElement);
         }
 
-        public void Drag(Item item)
+        public void Drag(Item item, Vector2 startPosition)
         {
             IsDragging = true;
 
-            _draggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
-            
-            _draggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
-        }
-        
-        public void UpdateDragView(Item item)
-        {
-            if (!IsDragging) return;
+            UpdateVisualByItem(item);
 
-            _draggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
-            _draggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
+            _dragOffset = GetOffsetByItem(item);
+            
+            Move(startPosition);
+        }
+
+        public void Drag(Item item)
+        {
+            IsDragging = true;
+            
+            UpdateVisualByItem(item);
+            
+            _dragOffset = GetOffsetByItem(item);
+            
+            Move(_cachedPointerPosition);
         }
 
         public void Move(Vector2 screenPosition)
         {
             if (!IsDragging) return;
-            
-            var offsetX = _draggingElement.resolvedStyle.width / 2f;
-            var offsetY = _draggingElement.resolvedStyle.height / 2f;
 
-            _draggingElement.style.left = screenPosition.x - offsetX;
-            _draggingElement.style.top = screenPosition.y - offsetY;
+            _draggingElement.style.left = screenPosition.x - _dragOffset.x;
+            _draggingElement.style.top = screenPosition.y - _dragOffset.y;
+
+            _cachedPointerPosition = screenPosition;
         }
 
         public void Drop() => IsDragging = false;
+
+        private void UpdateVisualByItem(Item item)
+        {
+            _draggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
+
+            _draggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
+        }
+
+        private Vector2 GetOffsetByItem(Item item) 
+            => new Vector2(item.Width * InventoryConstants.UI.CellSize, item.Height * InventoryConstants.UI.CellSize) / 2f;
     }
 }

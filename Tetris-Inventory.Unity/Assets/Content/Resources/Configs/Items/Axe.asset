@@ -15,7 +15,7 @@ MonoBehaviour:
   id: axe
   displayName: Axe
   description: A sharp two-handed axe
-  color: {r: 1, g: 0.7075102, b: 0, a: 1}
+  color: {r: 1, g: 1, b: 1, a: 1}
   width: 2
   height: 4
   flatShape: 0101010100010001

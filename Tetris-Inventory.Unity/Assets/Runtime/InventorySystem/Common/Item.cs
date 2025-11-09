@@ -7,9 +7,9 @@ namespace Runtime.InventorySystem.Common
         public string Id { get; }
         public  string Name { get; }
         public  string Description { get; }
+        public Vector2Int AnchorPosition { get; set; }
         public bool[,] Shape { get; private set; }
         public Color Color { get; private set; }
-        public Vector2Int? Position { get; private set; }
         
         public int Width => Shape.GetLength(0);
         public int Height => Shape.GetLength(1);
@@ -21,16 +21,6 @@ namespace Runtime.InventorySystem.Common
             Description = description;
             Color =  color; 
             Shape = shape ?? CreateDefaultShape();
-        }
-        
-        public void SetAnchorPosition(Vector2Int position)
-        {
-            Position = position;
-        }
-
-        public void ClearAnchorPosition()
-        {
-            Position = null;
         }
         
         public void RotateShape()
