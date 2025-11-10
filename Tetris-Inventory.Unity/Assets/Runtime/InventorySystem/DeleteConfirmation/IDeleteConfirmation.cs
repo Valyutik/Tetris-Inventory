@@ -7,8 +7,8 @@ namespace Runtime.InventorySystem.DeleteConfirmation
         event Action OnConfirmDelete;
         event Action OnCancelDelete;
 
-        void ShowPopup();
+        void Show();
         
-        void HidePopup();
+        void Hide();
     }
 }

@@ -1,5 +1,6 @@
 using Runtime.InventorySystem.Common;
 using System.Collections.Generic;
+using Runtime.Systems.ContentManager;
 using UnityEngine;
 
 namespace Runtime.InventorySystem.Inventory
@@ -8,7 +9,7 @@ namespace Runtime.InventorySystem.Inventory
     {
         public InventoryPresenter(InventoryView view, InventoryModel model) : base(view, model)
         {
-            
+            MenuContent.MenuRoot.Add(view.Root);
         }
         
         public override bool TakeItem(Vector2Int position, out Item item)

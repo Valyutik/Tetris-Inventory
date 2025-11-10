@@ -1,6 +1,7 @@
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
 using System.Collections.Generic;
+using Runtime.Systems.ContentManager;
 using UnityEngine;
 
 namespace Runtime.InventorySystem.Stash
@@ -9,7 +10,7 @@ namespace Runtime.InventorySystem.Stash
     {
         public StashPresenter(InventoryView view, InventoryModel model) : base(view, model)
         {
-            
+            MenuContent.MenuRoot.Add(view.Root);
         }
         
         public override bool TakeItem(Vector2Int position, out Item item)

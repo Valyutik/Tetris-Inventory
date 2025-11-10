@@ -22,8 +22,7 @@ namespace Runtime.InventorySystem
 
             public static class Inventory
             {
-                public const string InventoryGrid = "inventory-grid";
-                public const string StashGrid = "stash-grid";
+                public const string Grid = "grid";
             }
             
             public static class DeleteConfirmationConst
