@@ -17,6 +17,7 @@ namespace Runtime.Core
     {
         [SerializeField] private UIDocument _document;
         [SerializeField] private Vector2Int _inventorySize;
+        [SerializeField] private Vector2Int _stashMaxSize;
 
         [Header("UI Elements")] 
         [SerializeField] private VisualTreeAsset _inventoryAsset;
@@ -77,7 +78,7 @@ namespace Runtime.Core
         private void InitializeStash()
         {
             var stashView = new InventoryView(_stashAsset);
-            var stashModel = new InventoryModel(new DynamicGrid(7, 7));
+            var stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
             _stashPresenter = new StashPresenter(stashView, stashModel, _menuContent.MenuRoot);
         }
 
