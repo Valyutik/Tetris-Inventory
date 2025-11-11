@@ -7,6 +7,7 @@ using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
 using Runtime.Systems.ContentManager;
 using Runtime.InventorySystem.Stash;
+using System.Threading.Tasks;
 using UnityEngine.UIElements;
 using Runtime.Utilities;
 using UnityEngine;
@@ -38,13 +39,13 @@ namespace Runtime.Core
         private ItemGenerationPresenter _itemGenerationPresenter;
         private ItemRotationHandler _itemRotationHandler;
 
-        private void Start()
+        private async void Start()
         {
             InitializeUI();
             InitializeInput();
             InitializeStash();
             InitializeInventory();
-            InitializeItemGeneration();
+            await InitializeItemGeneration();
             InitializeDeleteSystem();
             InitializeItemRotation();
             InitializeDragAndDrop();
@@ -82,7 +83,7 @@ namespace Runtime.Core
             _stashPresenter = new StashPresenter(stashView, stashModel, _menuContent.MenuRoot);
         }
 
-        private async void InitializeItemGeneration()
+        private async Task InitializeItemGeneration()
         {
             var itemConfigs = await AddressablesLoader.LoadAllAsync<ItemConfig>("items");
 
