@@ -16,37 +16,40 @@ namespace Runtime.InventorySystem.DragAndDrop
         private readonly IDeleteArea _deleteArea;
 
         private readonly IDeleteConfirmation _deleteConfirmation;
+        
         private readonly ItemRotationHandler _rotationHandler;
 
         private readonly DragDropModel _model;
 
-        private DragDropView _view;
+        private readonly DragDropView _view;
+        
+        private readonly VisualElement _root;
 
-        public DragDropPresenter(IDeleteArea deleteArea,
-            IDeleteConfirmation deleteConfirmation,
-            ItemRotationHandler rotationHandler)
+        public DragDropPresenter(IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation, ItemRotationHandler rotationHandler, VisualElement root)
         {
             _deleteArea = deleteArea;
 
             _deleteConfirmation = deleteConfirmation;
             _rotationHandler = rotationHandler;
-            _rotationHandler.OnItemRotated += UpdateItem;
 
             _model = new DragDropModel();
+            
+            _view =  new DragDropView(root);
+            
+            _root =  root;
         }
         
-        public void RegisterInventory(IInventoryPresenter inventory)
-        {
-            inventory.OnPointerEnterCell += OnPointerEnterCell;
-        }
+        public void RegisterInventory(IInventoryPresenter inventory) => inventory.OnPointerEnterCell += OnPointerEnterCell;
 
-        public void Init(VisualElement root)
+        public void UnregisterInventory(IInventoryPresenter inventory) => inventory.OnPointerEnterCell -= OnPointerEnterCell;
+
+        public void Init()
         {
-            _view = new DragDropView(root);
+            _root.RegisterCallback<PointerDownEvent>(OnPointerDown);
             
-            root.RegisterCallback<PointerDownEvent>(OnPointerDown);
-            root.RegisterCallback<PointerUpEvent>(OnPointerUp);
-            root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
+            _root.RegisterCallback<PointerUpEvent>(OnPointerUp);
+            
+            _root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
             
             _deleteArea.OnEnterDeleteArea += OnEnterDeleteArea;
             _deleteArea.OnLeaveDeleteArea += OnLeaveDeleteArea;
@@ -54,6 +57,20 @@ namespace Runtime.InventorySystem.DragAndDrop
 
             _deleteConfirmation.OnConfirmDelete += OnConfirmDelete;
             _deleteConfirmation.OnCancelDelete += OnCancelDelete;
+            
+            _rotationHandler.OnItemRotated += UpdateItem;
+        }
+
+        public void Dispose()
+        {
+            _deleteArea.OnEnterDeleteArea -= OnEnterDeleteArea;
+            _deleteArea.OnLeaveDeleteArea -= OnLeaveDeleteArea;
+            _deleteArea.OnDeleteAreaInput -= OnDropItemToDelete;
+            
+            _deleteConfirmation.OnConfirmDelete -= OnConfirmDelete;
+            _deleteConfirmation.OnCancelDelete -= OnCancelDelete;
+            
+            _rotationHandler.OnItemRotated -= UpdateItem;
         }
 
         private void UpdateItem()
@@ -62,7 +79,7 @@ namespace Runtime.InventorySystem.DragAndDrop
             
             _view.Drag(_model.CurrentItem);
         }
-        
+
         private void OnPointerDown(PointerDownEvent evt)
         {
             if (_model.CurrentInventory == null || _model.CurrentItem != null) return;
@@ -108,7 +125,7 @@ namespace Runtime.InventorySystem.DragAndDrop
             
             _model.CurrentInventory = target;
         }
-        
+
         private void OnEnterDeleteArea() => _deleteArea.DrawInteractReady(_model.CurrentItem != null);
 
         private void OnLeaveDeleteArea() => _deleteArea.DrawInteractReady(false);
@@ -141,11 +158,6 @@ namespace Runtime.InventorySystem.DragAndDrop
             }
             
             _model.CurrentItem = null;
-        }
-
-        public void Dispose()
-        {
-            _rotationHandler.OnItemRotated -= UpdateItem;
         }
     }
 }

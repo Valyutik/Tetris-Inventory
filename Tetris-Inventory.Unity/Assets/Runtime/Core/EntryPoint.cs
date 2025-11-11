@@ -110,7 +110,7 @@ namespace Runtime.Core
 
             _dragDropPresenter = new DragDropPresenter(deleteAreaPresenter,
                 deleteConfirmationPresenter,
-                _itemRotationHandler);
+                _itemRotationHandler, _document.rootVisualElement);
 
             _dragDropPresenter.RegisterInventory(_inventoryPresenter);
 
@@ -124,7 +124,7 @@ namespace Runtime.Core
 
         private void InitializeDragAndDrop()
         {
-            _dragDropPresenter.Init(_document.rootVisualElement);
+            _dragDropPresenter.Init();
         }
     }
 }
