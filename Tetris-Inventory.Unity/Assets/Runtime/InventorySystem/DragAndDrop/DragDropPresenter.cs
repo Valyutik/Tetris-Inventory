@@ -1,30 +1,37 @@
 using Runtime.InventorySystem.DeleteConfirmation;
+using Runtime.InventorySystem.ItemRotation;
 using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
 using UnityEngine.UIElements;
 using UnityEngine;
+using System;
 
 namespace Runtime.InventorySystem.DragAndDrop
 {
-    public class DragDropPresenter
+    public class DragDropPresenter : IDisposable
     {
         public Item CurrentItem => _model.CurrentItem;
 
         private readonly IDeleteArea _deleteArea;
 
         private readonly IDeleteConfirmation _deleteConfirmation;
-        
+        private readonly ItemRotationHandler _rotationHandler;
+
         private readonly DragDropModel _model;
 
         private DragDropView _view;
 
-        public DragDropPresenter(IDeleteArea deleteArea, IDeleteConfirmation deleteConfirmation)
+        public DragDropPresenter(IDeleteArea deleteArea,
+            IDeleteConfirmation deleteConfirmation,
+            ItemRotationHandler rotationHandler)
         {
             _deleteArea = deleteArea;
 
             _deleteConfirmation = deleteConfirmation;
-            
+            _rotationHandler = rotationHandler;
+            _rotationHandler.OnItemRotated += UpdateItem;
+
             _model = new DragDropModel();
         }
         
@@ -48,8 +55,8 @@ namespace Runtime.InventorySystem.DragAndDrop
             _deleteConfirmation.OnConfirmDelete += OnConfirmDelete;
             _deleteConfirmation.OnCancelDelete += OnCancelDelete;
         }
-        
-        public void UpdateItem()
+
+        private void UpdateItem()
         {
             if (_model.CurrentItem == null) return;
             
@@ -134,6 +141,11 @@ namespace Runtime.InventorySystem.DragAndDrop
             }
             
             _model.CurrentItem = null;
+        }
+
+        public void Dispose()
+        {
+            _rotationHandler.OnItemRotated -= UpdateItem;
         }
     }
 }

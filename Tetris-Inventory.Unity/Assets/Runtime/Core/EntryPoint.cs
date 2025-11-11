@@ -80,7 +80,10 @@ namespace Runtime.Core
         {
             var stashView = new InventoryView(_stashAsset);
             var stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
-            _stashPresenter = new StashPresenter(stashView, stashModel, _menuContent.MenuRoot);
+            _stashPresenter = new StashPresenter(stashView,
+                stashModel,
+                _menuContent.MenuRoot,
+                _itemGenerationPresenter);
         }
 
         private async Task InitializeItemGeneration()
@@ -96,7 +99,6 @@ namespace Runtime.Core
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
                 itemGenerationModel,
                 new ItemGenerationRules(_inventoryPresenter, _stashPresenter));
-            _itemGenerationPresenter.OnItemGenerated += _stashPresenter.SetItems;
         }
 
         private void InitializeDeleteSystem()
@@ -106,7 +108,9 @@ namespace Runtime.Core
             var deleteConfirmationView = new DeleteConfirmationView(_deleteConfirmationAsset);
             var deleteConfirmationPresenter = new DeleteConfirmationPresenter(deleteConfirmationView);
 
-            _dragDropPresenter = new DragDropPresenter(deleteAreaPresenter, deleteConfirmationPresenter);
+            _dragDropPresenter = new DragDropPresenter(deleteAreaPresenter,
+                deleteConfirmationPresenter,
+                _itemRotationHandler);
 
             _dragDropPresenter.RegisterInventory(_inventoryPresenter);
 
@@ -121,7 +125,6 @@ namespace Runtime.Core
         private void InitializeDragAndDrop()
         {
             _dragDropPresenter.Init(_document.rootVisualElement);
-            _itemRotationHandler.OnItemRotated += _dragDropPresenter.UpdateItem;
         }
     }
 }

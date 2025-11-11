@@ -4,7 +4,7 @@ using System;
 
 namespace Runtime.InventorySystem.ItemRotation
 {
-    public sealed class ItemRotationHandler : IDisposable
+    public sealed class ItemRotationHandler : IDisposable, IItemRotationHandler
     {
         public event Action OnItemRotated;
         
