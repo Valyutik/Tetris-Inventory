@@ -19,10 +19,12 @@ namespace Runtime.InventorySystem.Inventory
         private readonly InventoryView _view;
         private VisualElement[,] _cells;
 
-        protected InventoryPresenterBase(InventoryView view, InventoryModel model)
+        protected InventoryPresenterBase(InventoryView view, InventoryModel model, VisualElement menuRoot)
         {
             Model = model;
             _view = view;
+            
+            menuRoot.Add(view.Root);
             
             CreateView();
             UpdateView();

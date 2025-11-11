@@ -5,8 +5,8 @@ using Runtime.InventorySystem.DragAndDrop;
 using Runtime.InventorySystem.DeleteArea;
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
-using Runtime.InventorySystem.Stash;
 using Runtime.Systems.ContentManager;
+using Runtime.InventorySystem.Stash;
 using UnityEngine.UIElements;
 using Runtime.Utilities;
 using UnityEngine;
@@ -28,6 +28,9 @@ namespace Runtime.Core
 
         private PlayerControls _playerControls;
 
+        private MenuContent _menuContent;
+        private PopupContent _popupContent;
+            
         private InventoryPresenter _inventoryPresenter;
         private StashPresenter _stashPresenter;
         private DragDropPresenter _dragDropPresenter;
@@ -54,8 +57,8 @@ namespace Runtime.Core
 
         private void InitializeUI()
         {
-            var menuContent = new MenuContent(_document);
-            var popupContent = new PopupContent(_popupUIDocument);
+            _menuContent = new MenuContent(_document);
+            _popupContent = new PopupContent(_popupUIDocument);
         }
 
         private void InitializeInput()
@@ -68,14 +71,14 @@ namespace Runtime.Core
         {
             var inventoryView = new InventoryView(_inventoryAsset);
             var inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
-            _inventoryPresenter = new InventoryPresenter(inventoryView, inventoryModel);
+            _inventoryPresenter = new InventoryPresenter(inventoryView, inventoryModel, _menuContent.MenuRoot);
         }
 
         private void InitializeStash()
         {
             var stashView = new InventoryView(_stashAsset);
             var stashModel = new InventoryModel(new DynamicGrid(7, 7));
-            _stashPresenter = new StashPresenter(stashView, stashModel);
+            _stashPresenter = new StashPresenter(stashView, stashModel, _menuContent.MenuRoot);
         }
 
         private async void InitializeItemGeneration()
@@ -86,7 +89,7 @@ namespace Runtime.Core
                 await AddressablesLoader.LoadAsync<ItemGenerationConfig>("item_generation_config"),
                 itemConfigs);
 
-            var itemGenerationView = new ItemGenerationView();
+            var itemGenerationView = new ItemGenerationView(_menuContent.MenuRoot);
 
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
                 itemGenerationModel,
@@ -96,7 +99,7 @@ namespace Runtime.Core
 
         private void InitializeDeleteSystem()
         {
-            var deleteAreaView = new DeleteAreaView();
+            var deleteAreaView = new DeleteAreaView(_menuContent.MenuRoot);
             var deleteAreaPresenter = new DeleteAreaPresenter(deleteAreaView);
             var deleteConfirmationView = new DeleteConfirmationView(_deleteConfirmationAsset);
             var deleteConfirmationPresenter = new DeleteConfirmationPresenter(deleteConfirmationView);

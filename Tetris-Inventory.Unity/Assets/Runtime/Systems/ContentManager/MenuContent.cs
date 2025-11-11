@@ -5,7 +5,7 @@ namespace Runtime.Systems.ContentManager
 {
     public class MenuContent
     {
-        public static VisualElement MenuRoot {get; private set;}
+        public VisualElement MenuRoot {get; private set;}
         
         public MenuContent(UIDocument document)
         {
