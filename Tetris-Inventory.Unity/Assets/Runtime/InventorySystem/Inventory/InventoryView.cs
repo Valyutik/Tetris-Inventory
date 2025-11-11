@@ -5,18 +5,20 @@ namespace Runtime.InventorySystem.Inventory
 {
     public class InventoryView
     {
-        private readonly VisualElement _inventoryGrid;
+        public VisualElement Root { get;}
         
-        public InventoryView(VisualElement inventoryGrid)
+        private readonly VisualElement _grid;
+        
+        public InventoryView(VisualTreeAsset asset)
         {
-            _inventoryGrid = inventoryGrid;
+            Root = asset.CloneTree();
+            _grid = Root.Q<VisualElement>(InventoryConstants.UI.Inventory.Grid);
         }
 
         public void SetUpGrid(int width, int height)
         {
-            _inventoryGrid.style.height = height * InventoryConstants.UI.CellSize;
-            
-            _inventoryGrid.style.width = width * InventoryConstants.UI.CellSize;
+            _grid.style.height = height * InventoryConstants.UI.CellSize;
+            _grid.style.width = width * InventoryConstants.UI.CellSize;
         }
 
         public VisualElement CreateCell()
@@ -25,7 +27,7 @@ namespace Runtime.InventorySystem.Inventory
             
             cell.AddToClassList(InventoryConstants.UI.CellStyle);
             
-            _inventoryGrid.Add(cell);
+            _grid.Add(cell);
 
             return cell;
         }
@@ -34,7 +36,7 @@ namespace Runtime.InventorySystem.Inventory
         
         public void ClearGrid()
         {
-            _inventoryGrid.Clear();
+            _grid.Clear();
         }
     }
 }

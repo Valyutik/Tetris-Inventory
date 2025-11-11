@@ -1,45 +1,20 @@
 using static Runtime.InventorySystem.InventoryConstants.UI;
 using UnityEngine.UIElements;
-using System;
 
 namespace Runtime.InventorySystem.DeleteConfirmation
 {
-    public class DeleteConfirmationView : IDeleteConfirmation
+    public class DeleteConfirmationView
     {
-        public event Action OnConfirmDelete;
-        public event Action OnCancelDelete;
+        public VisualElement Root {get;}
+        public Button ConfirmButton { get; }
+        public Button CancelButton { get; }
         
-        private readonly VisualElement _root;
-        private readonly VisualTreeAsset _panelAsset;
-        
-        private TemplateContainer _deletePopup;
-        
-        public DeleteConfirmationView(UIDocument document, VisualTreeAsset panel)
+        public DeleteConfirmationView(VisualTreeAsset asset)
         {
-            _root = document.rootVisualElement.Q<VisualElement>(DeleteConfirmationConst.PopupRootTitle);
-            _panelAsset =  panel;
-        }
+            Root = asset.CloneTree();
 
-        public void ShowPopup()
-        {
-            _root.style.display = DisplayStyle.Flex;
-            
-            _deletePopup = _panelAsset.CloneTree();   
-            
-            var confirmButton = _deletePopup.Q<Button>(DeleteConfirmationConst.ConfirmButtonTitle);
-            var cancelButton = _deletePopup.Q<Button>(DeleteConfirmationConst.CancelButtonTitle);
-            
-            confirmButton.clicked += () => OnConfirmDelete?.Invoke();
-            cancelButton.clicked += () => OnCancelDelete?.Invoke();
-            
-            _root.Add(_deletePopup);
-        }
-
-        public void HidePopup()
-        {
-            _deletePopup?.RemoveFromHierarchy();
-            
-            _root.style.display = DisplayStyle.None;
+            ConfirmButton = Root.Q<Button>(DeleteConfirmationConst.ConfirmButtonTitle);
+            CancelButton = Root.Q<Button>(DeleteConfirmationConst.CancelButtonTitle);
         }
     }
 }

@@ -20,13 +20,14 @@ namespace Runtime.InventorySystem.ItemGeneration
             _view = view;
             _model = model;
             _rules = rules;
-
-            _view.OnGenerateClicked += HandleGenerateClicked;
+            
+            _view.GenerateButton.clicked += HandleGenerateClicked;
         }
 
         private void HandleGenerateClicked()
         {
             var items = _model.GetRandomItems().ToList();
+            
             if (_rules.CanGenerateItems(items))
             {
                 OnItemGenerated?.Invoke(items);

@@ -110,7 +110,7 @@ namespace Runtime.InventorySystem.DragAndDrop
         {
             if (_model.CurrentItem == null) return;
             
-            _deleteConfirmation.ShowPopup();
+            _deleteConfirmation.Show();
         }
 
         private void OnConfirmDelete()
@@ -119,14 +119,14 @@ namespace Runtime.InventorySystem.DragAndDrop
             
             _view.Drop();
             
-            _deleteConfirmation.HidePopup();
+            _deleteConfirmation.Hide();
             
             _deleteArea.DrawInteractReady(false);
         }
 
         private void OnCancelDelete()
         {
-            _deleteConfirmation.HidePopup();
+            _deleteConfirmation.Hide();
             
             if (_model.CurrentItem != null && _model.CurrentInventory != null)
             {

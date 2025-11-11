@@ -1,15 +1,19 @@
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 using UnityEngine;
 
 namespace Runtime.InventorySystem.Stash
 {
     public sealed class StashPresenter : InventoryPresenterBase
     {
-        public StashPresenter(InventoryView view, InventoryModel model) : base(view, model)
+        public StashPresenter(InventoryView view,
+            InventoryModel model,
+            VisualElement menuRoot) : base(view,
+            model,
+            menuRoot)
         {
-            
         }
         
         public override bool TakeItem(Vector2Int position, out Item item)
