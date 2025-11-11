@@ -17,5 +17,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c576ce598a9422a469418be3845bde1a, type: 2}
   - {fileID: 11400000, guid: b154c55d9bb315c43a450f0a8e1f34d6, type: 2}
   - {fileID: 11400000, guid: c9997494cf50c2e4fb27826484f4c189, type: 2}
-  defaultCount: 1
+  defaultCount: 3
   useAllItemsFromDatabase: 0
