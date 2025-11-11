@@ -1,19 +1,26 @@
+using Runtime.InventorySystem.ItemGeneration;
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEngine;
+using System;
 
 namespace Runtime.InventorySystem.Stash
 {
-    public sealed class StashPresenter : InventoryPresenterBase
+    public sealed class StashPresenter : InventoryPresenterBase, IDisposable
     {
+        private readonly IItemGenerationPresenter _itemGenerationPresenter;
+
         public StashPresenter(InventoryView view,
             InventoryModel model,
-            VisualElement menuRoot) : base(view,
+            VisualElement menuRoot,
+            IItemGenerationPresenter itemGenerationPresenter) : base(view,
             model,
             menuRoot)
         {
+            _itemGenerationPresenter = itemGenerationPresenter;
+            _itemGenerationPresenter.OnItemGenerated += SetItems;
         }
         
         public override bool TakeItem(Vector2Int position, out Item item)
@@ -26,7 +33,7 @@ namespace Runtime.InventorySystem.Stash
 
         public override bool PlaceItem(Item item, Vector2Int position) => false;
 
-        public void SetItems(IEnumerable<Item> items)
+        private void SetItems(IEnumerable<Item> items)
         {
             Model.Clear();
             foreach (var item in items)
@@ -35,6 +42,11 @@ namespace Runtime.InventorySystem.Stash
             }
             
             RedrawView();
+        }
+
+        public void Dispose()
+        {
+            _itemGenerationPresenter.OnItemGenerated -= SetItems;
         }
     }
 }
