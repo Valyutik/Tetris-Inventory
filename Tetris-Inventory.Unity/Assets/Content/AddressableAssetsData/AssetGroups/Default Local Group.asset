@@ -22,7 +22,7 @@ MonoBehaviour:
     - item_generation_config
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b154c55d9bb315c43a450f0a8e1f34d6
-    m_Address: Configs/Items/First aid kit
+    m_Address: Configs/Items/First_aid_kit
     m_ReadOnly: 0
     m_SerializedLabels:
     - items
