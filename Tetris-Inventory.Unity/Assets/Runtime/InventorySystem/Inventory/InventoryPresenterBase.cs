@@ -9,17 +9,17 @@ namespace Runtime.InventorySystem.Inventory
     {
         public event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
         
-        private int Width => Model.Width;
-        private int Height => Model.Height;
+        private int Width => model.Width;
+        private int Height => model.Height;
         
-        protected readonly InventoryModel Model;
+        protected readonly InventoryModel model;
         
         private readonly InventoryView _view;
         private VisualElement[,] _cells;
 
         protected InventoryPresenterBase(InventoryView view, InventoryModel model, VisualElement menuRoot)
         {
-            Model = model;
+            this.model = model;
             _view = view;
             
             menuRoot.Add(view.Root);
@@ -33,8 +33,8 @@ namespace Runtime.InventorySystem.Inventory
 
         private Color GetCellColor(Vector2Int position)
         {
-            var item = Model.GetItem(position);
-            return Model.IsCellOccupied(position)
+            var item = model.GetItem(position);
+            return model.IsCellOccupied(position)
                 ? Color.gray
                 : item?.Color ?? Color.grey;
         }

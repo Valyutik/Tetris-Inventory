@@ -17,8 +17,8 @@ namespace Runtime.InventorySystem.Inventory
         
         public override bool TakeItem(Vector2Int position, out Item item)
         {
-            item = Model.GetItem(position);
-            Model.TryRemoveItem(item);
+            item = model.GetItem(position);
+            model.TryRemoveItem(item);
             UpdateView();
             return item != null;
         }
@@ -27,9 +27,9 @@ namespace Runtime.InventorySystem.Inventory
         {
             if (item == null) return false;
 
-            var success = Model.CanPlaceItem(item, position);
+            var success = model.CanPlaceItem(item, position);
             if (success)
-                Model.TryPlaceItem(item, position);
+                model.TryPlaceItem(item, position);
 
             UpdateView();
             return success;
@@ -37,7 +37,7 @@ namespace Runtime.InventorySystem.Inventory
 
         public bool CanFitItems(IEnumerable<Item> items)
         {
-            return Model.CanFitItems(items);
+            return model.CanFitItems(items);
         }
     }
 }
