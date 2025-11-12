@@ -1,16 +1,15 @@
 using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
 using System.Collections.Generic;
-using Runtime.InventorySystem.Stash;
 
 namespace Runtime.InventorySystem.ItemGeneration
 {
     public sealed class ItemGenerationRules
     {
-        private readonly InventoryPresenter _inventory;
-        private readonly StashPresenter _stash;
+        private readonly InventoryModel _inventory;
+        private readonly InventoryModel _stash;
 
-        public ItemGenerationRules(InventoryPresenter inventory, StashPresenter stash)
+        public ItemGenerationRules(InventoryModel inventory, InventoryModel stash)
         {
             _inventory = inventory;
             _stash = stash;

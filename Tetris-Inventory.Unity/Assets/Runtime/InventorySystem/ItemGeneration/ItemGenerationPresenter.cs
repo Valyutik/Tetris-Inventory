@@ -5,8 +5,9 @@ using System;
 
 namespace Runtime.InventorySystem.ItemGeneration
 {
-    public sealed class ItemGenerationPresenter : IItemGenerationPresenter
+    public sealed class ItemGenerationPresenter : IItemGenerationPresenter, IDisposable
     {
+        private readonly ItemGenerationView _view;
         private readonly ItemGenerationModel _model;
         private readonly ItemGenerationRules _rules;
         
@@ -16,10 +17,19 @@ namespace Runtime.InventorySystem.ItemGeneration
             ItemGenerationModel model,
             ItemGenerationRules rules)
         {
+            _view = view;
             _model = model;
             _rules = rules;
-            
-            view.GenerateButton.clicked += HandleGenerateClicked;
+        }
+
+        public void Enable()
+        {
+            _view.GenerateButton.clicked += HandleGenerateClicked;
+        }
+        
+        public void Dispose()
+        {
+            _view.GenerateButton.clicked -= HandleGenerateClicked;
         }
 
         private void HandleGenerateClicked()
