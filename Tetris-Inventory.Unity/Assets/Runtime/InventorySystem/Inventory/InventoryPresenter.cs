@@ -1,5 +1,4 @@
 using Runtime.InventorySystem.Common;
-using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEngine;
 
@@ -31,11 +30,6 @@ namespace Runtime.InventorySystem.Inventory
 
             UpdateView();
             return success;
-        }
-
-        public bool CanFitItems(IEnumerable<Item> items)
-        {
-            return model.CanFitItems(items);
         }
     }
 }
