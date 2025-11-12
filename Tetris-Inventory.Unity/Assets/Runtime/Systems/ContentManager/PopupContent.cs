@@ -5,7 +5,7 @@ namespace Runtime.Systems.ContentManager
 {
     public class PopupContent
     {
-        public static VisualElement PopupRoot { get; private set; }
+        public VisualElement PopupRoot { get; private set; }
 
         public PopupContent(UIDocument document)
         {

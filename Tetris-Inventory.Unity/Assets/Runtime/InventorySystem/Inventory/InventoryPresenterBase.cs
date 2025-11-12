@@ -5,15 +5,17 @@ using System;
 
 namespace Runtime.InventorySystem.Inventory
 {
-    public abstract class InventoryPresenterBase: IInventoryPresenter
+    public abstract class InventoryPresenterBase : IInventoryPresenter
     {
         public event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
-        
-        private int Width => model.Width;
-        private int Height => model.Height;
-        
-        protected readonly InventoryModel model;
-        
+        public event Action OnPointerLeaveCell;
+
+        public bool HasItems => Model.HasItems;
+        private int Width => Model.Width;
+        private int Height => Model.Height;
+
+        protected readonly InventoryModel Model;
+
         private readonly InventoryView _view;
         private VisualElement[,] _cells;
 
@@ -21,14 +23,17 @@ namespace Runtime.InventorySystem.Inventory
         {
             this.model = model;
             _view = view;
-            
+
             menuRoot.Add(view.Root);
-            
+
             CreateView();
             UpdateView();
         }
 
         public abstract bool TakeItem(Vector2Int position, out Item item);
+
+        public Item GetItem(Vector2Int position) => Model.GetItem(position);
+
         public abstract bool PlaceItem(Item item, Vector2Int position);
 
         private Color GetCellColor(Vector2Int position)
@@ -51,6 +56,8 @@ namespace Runtime.InventorySystem.Inventory
                 var pos = new Vector2Int(x, y);
 
                 cell.RegisterCallback<PointerEnterEvent>(_ => OnPointerEnterCell?.Invoke(pos, this));
+                cell.RegisterCallback<PointerLeaveEvent>(_ => OnPointerLeaveCell?.Invoke());
+                
                 _cells[x, y] = cell;
             }
         }
@@ -71,7 +78,7 @@ namespace Runtime.InventorySystem.Inventory
             CreateView();
             UpdateView();
         }
-        
+
         private void ClearView()
         {
             _view.ClearGrid();

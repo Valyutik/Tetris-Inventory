@@ -7,6 +7,8 @@ using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
 using Runtime.Systems.ContentManager;
 using Runtime.InventorySystem.Stash;
+using System.Threading.Tasks;
+using Runtime.InventorySystem.ItemTooltip;
 using UnityEngine.UIElements;
 using Runtime.Utilities;
 using Runtime.Input;
@@ -69,8 +71,7 @@ namespace Runtime.Core
             InitializeDeleteSystem();
             InitializeItemRotation();
             InitializeDragAndDrop();
-            
-            _itemGenerationPresenter.Enable();
+            InitializeItemTooltip();
         }
 
         private void OnDestroy()
@@ -138,6 +139,12 @@ namespace Runtime.Core
 
             _dragDropPresenter.RegisterInventory(_stashPresenter);
             _dragDropPresenter.Init(_document.rootVisualElement);
+        }
+
+        private void InitializeItemTooltip()
+        {
+            var itemTooltipView = new ItemTooltipView(_popupContent);
+            var itemTooltipPresenter = new ItemTooltipPresenter(itemTooltipView, _inventoryPresenter, _stashPresenter);
         }
     }
 }

@@ -24,6 +24,15 @@ namespace Runtime.InventorySystem
             {
                 public const string Grid = "grid";
             }
+
+            public static class Tooltip
+            {
+                public const string Root = "tooltip";
+                public const string Title = "title";
+                public const string Description = "description";
+                public const string Visible = "tooltip-visible";
+                public const string Invisible = "tooltip-invisible";
+            }
             
             public static class DeleteConfirmationConst
             {
