@@ -9,15 +9,17 @@ namespace Runtime.InventorySystem.DeleteConfirmation
         public event Action OnCancelDelete;
         
         private readonly DeleteConfirmationView _view;
+        private readonly PopupContent _popupContent;
         
-        public DeleteConfirmationPresenter(DeleteConfirmationView view)
+        public DeleteConfirmationPresenter(DeleteConfirmationView view, PopupContent popupContent)
         {
             _view = view;
+            _popupContent = popupContent;
         }
 
         public void Show()
         {
-            PopupContent.PopupRoot.Add(_view.Root);
+            _popupContent.PopupRoot.Add(_view.Root);
             
             _view.ConfirmButton.clicked += OnConfirmDelete.Invoke;
             _view.CancelButton.clicked += OnCancelDelete.Invoke;

@@ -8,6 +8,7 @@ using Runtime.InventorySystem.Common;
 using Runtime.Systems.ContentManager;
 using Runtime.InventorySystem.Stash;
 using System.Threading.Tasks;
+using Runtime.InventorySystem.ItemTooltip;
 using UnityEngine.UIElements;
 using Runtime.Utilities;
 using UnityEngine;
@@ -49,6 +50,7 @@ namespace Runtime.Core
             InitializeDeleteSystem();
             InitializeItemRotation();
             InitializeDragAndDrop();
+            InitializeItemTooltip();
         }
 
         private void OnDestroy()
@@ -82,8 +84,7 @@ namespace Runtime.Core
             var stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
             _stashPresenter = new StashPresenter(stashView,
                 stashModel,
-                _menuContent.MenuRoot,
-                _itemGenerationPresenter);
+                _menuContent.MenuRoot);
         }
 
         private async Task InitializeItemGeneration()
@@ -106,7 +107,7 @@ namespace Runtime.Core
             var deleteAreaView = new DeleteAreaView(_menuContent.MenuRoot);
             var deleteAreaPresenter = new DeleteAreaPresenter(deleteAreaView);
             var deleteConfirmationView = new DeleteConfirmationView(_deleteConfirmationAsset);
-            var deleteConfirmationPresenter = new DeleteConfirmationPresenter(deleteConfirmationView);
+            var deleteConfirmationPresenter = new DeleteConfirmationPresenter(deleteConfirmationView, _popupContent);
 
             _dragDropPresenter = new DragDropPresenter(deleteAreaPresenter,
                 deleteConfirmationPresenter,
@@ -125,6 +126,12 @@ namespace Runtime.Core
         private void InitializeDragAndDrop()
         {
             _dragDropPresenter.Init(_document.rootVisualElement);
+        }
+
+        private void InitializeItemTooltip()
+        {
+            var itemTooltipView = new ItemTooltipView(_popupContent);
+            var itemTooltipPresenter = new ItemTooltipPresenter(itemTooltipView, _inventoryPresenter, _stashPresenter);
         }
     }
 }
