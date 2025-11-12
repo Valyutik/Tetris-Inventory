@@ -101,6 +101,7 @@ namespace Runtime.Core
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
                 itemGenerationModel,
                 new ItemGenerationRules(_inventoryPresenter, _stashPresenter));
+                new ItemGenerationRules(_inventoryModel, _stashModel));
         }
 
         private void InitializeDeleteSystem()
