@@ -17,6 +17,8 @@ namespace Runtime.InventorySystem.Common
         
         public int Width => Shape.GetLength(0);
         public int Height => Shape.GetLength(1);
+        
+        private bool[,] _cachedShape;
 
         public Item(string id,
             string name,
@@ -51,6 +53,16 @@ namespace Runtime.InventorySystem.Common
             
             CurrentStack = Mathf.Min(CurrentStack + amount, MaxStack);
             return true;
+        }
+
+        public void CacheShape()
+        {
+            _cachedShape = (bool[,])Shape.Clone();
+        }
+
+        public void RestoreShape()
+        {
+            Shape = (bool[,])_cachedShape.Clone();
         }
         
         public void RotateShape()
