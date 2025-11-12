@@ -48,7 +48,7 @@ namespace Runtime.InventorySystem.Inventory
             return freeCells >= totalRequiredCells;
         }
 
-        public bool TryPlaceItem(Item item, Vector2Int position)
+        public bool TryPlaceItem(Item item, Vector2Int position, bool allowStacking = true)
         {
             if (item == null)
             {
@@ -59,7 +59,7 @@ namespace Runtime.InventorySystem.Inventory
 
             if (existingItem != null)
             {
-                if (existingItem.Id == item.Id && existingItem.IsStackable)
+                if (existingItem.Id == item.Id && existingItem.IsStackable && allowStacking)
                 {
                     var success = existingItem.TryAddToStack(item.CurrentStack);
                     return success;
@@ -77,14 +77,14 @@ namespace Runtime.InventorySystem.Inventory
             return true;
         }
 
-        public bool TryPlaceItem(Item item)
+        public bool TryPlaceItem(Item item, bool allowStacking = true)
         {
             if (item == null)
             {
                 return false;
             }
 
-            if (item.IsStackable)
+            if (item.IsStackable && allowStacking)
             {
                 var existingStack = FindNonFullStack(item.Id);
                 if (existingStack != null)

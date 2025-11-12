@@ -38,7 +38,7 @@ namespace Runtime.InventorySystem.Stash
             model.Clear();
             foreach (var item in items)
             {
-                model.TryPlaceItem(item);
+                model.TryPlaceItem(item, false);
             }
             
             RedrawView();
