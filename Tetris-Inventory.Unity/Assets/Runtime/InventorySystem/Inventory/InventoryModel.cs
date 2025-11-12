@@ -57,9 +57,9 @@ namespace Runtime.InventorySystem.Inventory
             
             var existingItem = _grid.GetItem(position);
 
-            if (existingItem != null)
+            if (existingItem != null && existingItem.Id == item.Id)
             {
-                if (existingItem.Id == item.Id && existingItem.IsStackable && allowStacking)
+                if (existingItem.IsStackable && allowStacking)
                 {
                     var success = existingItem.TryAddToStack(item.CurrentStack);
                     return success;
