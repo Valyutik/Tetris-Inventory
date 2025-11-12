@@ -90,17 +90,10 @@ namespace Runtime.Core
 
         private async Task InitializeItemGeneration()
         {
-            var itemConfigs = await AddressablesLoader.LoadAllAsync<ItemConfig>("items");
-
-            var itemGenerationModel = new ItemGenerationModel(
-                await AddressablesLoader.LoadAsync<ItemGenerationConfig>("item_generation_config"),
-                itemConfigs);
-
-            var itemGenerationView = new ItemGenerationView(_menuContent.MenuRoot);
+            var itemGenerationView = new ItemGenerationView(_menuContent.MenuRoot, _createButtonAsset);
 
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
-                itemGenerationModel,
-                new ItemGenerationRules(_inventoryPresenter, _stashPresenter));
+                _itemGenerationModel,
                 new ItemGenerationRules(_inventoryModel, _stashModel));
         }
 

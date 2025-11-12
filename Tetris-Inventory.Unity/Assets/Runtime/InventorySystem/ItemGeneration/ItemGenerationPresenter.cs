@@ -7,6 +7,7 @@ namespace Runtime.InventorySystem.ItemGeneration
 {
     public sealed class ItemGenerationPresenter : IItemGenerationPresenter
     {
+        private readonly ItemGenerationView _view;
         private readonly ItemGenerationModel _model;
         private readonly ItemGenerationRules _rules;
         
@@ -16,6 +17,7 @@ namespace Runtime.InventorySystem.ItemGeneration
             ItemGenerationModel model,
             ItemGenerationRules rules)
         {
+            _view = view;
             _model = model;
             _rules = rules;
             
