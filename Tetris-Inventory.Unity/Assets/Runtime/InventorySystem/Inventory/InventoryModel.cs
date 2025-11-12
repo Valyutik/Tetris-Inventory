@@ -27,25 +27,52 @@ namespace Runtime.InventorySystem.Inventory
             _grid = grid;
             _items = new List<Item>();
         }
-        
+
         public bool CanFitItems(IEnumerable<Item> items)
         {
-            var totalRequiredCells = 0;
-            foreach (var item in items)
-            {
-                for (var x = 0; x < item.Width; x++)
-                for (var y = 0; y < item.Height; y++)
-                    if (item.Shape[x, y])
-                        totalRequiredCells++;
-            }
+            var itemsToCheck = items.ToArray();
 
+            var additionalCellsNeeded = 0;
+
+            foreach (var newItem in itemsToCheck)
+            {
+                if (newItem.IsStackable)
+                {
+                    var existingStacks = _items.Where(existingItem => existingItem.Id == newItem.Id).ToList();
+                    var remainingToPlace = newItem.CurrentStack;
+
+                    foreach (var stack in existingStacks)
+                    {
+                        var spaceLeft = stack.MaxStack - stack.CurrentStack;
+
+                        if (spaceLeft <= 0)
+                        {
+                            continue;
+                        }
+
+                        if (remainingToPlace <= spaceLeft)
+                        {
+                            remainingToPlace = 0;
+                            break;
+                        }
+
+                        remainingToPlace -= spaceLeft;
+                    }
+
+                    if (remainingToPlace > 0)
+                    {
+                        additionalCellsNeeded += CountOccupiedCells(newItem);
+                    }
+                }
+            }
+            
             var freeCells = 0;
             for (var y = 0; y < Height; y++)
             for (var x = 0; x < Width; x++)
                 if (_grid.GetCell(x, y).IsEmpty)
                     freeCells++;
-
-            return freeCells >= totalRequiredCells;
+            
+            return freeCells >= additionalCellsNeeded;
         }
 
         public bool TryPlaceItem(Item item, Vector2Int position, bool allowStacking = true)
@@ -159,6 +186,16 @@ namespace Runtime.InventorySystem.Inventory
         {
             return _items.FirstOrDefault(existing =>
                 existing.Id == id && existing.IsStackable && !existing.IsFullStack);
+        }
+        
+        private static int CountOccupiedCells(Item item)
+        {
+            var count = 0;
+            for (var x = 0; x < item.Width; x++)
+            for (var y = 0; y < item.Height; y++)
+                if (item.Shape[x, y])
+                    count++;
+            return count;
         }
     }
 }
