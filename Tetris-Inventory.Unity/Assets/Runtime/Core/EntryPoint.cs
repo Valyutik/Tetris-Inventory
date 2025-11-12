@@ -7,7 +7,6 @@ using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
 using Runtime.Systems.ContentManager;
 using Runtime.InventorySystem.Stash;
-using System.Threading.Tasks;
 using Runtime.InventorySystem.ItemTooltip;
 using UnityEngine.UIElements;
 using Runtime.Utilities;
@@ -121,7 +120,7 @@ namespace Runtime.Core
             var deleteAreaView = new DeleteAreaView(_menuContent.MenuRoot);
             _deleteAreaPresenter = new DeleteAreaPresenter(deleteAreaView);
             var deleteConfirmationView = new DeleteConfirmationView(_deleteConfirmationAsset);
-            _deleteConfirmationPresenter = new DeleteConfirmationPresenter(deleteConfirmationView);
+            _deleteConfirmationPresenter = new DeleteConfirmationPresenter(deleteConfirmationView, _popupContent);
         }
 
         private void InitializeItemRotation()

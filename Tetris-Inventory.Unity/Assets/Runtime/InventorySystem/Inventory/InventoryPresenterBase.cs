@@ -10,11 +10,11 @@ namespace Runtime.InventorySystem.Inventory
         public event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
         public event Action OnPointerLeaveCell;
 
-        public bool HasItems => Model.HasItems;
-        private int Width => Model.Width;
-        private int Height => Model.Height;
+        public bool HasItems => model.HasItems;
+        private int Width => model.Width;
+        private int Height => model.Height;
 
-        protected readonly InventoryModel Model;
+        protected readonly InventoryModel model;
 
         private readonly InventoryView _view;
         private VisualElement[,] _cells;
@@ -32,7 +32,7 @@ namespace Runtime.InventorySystem.Inventory
 
         public abstract bool TakeItem(Vector2Int position, out Item item);
 
-        public Item GetItem(Vector2Int position) => Model.GetItem(position);
+        public Item GetItem(Vector2Int position) => model.GetItem(position);
 
         public abstract bool PlaceItem(Item item, Vector2Int position);
 
