@@ -18,6 +18,6 @@ MonoBehaviour:
   color: {r: 1, g: 1, b: 1, a: 1}
   width: 2
   height: 4
-  isStackable: 0
-  MaxStack: 1
+  isStackable: 1
+  MaxStack: 10
   flatShape: 0101010100010001
