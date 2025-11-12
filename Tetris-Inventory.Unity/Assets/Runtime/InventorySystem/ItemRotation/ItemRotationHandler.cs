@@ -1,5 +1,6 @@
 using Runtime.InventorySystem.Common;
 using UnityEngine.InputSystem;
+using Runtime.Input;
 using System;
 
 namespace Runtime.InventorySystem.ItemRotation

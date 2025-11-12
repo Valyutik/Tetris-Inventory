@@ -6,9 +6,11 @@ namespace Runtime.InventorySystem.ItemGeneration
     {
         public Button GenerateButton { get; }
 
-        public ItemGenerationView(VisualElement menuRoot)
+        public ItemGenerationView(VisualElement root, VisualTreeAsset asset)
         {
-            GenerateButton = menuRoot.Q<Button>(InventoryConstants.UI.CreateButton);
+            var templateContainer = asset.CloneTree();
+            GenerateButton = templateContainer.Q<Button>(InventoryConstants.UI.CreateButton);
+            root.Add(templateContainer);
         }
     }
 }

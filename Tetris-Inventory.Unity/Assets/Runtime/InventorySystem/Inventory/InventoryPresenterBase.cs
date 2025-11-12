@@ -21,7 +21,7 @@ namespace Runtime.InventorySystem.Inventory
 
         protected InventoryPresenterBase(InventoryView view, InventoryModel model, VisualElement menuRoot)
         {
-            Model = model;
+            this.model = model;
             _view = view;
 
             menuRoot.Add(view.Root);
@@ -38,8 +38,8 @@ namespace Runtime.InventorySystem.Inventory
 
         private Color GetCellColor(Vector2Int position)
         {
-            var item = Model.GetItem(position);
-            return Model.IsCellOccupied(position)
+            var item = model.GetItem(position);
+            return model.IsCellOccupied(position)
                 ? Color.gray
                 : item?.Color ?? Color.grey;
         }
