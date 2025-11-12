@@ -69,6 +69,8 @@ namespace Runtime.Core
             InitializeDeleteSystem();
             InitializeItemRotation();
             InitializeDragAndDrop();
+            
+            _itemGenerationPresenter.Enable();
         }
 
         private void OnDestroy()
