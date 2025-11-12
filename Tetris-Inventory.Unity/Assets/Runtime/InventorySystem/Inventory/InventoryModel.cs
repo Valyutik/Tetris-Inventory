@@ -50,17 +50,51 @@ namespace Runtime.InventorySystem.Inventory
 
         public bool TryPlaceItem(Item item, Vector2Int position)
         {
-            if (item == null) return false;
-            if (!_grid.TryAddItem(item, position))
+            if (item == null)
+            {
                 return false;
+            }
+            
+            var existingItem = _grid.GetItem(position);
+
+            if (existingItem != null)
+            {
+                if (existingItem.Id == item.Id && existingItem.IsStackable)
+                {
+                    var success = existingItem.TryAddToStack(item.CurrentStack);
+                    return success;
+                }
+                
+                return false;
+            }
+
+            if (!_grid.TryAddItem(item, position))
+            {
+                return false;
+            }
 
             _items.Add(item);
             return true;
         }
-        
+
         public bool TryPlaceItem(Item item)
         {
-            if (item == null) return false;
+            if (item == null)
+            {
+                return false;
+            }
+
+            if (item.IsStackable)
+            {
+                var existingStack = FindNonFullStack(item.Id);
+                if (existingStack != null)
+                {
+                    var success = existingStack.TryAddToStack(item.CurrentStack);
+                    if (success)
+                        return true;
+                }
+            }
+            
             if (!_grid.TryAddItem(item))
                 return false;
 
