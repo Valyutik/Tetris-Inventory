@@ -24,6 +24,7 @@ namespace Runtime.Core
         [Header("UI Elements")] 
         [SerializeField] private VisualTreeAsset _inventoryAsset;
         [SerializeField] private VisualTreeAsset _stashAsset;
+        [SerializeField] private VisualTreeAsset _createButtonAsset;
 
         [Header("Popup")] 
         [SerializeField] private VisualTreeAsset _deleteConfirmationAsset;

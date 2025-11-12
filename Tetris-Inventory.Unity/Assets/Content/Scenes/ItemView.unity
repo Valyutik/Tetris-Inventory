@@ -381,6 +381,7 @@ MonoBehaviour:
   _stashMaxSize: {x: 5, y: 5}
   _inventoryAsset: {fileID: 9197481963319205126, guid: 05f97cbfee2cbc3428d6e981da5c67a4, type: 3}
   _stashAsset: {fileID: 9197481963319205126, guid: d88e2d7222e6d3c459702eb8336cc730, type: 3}
+  _createButtonAsset: {fileID: 9197481963319205126, guid: 9ada57e7f8d190e45913d63afb2ad7cb, type: 3}
   _deleteConfirmationAsset: {fileID: 9197481963319205126, guid: 28d73a08a0fec5c4c94c5bc89cb2d049, type: 3}
   _popupUIDocument: {fileID: 1384974881}
 --- !u!4 &1794183512
