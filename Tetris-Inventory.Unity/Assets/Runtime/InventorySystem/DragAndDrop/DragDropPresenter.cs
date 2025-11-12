@@ -135,9 +135,11 @@ namespace Runtime.InventorySystem.DragAndDrop
         {
             _deleteConfirmation.Hide();
             
+            _view.Drop();
+            
             if (_model.CurrentItem != null && _model.CurrentInventory != null)
             {
-                _model.CurrentInventory.PlaceItem(_model.CurrentItem, _model.CurrentPosition);
+                _model.CurrentInventory.PlaceItem(_model.CurrentItem, _model.CurrentItem.AnchorPosition);
             }
             
             _model.CurrentItem = null;
