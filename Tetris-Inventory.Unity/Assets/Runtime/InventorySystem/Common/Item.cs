@@ -10,14 +10,14 @@ namespace Runtime.InventorySystem.Common
         public Vector2Int AnchorPosition { get; set; }
         public bool[,] Shape { get; private set; }
         public Color Color { get; private set; }
-        
         public bool IsStackable { get; }
+        public bool IsFullStack =>  CurrentStack >= MaxStack;
         public int MaxStack { get; }
         public int CurrentStack { get; private set; }
         
         public int Width => Shape.GetLength(0);
         public int Height => Shape.GetLength(1);
-        
+
         public Item(string id,
             string name,
             string description,

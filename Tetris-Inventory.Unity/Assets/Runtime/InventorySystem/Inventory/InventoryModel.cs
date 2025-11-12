@@ -1,5 +1,6 @@
 using Runtime.InventorySystem.Common;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Grid = Runtime.InventorySystem.Common.Grid;
 
@@ -118,6 +119,12 @@ namespace Runtime.InventorySystem.Inventory
         {
             _grid.Clear();
             _items.Clear();
+        }
+
+        private Item FindNonFullStack(string id)
+        {
+            return _items.FirstOrDefault(existing =>
+                existing.Id == id && existing.IsStackable && !existing.IsFullStack);
         }
     }
 }
