@@ -7,7 +7,6 @@ using Runtime.InventorySystem.Inventory;
 using Runtime.InventorySystem.Common;
 using Runtime.Systems.ContentManager;
 using Runtime.InventorySystem.Stash;
-using System.Threading.Tasks;
 using UnityEngine.UIElements;
 using Runtime.Utilities;
 using Runtime.Input;
@@ -35,19 +34,38 @@ namespace Runtime.Core
         private MenuContent _menuContent;
         private PopupContent _popupContent;
             
+        private ItemConfig[] _itemConfigs;
+        
+        private InventoryModel _inventoryModel;
         private InventoryPresenter _inventoryPresenter;
+        
+        private InventoryModel _stashModel;
         private StashPresenter _stashPresenter;
-        private DragDropPresenter _dragDropPresenter;
+        
+        private ItemGenerationModel _itemGenerationModel;
         private ItemGenerationPresenter _itemGenerationPresenter;
+        
         private ItemRotationHandler _itemRotationHandler;
+        
+        private DragDropPresenter _dragDropPresenter;
+        private DeleteAreaPresenter _deleteAreaPresenter;
+        private DeleteConfirmationPresenter _deleteConfirmationPresenter;
 
         private async void Start()
         {
+            _inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
+            _stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
+            _itemConfigs = await AddressablesLoader.LoadAllAsync<ItemConfig>("items");
+
+            _itemGenerationModel = new ItemGenerationModel(
+                await AddressablesLoader.LoadAsync<ItemGenerationConfig>("item_generation_config"),
+                _itemConfigs);
+            
             InitializeUI();
             InitializeInput();
+            InitializeItemGeneration();
             InitializeStash();
             InitializeInventory();
-            await InitializeItemGeneration();
             InitializeDeleteSystem();
             InitializeItemRotation();
             InitializeDragAndDrop();
@@ -74,21 +92,19 @@ namespace Runtime.Core
         private void InitializeInventory()
         {
             var inventoryView = new InventoryView(_inventoryAsset);
-            var inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
-            _inventoryPresenter = new InventoryPresenter(inventoryView, inventoryModel, _menuContent.MenuRoot);
+            _inventoryPresenter = new InventoryPresenter(inventoryView, _inventoryModel, _menuContent.MenuRoot);
         }
 
         private void InitializeStash()
         {
             var stashView = new InventoryView(_stashAsset);
-            var stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
             _stashPresenter = new StashPresenter(stashView,
-                stashModel,
+                _stashModel,
                 _menuContent.MenuRoot,
                 _itemGenerationPresenter);
         }
 
-        private async Task InitializeItemGeneration()
+        private void InitializeItemGeneration()
         {
             var itemGenerationView = new ItemGenerationView(_menuContent.MenuRoot, _createButtonAsset);
 
@@ -100,17 +116,9 @@ namespace Runtime.Core
         private void InitializeDeleteSystem()
         {
             var deleteAreaView = new DeleteAreaView(_menuContent.MenuRoot);
-            var deleteAreaPresenter = new DeleteAreaPresenter(deleteAreaView);
+            _deleteAreaPresenter = new DeleteAreaPresenter(deleteAreaView);
             var deleteConfirmationView = new DeleteConfirmationView(_deleteConfirmationAsset);
-            var deleteConfirmationPresenter = new DeleteConfirmationPresenter(deleteConfirmationView);
-
-            _dragDropPresenter = new DragDropPresenter(deleteAreaPresenter,
-                deleteConfirmationPresenter,
-                _itemRotationHandler);
-
-            _dragDropPresenter.RegisterInventory(_inventoryPresenter);
-
-            _dragDropPresenter.RegisterInventory(_stashPresenter);
+            _deleteConfirmationPresenter = new DeleteConfirmationPresenter(deleteConfirmationView);
         }
 
         private void InitializeItemRotation()
@@ -120,6 +128,13 @@ namespace Runtime.Core
 
         private void InitializeDragAndDrop()
         {
+            _dragDropPresenter = new DragDropPresenter(_deleteAreaPresenter,
+                _deleteConfirmationPresenter,
+                _itemRotationHandler);
+
+            _dragDropPresenter.RegisterInventory(_inventoryPresenter);
+
+            _dragDropPresenter.RegisterInventory(_stashPresenter);
             _dragDropPresenter.Init(_document.rootVisualElement);
         }
     }
