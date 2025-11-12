@@ -24,6 +24,8 @@ namespace Editor
             AddDescriptionField(root, config);
 
             AddColorField(config, root);
+            
+            AddStackField(config, root);
 
             var shapeLabel = new Label(" Shape")
             {
@@ -101,6 +103,34 @@ namespace Editor
                 UpdateShapeGrid(root, config);
                 EditorUtility.SetDirty(config);
             }
+        }
+
+        private static void AddStackField(ItemConfig config, VisualElement root)
+        {
+            var isStackableField = new Toggle("Is Stackable")
+            {
+                value = config.isStackable
+            };
+            
+            var maxStackField = new IntegerField("Max Stack")
+            {
+                value = config.MaxStack
+            };
+            
+            root.Add(isStackableField);
+            root.Add(maxStackField);
+
+            isStackableField.RegisterValueChangedCallback(evt =>
+            {
+                config.isStackable = evt.newValue;
+                EditorUtility.SetDirty(config);
+            });
+
+            maxStackField.RegisterValueChangedCallback(evt =>
+            {
+                config.MaxStack = evt.newValue;
+                EditorUtility.SetDirty(config);
+            });
         }
 
         private void ValidateShape(ItemConfig config)

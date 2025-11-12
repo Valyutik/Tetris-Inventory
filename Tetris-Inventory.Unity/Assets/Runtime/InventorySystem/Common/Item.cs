@@ -10,17 +10,47 @@ namespace Runtime.InventorySystem.Common
         public Vector2Int AnchorPosition { get; set; }
         public bool[,] Shape { get; private set; }
         public Color Color { get; private set; }
+        public bool IsStackable { get; }
+        public bool IsFullStack =>  CurrentStack >= MaxStack;
+        public int MaxStack { get; }
+        public int CurrentStack { get; private set; }
         
         public int Width => Shape.GetLength(0);
         public int Height => Shape.GetLength(1);
-        
-        public Item(string id, string name, string description, Color color, bool[,] shape = null)
+
+        public Item(string id,
+            string name,
+            string description,
+            Color color,
+            bool isStackable = false,
+            int maxStack = 1,
+            int currentStack = 1,
+            bool[,] shape = null)
         {
             Id = id;
             Name = name;
             Description = description;
-            Color =  color; 
+            Color =  color;
+            IsStackable = isStackable;
+            MaxStack = maxStack;
+            CurrentStack = currentStack;
             Shape = ValidateShape(shape);
+        }
+
+        public bool TryAddToStack(int amount)
+        {
+            if (!IsStackable || amount <= 0)
+            {
+                return false;
+            }
+
+            if (CurrentStack >= MaxStack)
+            {
+                return false;
+            }
+            
+            CurrentStack = Mathf.Min(CurrentStack + amount, MaxStack);
+            return true;
         }
         
         public void RotateShape()

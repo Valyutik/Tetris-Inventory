@@ -1,5 +1,4 @@
 using Runtime.InventorySystem.Common;
-using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEngine;
 
@@ -27,17 +26,10 @@ namespace Runtime.InventorySystem.Inventory
         {
             if (item == null) return false;
 
-            var success = model.CanPlaceItem(item, position);
-            if (success)
-                model.TryPlaceItem(item, position);
+            var success = model.TryPlaceItem(item, position);
 
             UpdateView();
             return success;
-        }
-
-        public bool CanFitItems(IEnumerable<Item> items)
-        {
-            return model.CanFitItems(items);
         }
     }
 }

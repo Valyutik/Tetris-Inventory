@@ -9,6 +9,8 @@ namespace Runtime.InventorySystem.Common
                 name: config.displayName,
                 description: config.description,
                 color: config.color,
+                isStackable: config.isStackable,
+                maxStack: config.MaxStack,
                 shape: config.GetShapeMatrix()
             );
         }
