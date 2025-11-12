@@ -15,6 +15,11 @@ namespace Runtime.InventorySystem.Common
         [Header("Size & Shape")]
         public int width;
         public int height;
+        
+        [Header("Stacking")]
+        [Min(1)] public bool isStackable;
+        [Min(1)] public int MaxStack = 1;
+        
         [HideInInspector] public List<bool> flatShape = new();
         
         public bool[,] GetShapeMatrix()
