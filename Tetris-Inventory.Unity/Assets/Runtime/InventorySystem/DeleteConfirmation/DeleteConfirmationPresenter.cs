@@ -1,5 +1,5 @@
-using System;
 using Runtime.Systems.ContentManager;
+using System;
 
 namespace Runtime.InventorySystem.DeleteConfirmation
 {
@@ -19,16 +19,26 @@ namespace Runtime.InventorySystem.DeleteConfirmation
         {
             PopupContent.PopupRoot.Add(_view.Root);
             
-            _view.ConfirmButton.clicked += OnConfirmDelete.Invoke;
-            _view.CancelButton.clicked += OnCancelDelete.Invoke;
+            _view.ConfirmButton.clicked += HandleConfirmButtonClicked;
+            _view.CancelButton.clicked += HandleCancelButtonClicked;
         }
-
+        
         public void Hide()
         {
-            _view.ConfirmButton.clicked -= OnConfirmDelete.Invoke;
-            _view.CancelButton.clicked -= OnCancelDelete.Invoke;
+            _view.ConfirmButton.clicked -= HandleCancelButtonClicked;
+            _view.CancelButton.clicked -= HandleConfirmButtonClicked;
             
             _view.Root.RemoveFromHierarchy();
+        }
+
+        private void HandleCancelButtonClicked()
+        {
+            OnCancelDelete?.Invoke();
+        }
+
+        private void HandleConfirmButtonClicked()
+        {
+            OnConfirmDelete?.Invoke();
         }
     }
 }
