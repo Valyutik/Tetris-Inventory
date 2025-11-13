@@ -8,12 +8,12 @@ namespace Runtime.InventorySystem.DragAndDrop
     {
         private bool IsDragging
         {
-            get => _draggingElement.style.display == DisplayStyle.Flex;
+            get => DraggingElement.style.display == DisplayStyle.Flex;
 
-            set => _draggingElement.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
+            set => DraggingElement.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
         }
-        
-        private readonly VisualElement _draggingElement;
+
+        public VisualElement DraggingElement { get; }
 
         private Vector2 _dragOffset;
 
@@ -21,7 +21,7 @@ namespace Runtime.InventorySystem.DragAndDrop
         
         public DragDropView(VisualElement root)
         {
-            _draggingElement = new VisualElement
+            DraggingElement = new VisualElement
             {
                 style =
                 {
@@ -30,11 +30,11 @@ namespace Runtime.InventorySystem.DragAndDrop
                 pickingMode = PickingMode.Ignore
             };
             
-            _draggingElement.AddToClassList(InventoryConstants.UI.CellStyle);
+            DraggingElement.AddToClassList(InventoryConstants.UI.Projection.ItemProjection);
 
             IsDragging = false;
             
-            root.Add(_draggingElement);
+            root.Add(DraggingElement);
         }
 
         public void Drag(Item item, Vector2 startPosition)
@@ -46,6 +46,18 @@ namespace Runtime.InventorySystem.DragAndDrop
             _dragOffset = GetOffsetByItem(item);
             
             Move(startPosition);
+        }
+
+        public void SetCanPlace()
+        {
+            DraggingElement.RemoveFromClassList(InventoryConstants.UI.Projection.ItemProjectionCannotPlace);
+            DraggingElement.AddToClassList(InventoryConstants.UI.Projection.ItemProjectionCanPlace);
+        }
+
+        public void SetCannotPlace()
+        {
+            DraggingElement.AddToClassList(InventoryConstants.UI.Projection.ItemProjectionCannotPlace);
+            DraggingElement.RemoveFromClassList(InventoryConstants.UI.Projection.ItemProjectionCanPlace);
         }
 
         public void Drag(Item item)
@@ -63,8 +75,8 @@ namespace Runtime.InventorySystem.DragAndDrop
         {
             if (!IsDragging) return;
 
-            _draggingElement.style.left = screenPosition.x - _dragOffset.x;
-            _draggingElement.style.top = screenPosition.y - _dragOffset.y;
+            DraggingElement.style.left = screenPosition.x - _dragOffset.x;
+            DraggingElement.style.top = screenPosition.y - _dragOffset.y;
 
             _cachedPointerPosition = screenPosition;
         }
@@ -73,9 +85,9 @@ namespace Runtime.InventorySystem.DragAndDrop
 
         private void UpdateVisualByItem(Item item)
         {
-            _draggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
+            DraggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
 
-            _draggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
+            DraggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
         }
 
         private Vector2 GetOffsetByItem(Item item) 

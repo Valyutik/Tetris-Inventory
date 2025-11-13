@@ -33,6 +33,11 @@ namespace Runtime.InventorySystem.Inventory
             _items = new List<Item>();
         }
 
+        public bool CanPlaceItem(Item item, Vector2Int position)
+        {
+            return _grid.CanPlaceItem(item, position);
+        }
+
         public bool CanFitItems(IEnumerable<Item> items)
         {
             var itemsToCheck = items.ToArray();

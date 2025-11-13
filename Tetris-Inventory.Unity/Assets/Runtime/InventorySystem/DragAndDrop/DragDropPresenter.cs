@@ -106,7 +106,29 @@ namespace Runtime.InventorySystem.DragAndDrop
             _view.Drop();
         }
 
-        private void OnPointerMove(PointerMoveEvent evt) => _view.Move(evt.position);
+        private void OnPointerMove(PointerMoveEvent evt)
+        {
+            _view.Move(evt.position);
+
+            if (_model.CurrentInventory == null || _model.CurrentItem == null)
+            {
+                return;
+            }
+            
+            var canPlace = _model.CurrentInventory.CanPlaceItem(
+                _model.CurrentItem, 
+                _model.CurrentPosition
+            );
+            
+            if (canPlace)
+            {
+                _view.SetCanPlace();
+            }
+            else
+            {
+                _view.SetCannotPlace();
+            }
+        }
 
         private void OnPointerEnterCell(Vector2Int position, IInventoryPresenter target)
         {

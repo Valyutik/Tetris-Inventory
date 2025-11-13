@@ -142,3 +142,35 @@
     width: 100px;
     height: 100px;
 }
+
+.item-projection-can-place {
+    border-top-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-left-width: 10px;
+    border-left-color: rgb(94, 255, 102);
+    border-right-color: rgb(94, 255, 102);
+    border-top-color: rgb(94, 255, 102);
+    border-bottom-color: rgb(94, 255, 102);
+    background-color: rgb(0, 0, 0);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.item-projection-cannot-place {
+    border-top-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-left-width: 10px;
+    border-left-color: rgb(255, 71, 38);
+    border-right-color: rgb(255, 71, 38);
+    border-top-color: rgb(255, 71, 38);
+    border-bottom-color: rgb(255, 71, 38);
+    background-color: rgb(0, 0, 0);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
