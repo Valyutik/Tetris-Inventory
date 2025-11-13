@@ -5,13 +5,14 @@ namespace Runtime.InventorySystem.Common
         public static Item ToModel(ItemConfig config)
         {
             return new Item(
-                id: config.id,
-                name: config.displayName,
-                description: config.description,
-                color: config.color,
-                isStackable: config.isStackable,
+                id: config.Id,
+                name: config.DisplayName,
+                description: config.Description,
+                color: config.Color,
+                isStackable: config.IsStackable,
                 maxStack: config.MaxStack,
-                shape: config.GetShapeMatrix()
+                shape: config.GetShapeMatrix(),
+                sprite: config.Visual
             );
         }
     }
