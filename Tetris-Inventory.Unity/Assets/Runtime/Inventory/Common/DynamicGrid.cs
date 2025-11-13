@@ -19,7 +19,7 @@ namespace Runtime.Inventory.Common
             _initialHeight = initialHeight;
         }
 
-        public override bool TryAddItem(Item.Item item)
+        public override bool TryAddItem(Item item)
         {
             if (base.TryAddItem(item)) return true;
             ExpandToFit(item);
@@ -35,7 +35,7 @@ namespace Runtime.Inventory.Common
                 Cells[x, y] = new Cell(new Vector2Int(x, y));
         }
 
-        private void ExpandToFit(Item.Item item)
+        private void ExpandToFit(Item item)
         {
             var newWidth = Width;
             var newHeight = Height;

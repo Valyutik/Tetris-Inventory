@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Runtime.Inventory.Item
+namespace Runtime.Inventory.Common
 {
     public class Item
     {

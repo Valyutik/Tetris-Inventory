@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Runtime.Inventory.Item;
+using Runtime.Inventory.Common;
 
 namespace Runtime.Inventory.ItemGeneration
 {
@@ -17,7 +17,7 @@ namespace Runtime.Inventory.ItemGeneration
                 : config.itemConfigs.ToArray();
         }
         
-        public IEnumerable<Item.Item> GetRandomItems()
+        public IEnumerable<Item> GetRandomItems()
         {
             for (var i = 0; i < _config.defaultCount; i++)
             {

@@ -23,7 +23,7 @@ namespace Runtime.Inventory.Common
             }
         }
 
-        public bool TryAddItem(Item.Item item, Vector2Int position)
+        public bool TryAddItem(Item item, Vector2Int position)
         {
             if (!CanPlaceItem(item, position))
                 return false;
@@ -33,7 +33,7 @@ namespace Runtime.Inventory.Common
             return true;
         }
         
-        public virtual bool TryAddItem(Item.Item item)
+        public virtual bool TryAddItem(Item item)
         {
             for (var y = 0; y <= Height - item.Height; y++)
             for (var x = 0; x <= Width - item.Width; x++)
@@ -48,7 +48,7 @@ namespace Runtime.Inventory.Common
             return false;
         }
         
-        public void RemoveItem(Item.Item item)
+        public void RemoveItem(Item item)
         {
             foreach (var cell in Cells)
             {
@@ -59,12 +59,12 @@ namespace Runtime.Inventory.Common
         
         public Cell GetCell(int x, int y) => Cells[x, y];
 
-        public Item.Item GetItem(Vector2Int position)
+        public Item GetItem(Vector2Int position)
         {
             return IsInsideBounds(position) ? Cells[position.x, position.y].Item : null;
         }
 
-        public bool CanPlaceItem(Item.Item item, Vector2Int position)
+        public bool CanPlaceItem(Item item, Vector2Int position)
         {
             for (var dy = 0; dy < item.Height; dy++)
             for (var dx = 0; dx < item.Width; dx++)
@@ -88,7 +88,7 @@ namespace Runtime.Inventory.Common
                 cell.Clear();
         }
 
-        private void ApplyPlacement(Item.Item item, Vector2Int position)
+        private void ApplyPlacement(Item item, Vector2Int position)
         {
             foreach (var occupiedTiles in GetOccupiedCells(item, position))
             {
@@ -96,7 +96,7 @@ namespace Runtime.Inventory.Common
             }
         }
 
-        private IEnumerable<Cell> GetOccupiedCells(Item.Item item, Vector2Int position)
+        private IEnumerable<Cell> GetOccupiedCells(Item item, Vector2Int position)
         {
             for (var dy = 0; dy < item.Height; dy++)
             for (var dx = 0; dx < item.Width; dx++)

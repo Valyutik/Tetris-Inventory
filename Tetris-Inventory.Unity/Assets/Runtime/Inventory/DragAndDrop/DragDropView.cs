@@ -1,3 +1,4 @@
+using Runtime.Inventory.Common;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -36,7 +37,7 @@ namespace Runtime.Inventory.DragAndDrop
             root.Add(DraggingElement);
         }
 
-        public void Drag(Item.Item item, Vector2 startPosition)
+        public void Drag(Item item, Vector2 startPosition)
         {
             IsDragging = true;
 
@@ -59,7 +60,7 @@ namespace Runtime.Inventory.DragAndDrop
             DraggingElement.RemoveFromClassList(InventoryConstants.UI.Projection.ItemProjectionCanPlace);
         }
 
-        public void Drag(Item.Item item)
+        public void Drag(Item item)
         {
             IsDragging = true;
             
@@ -82,14 +83,14 @@ namespace Runtime.Inventory.DragAndDrop
 
         public void Drop() => IsDragging = false;
 
-        private void UpdateVisualByItem(Item.Item item)
+        private void UpdateVisualByItem(Item item)
         {
             DraggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
 
             DraggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
         }
 
-        private Vector2 GetOffsetByItem(Item.Item item) 
+        private Vector2 GetOffsetByItem(Item item) 
             => new Vector2(item.Width * InventoryConstants.UI.CellSize, item.Height * InventoryConstants.UI.CellSize) / 2f;
     }
 }

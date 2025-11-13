@@ -7,45 +7,41 @@ using UnityEngine.UIElements;
 
 namespace Runtime.Inventory.Stash
 {
-    public sealed class StashPresenter : InventoryPresenterBase, IDisposable
+    public sealed class StashPresenter : InventoryPresenterBase
     {
         private readonly IItemGenerationPresenter _itemGenerationPresenter;
 
-        public StashPresenter(InventoryView view,
-            InventoryModel model,
-            VisualElement menuRoot,
-            IItemGenerationPresenter itemGenerationPresenter) : base(view,
-            model,
-            menuRoot)
+        public StashPresenter(InventoryView view, InventoryModel model, VisualElement menuRoot, IItemGenerationPresenter itemGenerationPresenter) : base(view, model, menuRoot)
         {
             _itemGenerationPresenter = itemGenerationPresenter;
+        }
+
+        public override void Enable()
+        {
+            base.Enable();
+            
             _itemGenerationPresenter.OnItemGenerated += SetItems;
         }
-        
-        public override bool TakeItem(Vector2Int position, out Item.Item item)
+
+
+        public override void Dispose()
         {
-            item = _model.GetItem(position);
-            _model.TryRemoveItem(item);
-            UpdateView();
-            return item != null;
+            base.Dispose();
+            
+            _itemGenerationPresenter.OnItemGenerated -= SetItems;
         }
-
-        public override bool PlaceItem(Item.Item item, Vector2Int position) => false;
-
-        private void SetItems(IEnumerable<Item.Item> items)
+        
+        private void SetItems(IEnumerable<Item> items)
         {
-            _model.Clear();
+            Model.Clear();
+            
+            
             foreach (var item in items)
             {
-                _model.TryPlaceItem(item, false);
+                Model.TryPlaceItem(item, false);
             }
             
             RedrawView();
-        }
-
-        public void Dispose()
-        {
-            _itemGenerationPresenter.OnItemGenerated -= SetItems;
         }
     }
 }

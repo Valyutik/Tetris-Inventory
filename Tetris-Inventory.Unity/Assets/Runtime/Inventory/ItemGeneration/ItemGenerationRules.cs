@@ -14,7 +14,7 @@ namespace Runtime.Inventory.ItemGeneration
             _stash = stash;
         }
 
-        public bool CanGenerateItems(IEnumerable<Item.Item> items)
+        public bool CanGenerateItems(IEnumerable<Item> items)
         {
             return !_stash.HasItems && _inventory.CanFitItems(items);
         }

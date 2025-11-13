@@ -2,41 +2,58 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Video;
 
 namespace Runtime.Inventory.Common
 {
     public sealed class InventoryModel
     {
-        public event Action<Vector2Int, Item.Item> OnAddItem;
-        public event Action<Vector2Int, Item.Item> OnRemoveItem;
+        public event Action<Vector2Int, InventoryModel> OnSelectCell;
         
-        private readonly List<Item.Item> _items;
+        public event Action OnDeselectCell;
+        
+        public event Action<Vector2Int, Item> OnAddItem;
+        public event Action<Vector2Int, Item> OnRemoveItem;
+        
+        private readonly List<Item> _items;
         
         private readonly Grid _grid;
 
         public int Width => _grid.Width;
+        
         public int Height => _grid.Height;
         
         public bool HasItems => _items.Count > 0;
         
+        
         public InventoryModel(int width, int height)
         { 
             _grid = new Grid(width, height);
-            _items = new List<Item.Item>();
+            _items = new List<Item>();
         }
         
         public InventoryModel(Grid grid)
         {
             _grid = grid;
-            _items = new List<Item.Item>();
+            _items = new List<Item>();
         }
 
-        public bool CanPlaceItem(Item.Item item, Vector2Int position)
+        public bool CanPlaceItem(Item item, Vector2Int position)
         {
             return _grid.CanPlaceItem(item, position);
         }
 
-        public bool CanFitItems(IEnumerable<Item.Item> items)
+        public void SelectCell(Vector2Int position)
+        {
+            OnSelectCell?.Invoke(position, this);
+        }
+
+        public void DeselectCell(Vector2Int position)
+        {
+            OnDeselectCell?.Invoke();
+        }
+
+        public bool CanFitItems(IEnumerable<Item> items)
         {
             var itemsToCheck = items.ToArray();
 
@@ -83,7 +100,7 @@ namespace Runtime.Inventory.Common
             return freeCells >= additionalCellsNeeded;
         }
 
-        public bool TryPlaceItem(Item.Item item, Vector2Int position, bool allowStacking = true)
+        public bool TryPlaceItem(Item item, Vector2Int position, bool allowStacking = true)
         {
             if (item == null)
             {
@@ -115,7 +132,7 @@ namespace Runtime.Inventory.Common
             return true;
         }
 
-        public bool TryPlaceItem(Item.Item item, bool allowStacking = true)
+        public bool TryPlaceItem(Item item, bool allowStacking = true)
         {
             if (item == null)
             {
@@ -138,10 +155,12 @@ namespace Runtime.Inventory.Common
 
             _items.Add(item);
             
+            OnAddItem?.Invoke(item.AnchorPosition, item);
+            
             return true;
         }
 
-        public bool TryRemoveItem(Item.Item item)
+        public bool TryRemoveItem(Item item)
         {
             if  (item == null) return false;
             
@@ -155,10 +174,11 @@ namespace Runtime.Inventory.Common
 
             return true;
         }
-        
-        public bool TryRemoveItem(Vector2Int position)
+
+        public bool TryRemoveItem(Vector2Int position, out Item item)
         {
-            var item = _grid.GetItem(position);
+            item = _grid.GetItem(position);
+            
             if (item == null)
                 return false;
             _grid.RemoveItem(item);
@@ -169,9 +189,9 @@ namespace Runtime.Inventory.Common
             return true;
         }
         
-        public IReadOnlyCollection<Item.Item> GetAllItems() => _items.AsReadOnly();
+        public IReadOnlyCollection<Item> GetAllItems() => _items.AsReadOnly();
 
-        public Item.Item GetItem(Vector2Int position)
+        public Item GetItem(Vector2Int position)
         {
             return _grid.GetItem(position);
         }
@@ -200,13 +220,13 @@ namespace Runtime.Inventory.Common
             _items.Clear();
         }
 
-        private Item.Item FindNonFullStack(string id)
+        private Item FindNonFullStack(string id)
         {
             return _items.FirstOrDefault(existing =>
                 existing.Id == id && existing.IsStackable && !existing.IsFullStack);
         }
         
-        private static int CountOccupiedCells(Item.Item item)
+        private static int CountOccupiedCells(Item item)
         {
             var count = 0;
             for (var x = 0; x < item.Width; x++)
