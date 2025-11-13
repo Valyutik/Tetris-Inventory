@@ -36,7 +36,7 @@ namespace Runtime.Inventory.Common
         {
             var item = new VisualElement();
             
-            item.AddToClassList(InventoryConstants.UI.CellStyle);
+            item.AddToClassList(InventoryConstants.UI.ItemStyle);
             
             DrawItem(item, sprite, position, size);
 

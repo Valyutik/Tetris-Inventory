@@ -12,6 +12,7 @@ namespace Runtime.Inventory
             public const int CellSize = 100;
 
             public const string CellStyle = "cell";
+            public const string ItemStyle = "item";
             
             public const string ContentRoot = "content";
             
