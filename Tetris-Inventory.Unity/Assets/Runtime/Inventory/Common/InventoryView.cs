@@ -33,47 +33,54 @@ namespace Runtime.Inventory.Common
             return cell;
         }
 
-        public VisualElement CreateItem(Sprite sprite, Vector2Int position, Vector2Int originalSize, Vector2Int size, int rotation)
+        public VisualElement CreateItem(Item item)
         {
-            var item = new VisualElement();
+            var visualElement = new VisualElement();
 
+            visualElement.AddToClassList(InventoryConstants.UI.ItemStyle);
+            
             var image = new VisualElement()
             {
                 name = ImageName,
                 pickingMode = PickingMode.Ignore,
                 style =
                 {
-                    width = originalSize.x * InventoryConstants.UI.CellSize, 
-                    height = originalSize.y * InventoryConstants.UI.CellSize,
-                    backgroundImage =  sprite.texture,
+                    width = item.OriginalWidth * InventoryConstants.UI.CellSize, 
+                    height = item.OriginalHeight * InventoryConstants.UI.CellSize,
+                    backgroundImage =  item.Visual.texture,
                     alignSelf = Align.Center,
                     flexGrow = 0
                 },
             };
-            
-            item.Add(image);
-            
-            item.AddToClassList(InventoryConstants.UI.ItemStyle);
-            
-            DrawItem(item, position, size, rotation);
 
-            _grid.Add(item);
+            var textElement = new TextElement();
             
-            return item;
+            textElement.AddToClassList(InventoryConstants.UI.Inventory.ItemCountLabel);
+            
+            visualElement.Add(image);
+            visualElement.Add(textElement);
+            
+            DrawItem(visualElement, item);
+
+            _grid.Add(visualElement);
+            
+            return visualElement;
         }
 
-        public void DrawItem(VisualElement item, Vector2Int position, Vector2Int size, int rotation)
+        public void DrawItem(VisualElement visualElement, Item item)
         {
-            item.Q<VisualElement>(ImageName).style.rotate = new Rotate(rotation);
+            visualElement.Q<VisualElement>(ImageName).style.rotate = new Rotate(item.Rotation);
+            visualElement.Q<TextElement>().text = $"x{item.CurrentStack}";
             
-            item.style.width = size.x * InventoryConstants.UI.CellSize;
-            item.style.height = size.y * InventoryConstants.UI.CellSize;
+            
+            visualElement.style.width = item.Width * InventoryConstants.UI.CellSize;
+            visualElement.style.height = item.Height * InventoryConstants.UI.CellSize;
 
-            item.style.position = Position.Absolute;
-            item.pickingMode = PickingMode.Ignore;
+            visualElement.style.position = Position.Absolute;
+            visualElement.pickingMode = PickingMode.Ignore;
             
-            item.style.left = position.x * InventoryConstants.UI.CellSize;
-            item.style.top = position.y * InventoryConstants.UI.CellSize;
+            visualElement.style.left = item.AnchorPosition.x * InventoryConstants.UI.CellSize;
+            visualElement.style.top = item.AnchorPosition.y * InventoryConstants.UI.CellSize;
         }
         
         public void RepaintCell(VisualElement cell, Color newColor) => cell.style.backgroundColor = newColor;

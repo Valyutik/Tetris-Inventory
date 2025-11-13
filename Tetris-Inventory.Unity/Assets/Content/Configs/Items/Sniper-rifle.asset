@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39d6c810f6543e88ecb3c41ee5fe2cd, type: 3}
   m_Name: Sniper-rifle
   m_EditorClassIdentifier: 
-  Id: 
+  Id: 7
   DisplayName: "\u0421\u043D\u0430\u0439\u043F\u0435\u0440\u0441\u043A\u0430\u044F
     \u0432\u0438\u043D\u0442\u043E\u0432\u043A\u0430"
   Description: "\u0432\u044B\u0441\u043E\u043A\u043E\u0442\u043E\u0447\u043D\u043E\u0435

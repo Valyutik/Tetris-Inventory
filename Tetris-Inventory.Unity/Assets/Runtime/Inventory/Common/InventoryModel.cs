@@ -11,6 +11,8 @@ namespace Runtime.Inventory.Common
         public event Action<Vector2Int, InventoryModel> OnSelectCell;
         
         public event Action OnDeselectCell;
+
+        public event Action<Item> OnItemStacked;
         
         public event Action<Vector2Int, Item> OnAddItem;
         public event Action<Vector2Int, Item> OnRemoveItem;
@@ -114,6 +116,9 @@ namespace Runtime.Inventory.Common
                 if (existingItem.IsStackable && allowStacking)
                 {
                     var success = existingItem.TryAddToStack(item.CurrentStack);
+
+                    if (success) OnItemStacked?.Invoke(existingItem);
+
                     return success;
                 }
                 
@@ -145,8 +150,12 @@ namespace Runtime.Inventory.Common
                 if (existingStack != null)
                 {
                     var success = existingStack.TryAddToStack(item.CurrentStack);
+
                     if (success)
+                    {
+                        OnItemStacked?.Invoke(item);
                         return true;
+                    }
                 }
             }
             

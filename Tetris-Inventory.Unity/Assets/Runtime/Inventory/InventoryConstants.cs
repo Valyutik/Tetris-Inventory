@@ -24,6 +24,7 @@ namespace Runtime.Inventory
             public static class Inventory
             {
                 public const string Grid = "grid";
+                public const string ItemCountLabel = "item-count-label";
             }
 
             public static class Projection

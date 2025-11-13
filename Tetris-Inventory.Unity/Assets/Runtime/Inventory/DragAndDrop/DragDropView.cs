@@ -13,9 +13,9 @@ namespace Runtime.Inventory.DragAndDrop
             set => DraggingElement.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
-        public VisualElement DraggingElement { get; }
+        private VisualElement DraggingElement { get; }
 
-        private VisualElement _icon;
+        private readonly VisualElement _icon;
 
         private Vector2 _dragOffset;
 

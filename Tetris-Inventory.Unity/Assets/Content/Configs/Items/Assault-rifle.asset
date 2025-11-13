@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39d6c810f6543e88ecb3c41ee5fe2cd, type: 3}
   m_Name: Assault-rifle
   m_EditorClassIdentifier: 
-  Id: 
+  Id: 1
   DisplayName: "\u0428\u0442\u0443\u0440\u043C\u043E\u0432\u0430\u044F \u0432\u0438\u043D\u0442\u043E\u0432\u043A\u0430"
   Description: "\u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0430\u044F
     \u0432\u0438\u043D\u0442\u043E\u0432\u043A\u0430 \u0441\u0440\u0435\u0434\u043D\u0435\u0433\u043E

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39d6c810f6543e88ecb3c41ee5fe2cd, type: 3}
   m_Name: Ammo-box
   m_EditorClassIdentifier: 
-  Id: 
+  Id: 0
   DisplayName: "\u041A\u043E\u0440\u043E\u0431\u043A\u0430 \u0441 \u043F\u0430\u0442\u0440\u043E\u043D\u0430\u043C\u0438"
   Description: "\u0441\u043E\u0434\u0435\u0440\u0436\u0438\u0442 \u043F\u0430\u0442\u0440\u043E\u043D\u044B
     \u0440\u0430\u0437\u043B\u0438\u0447\u043D\u044B\u0445 \u043A\u0430\u043B\u0438\u0431\u0440\u043E\u0432

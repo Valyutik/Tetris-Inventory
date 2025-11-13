@@ -87,6 +87,7 @@ namespace Runtime.Inventory.Common
             }
             
             CurrentStack = Mathf.Min(CurrentStack + amount, MaxStack);
+            
             return true;
         }
 
