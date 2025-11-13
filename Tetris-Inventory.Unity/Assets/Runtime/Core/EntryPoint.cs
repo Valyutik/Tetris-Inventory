@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Runtime.Inventory.DeleteConfirmation;
 using Runtime.Inventory.ItemGeneration;
 using Runtime.Inventory.ItemRotation;
@@ -10,6 +11,7 @@ using Runtime.Inventory.Stash;
 using UnityEngine.UIElements;
 using Runtime.Utilities;
 using Runtime.Input;
+using Runtime.Inventory.Core;
 using Runtime.Popup;
 using UnityEngine;
 
@@ -36,39 +38,24 @@ namespace Runtime.Core
         private PopupContent _popupContent;
             
         private ItemConfig[] _itemConfigs;
-        
-        private InventoryModel _inventoryModel;
+
         private InventoryPresenter _inventoryPresenter;
-        
-        private InventoryModel _stashModel;
         private StashPresenter _stashPresenter;
-        
-        private ItemGenerationModel _itemGenerationModel;
         private ItemGenerationPresenter _itemGenerationPresenter;
+        private PopupPresenter _popupPresenter;
+        private DragDropPresenter _dragDropPresenter;
+        private DeleteConfirmationPresenter _deleteConfirmationPresenter;
+        private DeleteAreaPresenter _deleteAreaPresenter;
         
         private ItemRotationHandler _itemRotationHandler;
         
-        private PopupModel  _popupModel;
-        private PopupPresenter _popupPresenter;
+        private InventoryModelStorage _modelStorage;
         
-        private DragDropPresenter _dragDropPresenter;
-        private DragDropModel _dragDropModel;
-        
-        private DeleteAreaPresenter _deleteAreaPresenter;
-        private DeleteConfirmationPresenter _deleteConfirmationPresenter;
-
         private async void Start()
         {
-            _popupModel = new PopupModel();
-            
-            _inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
-            _stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
-            _itemConfigs = await AddressablesLoader.LoadAllAsync<ItemConfig>("items");
+            await InitializeModelStorage();
 
-            _itemGenerationModel = new ItemGenerationModel(
-                await AddressablesLoader.LoadAsync<ItemGenerationConfig>("item_generation_config"),
-                _itemConfigs);
-            
+            _itemConfigs = await AddressablesLoader.LoadAllAsync<ItemConfig>("items");
             InitializeUI();
             InitializeInput();
             InitializeItemGeneration();
@@ -79,6 +66,17 @@ namespace Runtime.Core
             InitializeDragAndDrop();
             InitializeItemTooltip();
             InitializePopup();
+        }
+
+        private async Task InitializeModelStorage()
+        {
+            var inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
+            var stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
+            var itemGenerationModel = new ItemGenerationModel(
+                await AddressablesLoader.LoadAsync<ItemGenerationConfig>("item_generation_config"),
+                _itemConfigs);
+
+            _modelStorage = new InventoryModelStorage(inventoryModel, stashModel, itemGenerationModel);
         }
 
         private void OnDestroy()
@@ -103,7 +101,7 @@ namespace Runtime.Core
         private void InitializeInventory()
         {
             var inventoryView = new InventoryView(_inventoryAsset);
-            _inventoryPresenter = new InventoryPresenter(inventoryView, _inventoryModel, _menuContent.MenuRoot);
+            _inventoryPresenter = new InventoryPresenter(inventoryView, _modelStorage.CoreInventoryModel, _menuContent.MenuRoot);
             _inventoryPresenter.Enable();
         }
 
@@ -111,7 +109,7 @@ namespace Runtime.Core
         {
             var stashView = new InventoryView(_stashAsset);
             _stashPresenter = new StashPresenter(stashView,
-                _stashModel,
+                _modelStorage.StashInventoryModel,
                 _menuContent.MenuRoot,
                 _itemGenerationPresenter);
             
@@ -123,8 +121,8 @@ namespace Runtime.Core
             var itemGenerationView = new ItemGenerationView(_menuContent.MenuRoot, _createButtonAsset);
 
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
-                _itemGenerationModel,
-                new ItemGenerationRules(_inventoryModel, _stashModel));
+                _modelStorage.ItemGenerationModel,
+                new ItemGenerationRules(_modelStorage.CoreInventoryModel, _modelStorage.StashInventoryModel));
         }
 
         private void InitializeDeleteSystem()
@@ -137,18 +135,16 @@ namespace Runtime.Core
 
         private void InitializeItemRotation()
         {
-            _itemRotationHandler = new ItemRotationHandler(_playerControls, () => _dragDropModel.CurrentItem);
+            _itemRotationHandler = new ItemRotationHandler(_playerControls, () => _modelStorage.DragDropModel.CurrentItem);
         }
 
         private void InitializeDragAndDrop()
         {
-            _dragDropModel = new DragDropModel();
-            
-            _dragDropPresenter = new DragDropPresenter(_dragDropModel, _deleteAreaPresenter, _deleteConfirmationPresenter, _itemRotationHandler, _document.rootVisualElement);
+            _dragDropPresenter = new DragDropPresenter(_modelStorage.DragDropModel, _deleteAreaPresenter, _deleteConfirmationPresenter, _itemRotationHandler, _document.rootVisualElement);
 
-            _dragDropModel.RegisterInventory(_inventoryModel);
+            _modelStorage.DragDropModel.RegisterInventory(_modelStorage.CoreInventoryModel);
             
-            _dragDropModel.RegisterInventory(_stashModel);
+            _modelStorage.DragDropModel.RegisterInventory(_modelStorage.StashInventoryModel);
             
             _dragDropPresenter.Enable();
         }
@@ -157,7 +153,7 @@ namespace Runtime.Core
         {
             var itemTooltipView = new ItemTooltipView(_popupContent);
             
-            var itemTooltipPresenter = new ItemTooltipPresenter(itemTooltipView, _inventoryModel, _stashModel);
+            var itemTooltipPresenter = new ItemTooltipPresenter(itemTooltipView, _modelStorage);
             
             itemTooltipPresenter.Enable();
         }
@@ -165,7 +161,7 @@ namespace Runtime.Core
         private void InitializePopup()
         {
             var popupView = new PopupView(_popupContent);
-            _popupPresenter = new PopupPresenter(_popupModel, popupView);
+            _popupPresenter = new PopupPresenter(_modelStorage.PopupModel, popupView);
             _popupPresenter.Enable();
         }
     }
