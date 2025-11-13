@@ -27,6 +27,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - items
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d01060839df20d43a5b453b56147ce5
+    m_Address: Assets/Content/Configs/ItemGeneration/ItemGenerationErrorMessage.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - item_generation_error_message
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4d538ef34545c5e4f837f566342a10b6
     m_Address: Assets/Content/Configs/Items/Pistol-silencer.asset
     m_ReadOnly: 0
