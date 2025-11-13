@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Runtime.Inventory.ItemGeneration
 {
-    [CreateAssetMenu(fileName = "ItemGenerationConfig", menuName = "Items/ItemGenerationConfig")]
+    [CreateAssetMenu(fileName = "ItemGenerationConfig", menuName = "ItemGeneration/ItemGenerationConfig")]
     public sealed class ItemGenerationConfig : ScriptableObject
     {
         [Tooltip("Configurations of items that can be generated")]
-        public List<ItemConfig> itemConfigs = new();
+        public List<ItemConfig> ItemConfigs = new();
 
         [Tooltip("The default number of items to generate.")]
-        public int defaultCount = 3;
+        public int DefaultCount = 3;
 
         [Tooltip("If true, all items from the database can be used.")]
-        public bool useAllItemsFromDatabase = true;
+        public bool UseAllItemsFromDatabase = true;
     }
 }
