@@ -2,11 +2,6 @@ namespace Runtime.Inventory
 {
     public static class InventoryConstants
     {
-        public static class Item
-        {
-            public const string ConfigPath = "Configs/Items";
-        }
-
         public static class UI
         {
             public const int CellSize = 100;
@@ -31,7 +26,7 @@ namespace Runtime.Inventory
                 public const string ItemProjectionCanPlace = "item-projection-can-place";
                 public const string ItemProjectionCannotPlace = "item-projection-cannot-place";
             }
-
+            
             public static class Tooltip
             {
                 public const string Root = "tooltip";
