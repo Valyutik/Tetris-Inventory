@@ -10,13 +10,13 @@ namespace Runtime.Inventory.Common
         private readonly int _initialWidth;
         private readonly int _initialHeight;
 
-        public DynamicGrid(int maxWidth, int maxHeight, int initialWidth = 0, int initialHeight = 0) : base(initialWidth,
+        public DynamicGrid(int maxWidth, int maxHeight, int initialWidth = 1, int initialHeight = 1) : base(initialWidth,
             initialHeight)
         {
             _maxWidth = maxWidth;
             _maxHeight = maxHeight;
-            _initialWidth = initialWidth;
-            _initialHeight = initialHeight;
+            _initialWidth = 0;
+            _initialHeight = 0;
         }
 
         public override bool TryAddItem(Item item)
@@ -42,28 +42,34 @@ namespace Runtime.Inventory.Common
 
             if (Width < _maxWidth)
             {
-                newWidth = Math.Min(_maxWidth, Width + item.Width);
-                newHeight = Math.Max(Height, item.Height);
+                newWidth = Math.Min(_maxWidth, Width + Math.Max(1, item.Width));
             }
-            else if (Height < _maxHeight)
+    
+            if (Height < _maxHeight)
             {
-                newWidth = Width;
-                newHeight = Math.Min(_maxHeight, Height + item.Height);
+                newHeight = Math.Min(_maxHeight, Height + Math.Max(1, item.Height));
             }
 
             if (newWidth == Width && newHeight == Height)
                 return;
 
             var newCells = new Cell[newWidth, newHeight];
+    
             for (var y = 0; y < newHeight; y++)
-            for (var x = 0; x < newWidth; x++)
             {
-                if (x < Width && y < Height)
-                    newCells[x, y] = Cells[x, y];
-                else
-                    newCells[x, y] = new Cell(new Vector2Int(x, y));
+                for (var x = 0; x < newWidth; x++)
+                {
+                    if (x < Width && y < Height)
+                    {
+                        newCells[x, y] = Cells[x, y];
+                    }
+                    else
+                    {
+                        newCells[x, y] = new Cell(new Vector2Int(x, y));
+                    }
+                }
             }
-
+            
             Cells = newCells;
         }
     }
