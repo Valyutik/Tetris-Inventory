@@ -15,6 +15,24 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: c043a06d8dab6f24fab59d61bee11047
   m_SerializeEntries:
+  - m_GUID: 0e0f1e49ae51b104f8eae2aa080b5a67
+    m_Address: Assets/Content/Configs/Items/Revolver.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - items
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 193838f533ad50140970f65eeb867fbf
+    m_Address: Assets/Content/Configs/Items/Shotgun.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - items
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d538ef34545c5e4f837f566342a10b6
+    m_Address: Assets/Content/Configs/Items/Pistol-silencer.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - items
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9f6bfde83d4bdd446a0f039f9272e6e3
     m_Address: Assets/Content/Configs/ItemGeneration/ItemGenerationConfig.asset
     m_ReadOnly: 0
@@ -23,6 +41,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b154c55d9bb315c43a450f0a8e1f34d6
     m_Address: Configs/Items/First_aid_kit
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - items
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2c3a95e325b3394f97810b0008c4ee9
+    m_Address: Assets/Content/Configs/Items/Sniper-rifle.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - items
