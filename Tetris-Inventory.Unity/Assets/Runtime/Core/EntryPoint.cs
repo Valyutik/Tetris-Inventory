@@ -8,6 +8,7 @@ using Runtime.Inventory.DeleteArea;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Stash;
 using UnityEngine.UIElements;
+using System.Threading.Tasks;
 using Runtime.Utilities;
 using Runtime.Input;
 using Runtime.Popup;
@@ -71,7 +72,7 @@ namespace Runtime.Core
             
             InitializeUI();
             InitializeInput();
-            InitializeItemGeneration();
+            await InitializeItemGeneration();
             InitializeStash();
             InitializeInventory();
             InitializeDeleteSystem();
@@ -118,13 +119,13 @@ namespace Runtime.Core
             _stashPresenter.Enable();
         }
 
-        private void InitializeItemGeneration()
+        private async Task InitializeItemGeneration()
         {
             var itemGenerationView = new ItemGenerationView(_menuContent.MenuRoot, _createButtonAsset);
 
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
                 _itemGenerationModel,
-                new ItemGenerationRules(_inventoryModel, _stashModel));
+                new ItemGenerationRules(_inventoryModel, _stashModel, _popupModel, await AddressablesLoader.LoadAsync<ItemGenerationErrorMessage>("item_generation_error_message")));
         }
 
         private void InitializeDeleteSystem()
