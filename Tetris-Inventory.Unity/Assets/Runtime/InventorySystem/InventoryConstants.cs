@@ -19,10 +19,17 @@ namespace Runtime.InventorySystem
             
             public const string CreateButton = "create-button";
             public const string DeleteButton = "delete-button";
-
+            
             public static class Inventory
             {
                 public const string Grid = "grid";
+            }
+
+            public static class Projection
+            {
+                public const string ItemProjection = "item-projection";
+                public const string ItemProjectionCanPlace = "item-projection-can-place";
+                public const string ItemProjectionCannotPlace = "item-projection-cannot-place";
             }
 
             public static class Tooltip

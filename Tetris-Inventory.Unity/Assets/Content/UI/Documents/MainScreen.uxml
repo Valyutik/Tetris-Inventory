@@ -1,4 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Content/UI/Styles/MainScreenStyles.uss?fileID=7433441132597879392&amp;guid=98f83c414cb8d22439d8d6bfa0af444d&amp;type=3#MainScreenStyles" />
+    <Style src="project://database/Assets/Content/UI/Styles/ItemProjection.uss?fileID=7433441132597879392&amp;guid=278f4750518783a48825548a0e9eaf8f&amp;type=3#ItemProjection" />
     <ui:VisualElement name="content" style="flex-grow: 1; min-width: 100%; max-width: 100px; max-height: 100%; min-height: 100%; flex-direction: row; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px; margin-bottom: 0; flex-shrink: 0; justify-content: center; align-items: center; background-color: rgb(48, 48, 48);" />
 </ui:UXML>
