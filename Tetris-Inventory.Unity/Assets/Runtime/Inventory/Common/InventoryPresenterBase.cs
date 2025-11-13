@@ -39,6 +39,8 @@ namespace Runtime.Inventory.Common
             _model.OnAddItem += OnAddItem;
 
             _model.OnRemoveItem += OnRemoveItem;
+
+            _model.OnItemStacked += OnItemStacked;
         }
 
         public virtual void Dispose()
@@ -46,14 +48,8 @@ namespace Runtime.Inventory.Common
             _model.OnAddItem -= OnAddItem;
 
             _model.OnRemoveItem -= OnRemoveItem;
-        }
-
-        private Color GetCellColor(Vector2Int position)
-        {
-            var item = _model.GetItem(position);
-            return _model.IsCellOccupied(position)
-                ? Color.gray
-                : item?.Color ?? Color.grey;
+            
+            _model.OnItemStacked -= OnItemStacked;
         }
 
         private void CreateView()
@@ -79,10 +75,22 @@ namespace Runtime.Inventory.Common
                 }
             }
         }
-        
+
         private void OnAddItem(Vector2Int position, Item item)
         {
-            _items.Add(item, _view.CreateItem(item.Visual, position, item.Size));
+            _items.Add(item, _view.CreateItem(item));
+        }
+
+        private void OnItemStacked(Item item)
+        {
+            Debug.Log("Item stacked");
+            Debug.Log($"Succses item: {item.CurrentStack}");
+
+            if (_items.TryGetValue(item, out var visualElement))
+            {
+                Debug.Log($"Succses item: {item.CurrentStack}");
+                _view.DrawItem(visualElement, item);
+            }
         }
 
         private void OnRemoveItem(Vector2Int position, Item item)
@@ -95,8 +103,8 @@ namespace Runtime.Inventory.Common
             
             _items.Remove(item);
         }
-        
-                        
+
+
         protected void RedrawView()
         {
             ClearView();
@@ -104,7 +112,7 @@ namespace Runtime.Inventory.Common
 
             foreach (var item in _model.GetAllItems())
             {
-                _items.Add(item, _view.CreateItem(item.Visual, item.AnchorPosition, item.Size));
+                _items.Add(item, _view.CreateItem(item));
             }
         }
         

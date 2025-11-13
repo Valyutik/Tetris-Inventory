@@ -12,6 +12,7 @@ namespace Runtime.Inventory
             public const int CellSize = 100;
 
             public const string CellStyle = "cell";
+            public const string ItemStyle = "item";
             
             public const string ContentRoot = "content";
             
@@ -23,6 +24,7 @@ namespace Runtime.Inventory
             public static class Inventory
             {
                 public const string Grid = "grid";
+                public const string ItemCountLabel = "item-count-label";
             }
 
             public static class Projection

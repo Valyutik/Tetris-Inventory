@@ -13,7 +13,9 @@ namespace Runtime.Inventory.DragAndDrop
             set => DraggingElement.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
-        public VisualElement DraggingElement { get; }
+        private VisualElement DraggingElement { get; }
+
+        private readonly VisualElement _icon;
 
         private Vector2 _dragOffset;
 
@@ -25,14 +27,28 @@ namespace Runtime.Inventory.DragAndDrop
             {
                 style =
                 {
-                    position = Position.Absolute
+                    position = Position.Absolute,
+                    justifyContent = Justify.Center,
                 },
                 pickingMode = PickingMode.Ignore
             };
+
+            _icon = new VisualElement()
+            {
+                pickingMode = PickingMode.Ignore,
+                
+                style =
+                {
+                    alignSelf = Align.Center,
+                }
+            };
+            
             
             DraggingElement.AddToClassList(InventoryConstants.UI.Projection.ItemProjection);
 
             IsDragging = false;
+            
+            DraggingElement.Add(_icon);
             
             root.Add(DraggingElement);
         }
@@ -76,6 +92,7 @@ namespace Runtime.Inventory.DragAndDrop
             if (!IsDragging) return;
 
             DraggingElement.style.left = screenPosition.x - _dragOffset.x;
+            
             DraggingElement.style.top = screenPosition.y - _dragOffset.y;
 
             _cachedPointerPosition = screenPosition;
@@ -85,6 +102,14 @@ namespace Runtime.Inventory.DragAndDrop
 
         private void UpdateVisualByItem(Item item)
         {
+            _icon.style.backgroundImage= item.Visual.texture;
+            
+            _icon.style.width = item.OriginalWidth * InventoryConstants.UI.CellSize;
+            
+            _icon.style.height = item.OriginalHeight * InventoryConstants.UI.CellSize;
+
+            _icon.style.rotate = new Rotate(item.Rotation);
+            
             DraggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
 
             DraggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;

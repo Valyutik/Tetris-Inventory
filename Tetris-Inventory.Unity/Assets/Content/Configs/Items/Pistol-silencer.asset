@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39d6c810f6543e88ecb3c41ee5fe2cd, type: 3}
   m_Name: Pistol-silencer
   m_EditorClassIdentifier: 
-  Id: 
+  Id: 4
   DisplayName: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442"
   Description: "\u0431\u0435\u0441\u0448\u0443\u043C\u043D\u043E\u0435 \u043E\u0440\u0443\u0436\u0438\u0435
     \u0431\u043B\u0438\u0436\u043D\u0435\u0433\u043E \u0431\u043E\u044F \u0434\u043B\u044F
