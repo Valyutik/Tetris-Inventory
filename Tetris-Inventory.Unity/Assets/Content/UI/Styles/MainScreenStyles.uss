@@ -23,6 +23,8 @@
     border-right-color: rgb(255, 255, 255);
     border-top-color: rgb(255, 255, 255);
     border-bottom-color: rgb(255, 255, 255);
+    background-image: url("project://database/Assets/Content/Graphics/Icons/add.png?fileID=21300000&guid=b12f2792510b59d4c9821278b938d7c8&type=3#add");
+    background-size: 80% 80%;
 }
 
 .create-button:active {
@@ -37,6 +39,8 @@
     max-width: 570px;
     min-height: 100px;
     max-height: 100px;
+    background-image: url("project://database/Assets/Content/Graphics/Icons/add.png?fileID=21300000&guid=b12f2792510b59d4c9821278b938d7c8&type=3#add");
+    background-size: 70% 70%;
 }
 
 .delete-button {
@@ -73,8 +77,8 @@
     transition-timing-function: ease-in-out;
     transition-duration: 0.1s;
     background-image: url("project://database/Assets/Content/Graphics/Icons/trash.png?fileID=2800000&guid=6b049e948fefe1343afecb73b303d1b6&type=3#trash");
-    background-size: 96px 96px;
-    -unity-background-image-tint-color: rgb(22, 22, 22);
+    background-size: 60% 60%;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
 .delete-button-ready {
@@ -111,8 +115,8 @@
     transition-timing-function: ease-in-out;
     transition-duration: 0.1s;
     background-image: url("project://database/Assets/Content/Graphics/Icons/trash.png?fileID=2800000&guid=6b049e948fefe1343afecb73b303d1b6&type=3#trash");
-    background-size: 96px 96px;
-    -unity-background-image-tint-color: rgb(22, 22, 22);
+    background-size: 75% 75%;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
 .cell {
