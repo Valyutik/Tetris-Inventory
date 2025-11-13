@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Runtime.InventorySystem.Common
 {
@@ -7,29 +8,31 @@ namespace Runtime.InventorySystem.Common
     public sealed class ItemConfig : ScriptableObject
     {
         [Header("Basic Info")]
-        public string id;
-        public string displayName;
-        public string description;
-        public Color color;
+        public string Id;
+        public string DisplayName;
+        public string Description;
+        public Color Color;
 
         [Header("Size & Shape")]
-        public int width;
-        public int height;
+        public int Width;
+        public int Height;
+        public Sprite Visual;
         
         [Header("Stacking")]
-        [Min(1)] public bool isStackable;
+        [Min(1)] public bool IsStackable;
         [Min(1)] public int MaxStack = 1;
         
         [HideInInspector] public List<bool> flatShape = new();
+
         
         public bool[,] GetShapeMatrix()
         {
-            var matrix = new bool[width, height];
-            for (var y = 0; y < height; y++)
+            var matrix = new bool[Width, Height];
+            for (var y = 0; y < Height; y++)
             {
-                for (var x = 0; x < width; x++)
+                for (var x = 0; x < Width; x++)
                 {
-                    var index = y * width + x;
+                    var index = y * Width + x;
                     if (index < flatShape.Count)
                         matrix[x, y] = flatShape[index];
                 }

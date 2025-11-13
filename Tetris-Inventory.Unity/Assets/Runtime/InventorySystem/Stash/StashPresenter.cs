@@ -25,8 +25,8 @@ namespace Runtime.InventorySystem.Stash
         
         public override bool TakeItem(Vector2Int position, out Item item)
         {
-            item = model.GetItem(position);
-            model.TryRemoveItem(item);
+            item = _model.GetItem(position);
+            _model.TryRemoveItem(item);
             UpdateView();
             return item != null;
         }
@@ -35,10 +35,10 @@ namespace Runtime.InventorySystem.Stash
 
         private void SetItems(IEnumerable<Item> items)
         {
-            model.Clear();
+            _model.Clear();
             foreach (var item in items)
             {
-                model.TryPlaceItem(item, false);
+                _model.TryPlaceItem(item, false);
             }
             
             RedrawView();
