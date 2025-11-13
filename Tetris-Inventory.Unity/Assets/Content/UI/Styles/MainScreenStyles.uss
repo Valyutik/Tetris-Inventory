@@ -145,7 +145,6 @@
 
 .item {
     flex-grow: 0;
-    background-color: rgba(48, 48, 48, 0);
     margin-top: 0;
     margin-right: 0;
     margin-bottom: 0;
@@ -169,6 +168,8 @@
     border-bottom-left-radius: 0;
     width: 100px;
     height: 100px;
+    position: absolute;
+    justify-content: center;
 }
 
 .item-projection-can-place {

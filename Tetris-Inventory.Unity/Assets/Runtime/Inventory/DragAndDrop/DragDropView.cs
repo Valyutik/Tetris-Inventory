@@ -85,9 +85,13 @@ namespace Runtime.Inventory.DragAndDrop
 
         private void UpdateVisualByItem(Item item)
         {
-            DraggingElement.style.width = item.Width * InventoryConstants.UI.CellSize;
+            DraggingElement.style.backgroundImage= item.Visual.texture;
 
-            DraggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
+            DraggingElement.style.rotate = new Rotate(item.Rotation);
+            
+            DraggingElement.style.width = item.OriginalWidth * InventoryConstants.UI.CellSize;
+
+            DraggingElement.style.height = item.OriginalHeight * InventoryConstants.UI.CellSize;
         }
 
         private Vector2 GetOffsetByItem(Item item) 

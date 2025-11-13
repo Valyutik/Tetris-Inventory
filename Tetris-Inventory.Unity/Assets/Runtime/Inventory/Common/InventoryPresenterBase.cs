@@ -82,7 +82,7 @@ namespace Runtime.Inventory.Common
         
         private void OnAddItem(Vector2Int position, Item item)
         {
-            _items.Add(item, _view.CreateItem(item.Visual, position, item.Size));
+            _items.Add(item, _view.CreateItem(item.Visual, position, item.OriginalSize, item.Size, item.Rotation));
         }
 
         private void OnRemoveItem(Vector2Int position, Item item)
@@ -104,7 +104,7 @@ namespace Runtime.Inventory.Common
 
             foreach (var item in _model.GetAllItems())
             {
-                _items.Add(item, _view.CreateItem(item.Visual, item.AnchorPosition, item.Size));
+                _items.Add(item, _view.CreateItem(item.Visual, item.AnchorPosition, item.OriginalSize, item.Size, item.Rotation));
             }
         }
         

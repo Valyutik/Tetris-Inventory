@@ -13,10 +13,6 @@ MonoBehaviour:
   m_Name: ItemGenerationConfig
   m_EditorClassIdentifier: 
   itemConfigs:
-  - {fileID: 11400000, guid: e67b36503353c1a439da54db12f1ab88, type: 2}
-  - {fileID: 11400000, guid: c576ce598a9422a469418be3845bde1a, type: 2}
-  - {fileID: 11400000, guid: b154c55d9bb315c43a450f0a8e1f34d6, type: 2}
-  - {fileID: 11400000, guid: c9997494cf50c2e4fb27826484f4c189, type: 2}
   - {fileID: 11400000, guid: 4d538ef34545c5e4f837f566342a10b6, type: 2}
   - {fileID: 11400000, guid: 0e0f1e49ae51b104f8eae2aa080b5a67, type: 2}
   - {fileID: 11400000, guid: 193838f533ad50140970f65eeb867fbf, type: 2}

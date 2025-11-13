@@ -4,11 +4,14 @@ namespace Runtime.Inventory.Common
 {
     public class Item
     {
+        private const int RotationStep = 90;
+        
         public string Id { get; }
         public  string Name { get; }
         public  string Description { get; }
         public Vector2Int AnchorPosition { get; set; }
         public Vector2Int Size => new Vector2Int(Width, Height);
+        public Vector2Int OriginalSize => new Vector2Int(OriginalWidth, OriginalHeight);
         public bool[,] Shape { get; private set; }
         
         public Sprite Visual { get; private set;}
@@ -21,7 +24,32 @@ namespace Runtime.Inventory.Common
         public int Width => Shape.GetLength(0);
         public int Height => Shape.GetLength(1);
         
+        public int OriginalWidth { get; private set; }
+        
+        public int OriginalHeight { get; private set; }
+
+        public int Rotation
+        {
+            get => _rotation;
+            set
+            {
+                if (value >= 360)
+                {
+                    while (value > 360)
+                    {
+                        value -= 360;
+                    }
+                }
+                
+                _rotation = value;
+            }
+        }
+        
         private bool[,] _cachedShape;
+        
+        private int _cachedRotation;
+
+        private int _rotation;
 
         public Item(string id,
             string name,
@@ -41,6 +69,8 @@ namespace Runtime.Inventory.Common
             MaxStack = maxStack;
             CurrentStack = currentStack;
             Shape = ValidateShape(shape);
+            OriginalWidth = Width;
+            OriginalHeight = Height;
             Visual = sprite;
         }
 
@@ -63,11 +93,15 @@ namespace Runtime.Inventory.Common
         public void CacheShape()
         {
             _cachedShape = (bool[,])Shape.Clone();
+
+            _cachedRotation = Rotation;
         }
 
         public void RestoreShape()
         {
             Shape = (bool[,])_cachedShape.Clone();
+            
+            Rotation = _cachedRotation;
         }
         
         public void RotateShape()
@@ -86,6 +120,8 @@ namespace Runtime.Inventory.Common
             }
 
             Shape = newShape;
+
+            Rotation += RotationStep;
         }
 
         private bool[,] CreateDefaultShape()
