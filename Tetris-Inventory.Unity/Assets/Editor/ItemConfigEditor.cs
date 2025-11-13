@@ -1,7 +1,7 @@
-using Runtime.InventorySystem.Common;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System.Linq;
+using Runtime.Inventory.Item;
 using UnityEditor;
 using UnityEngine;
 
