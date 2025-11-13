@@ -16,8 +16,8 @@ namespace Runtime.InventorySystem.Inventory
         
         public override bool TakeItem(Vector2Int position, out Item item)
         {
-            item = model.GetItem(position);
-            model.TryRemoveItem(item);
+            item = _model.GetItem(position);
+            _model.TryRemoveItem(item);
             UpdateView();
             return item != null;
         }
@@ -26,7 +26,7 @@ namespace Runtime.InventorySystem.Inventory
         {
             if (item == null) return false;
 
-            var success = model.TryPlaceItem(item, position);
+            var success = _model.TryPlaceItem(item, position);
 
             UpdateView();
             return success;

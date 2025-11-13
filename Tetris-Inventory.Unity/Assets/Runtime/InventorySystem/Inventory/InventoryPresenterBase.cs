@@ -2,44 +2,64 @@ using Runtime.InventorySystem.Common;
 using UnityEngine.UIElements;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Runtime.InventorySystem.Inventory
 {
-    public abstract class InventoryPresenterBase : IInventoryPresenter
+    public abstract class InventoryPresenterBase : IInventoryPresenter, IDisposable
     {
         public event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
         public event Action OnPointerLeaveCell;
 
-        public bool HasItems => model.HasItems;
-        private int Width => model.Width;
-        private int Height => model.Height;
+        public bool HasItems => _model.HasItems;
+        private int Width => _model.Width;
+        private int Height => _model.Height;
 
-        protected readonly InventoryModel model;
+        protected readonly InventoryModel _model;
 
         private readonly InventoryView _view;
+        
         private VisualElement[,] _cells;
+
+        private readonly Dictionary<Item, VisualElement> _items  = new Dictionary<Item, VisualElement>();
 
         protected InventoryPresenterBase(InventoryView view, InventoryModel model, VisualElement menuRoot)
         {
-            this.model = model;
+            this._model = model;
             _view = view;
 
             menuRoot.Add(view.Root);
 
             CreateView();
             UpdateView();
+            
+            // TODO: TEMP SHIT!
+            Enable();
+        }
+
+        public void Enable()
+        {
+            _model.OnAddItem += OnAddItem;
+
+            _model.OnRemoveItem += OnRemoveItem;
+        }
+
+        public void Dispose()
+        {
+            
         }
 
         public abstract bool TakeItem(Vector2Int position, out Item item);
 
-        public Item GetItem(Vector2Int position) => model.GetItem(position);
+        public Item GetItem(Vector2Int position) => _model.GetItem(position);
 
         public abstract bool PlaceItem(Item item, Vector2Int position);
 
         private Color GetCellColor(Vector2Int position)
         {
-            var item = model.GetItem(position);
-            return model.IsCellOccupied(position)
+            var item = _model.GetItem(position);
+            return _model.IsCellOccupied(position)
                 ? Color.gray
                 : item?.Color ?? Color.grey;
         }
@@ -61,15 +81,29 @@ namespace Runtime.InventorySystem.Inventory
                 _cells[x, y] = cell;
             }
         }
+        
+        private void OnAddItem(Vector2Int position, Item item)
+        {
+            Debug.Log($"AddItem");
+            
+            _items.Add(item, _view.CreateItem(item.Visual, position, item.Size));
+        }
+
+        private void OnRemoveItem(Vector2Int position, Item item)
+        {
+            var visualElement = _items.GetValueOrDefault(item);
+
+            if (visualElement == null) return;
+            
+            visualElement.RemoveFromHierarchy();
+            
+            _items.Remove(item);
+        }
+
 
         protected void UpdateView()
         {
-            for (var y = 0; y < Height; y++)
-            for (var x = 0; x < Width; x++)
-            {
-                var color = GetCellColor(new Vector2Int(x, y));
-                _view.RepaintCell(_cells[x, y], color);
-            }
+
         }
 
         protected void RedrawView()
