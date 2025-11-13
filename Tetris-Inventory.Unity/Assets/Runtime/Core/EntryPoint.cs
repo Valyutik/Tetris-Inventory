@@ -1,15 +1,16 @@
+using Runtime.Inventory.DeleteConfirmation;
+using Runtime.Inventory.ItemGeneration;
+using Runtime.Inventory.ItemRotation;
 using Runtime.Systems.ContentManager;
+using Runtime.Inventory.ItemTooltip;
+using Runtime.Inventory.DragAndDrop;
+using Runtime.Inventory.DeleteArea;
+using Runtime.Inventory.Common;
+using Runtime.Inventory.Stash;
 using UnityEngine.UIElements;
 using Runtime.Utilities;
 using Runtime.Input;
-using Runtime.Inventory.Common;
-using Runtime.Inventory.DeleteArea;
-using Runtime.Inventory.DeleteConfirmation;
-using Runtime.Inventory.DragAndDrop;
-using Runtime.Inventory.ItemGeneration;
-using Runtime.Inventory.ItemRotation;
-using Runtime.Inventory.ItemTooltip;
-using Runtime.Inventory.Stash;
+using Runtime.Popup;
 using UnityEngine;
 
 namespace Runtime.Core
@@ -47,6 +48,9 @@ namespace Runtime.Core
         
         private ItemRotationHandler _itemRotationHandler;
         
+        private PopupModel  _popupModel;
+        private PopupPresenter _popupPresenter;
+        
         private DragDropPresenter _dragDropPresenter;
         private DragDropModel _dragDropModel;
         
@@ -55,6 +59,8 @@ namespace Runtime.Core
 
         private async void Start()
         {
+            _popupModel = new PopupModel();
+            
             _inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
             _stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
             _itemConfigs = await AddressablesLoader.LoadAllAsync<ItemConfig>("items");
@@ -72,12 +78,14 @@ namespace Runtime.Core
             InitializeItemRotation();
             InitializeDragAndDrop();
             InitializeItemTooltip();
+            InitializePopup();
         }
 
         private void OnDestroy()
         {
             _playerControls?.Disable();
             _itemRotationHandler.Dispose();
+            _popupPresenter.Disable();
         }
 
         private void InitializeUI()
@@ -152,6 +160,13 @@ namespace Runtime.Core
             var itemTooltipPresenter = new ItemTooltipPresenter(itemTooltipView, _inventoryModel, _stashModel);
             
             itemTooltipPresenter.Enable();
+        }
+
+        private void InitializePopup()
+        {
+            var popupView = new PopupView(_popupContent);
+            _popupPresenter = new PopupPresenter(_popupModel, popupView);
+            _popupPresenter.Enable();
         }
     }
 }
