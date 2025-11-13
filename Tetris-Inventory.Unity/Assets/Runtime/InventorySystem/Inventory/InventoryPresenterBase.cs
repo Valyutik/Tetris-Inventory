@@ -52,8 +52,8 @@ namespace Runtime.InventorySystem.Inventory
 
         public abstract bool TakeItem(Vector2Int position, out Item item);
 
-        public Item GetItem(Vector2Int position) => model.GetItem(position);
-        public bool CanPlaceItem(Item item, Vector2Int position) => model.CanPlaceItem(item, position);
+        public Item GetItem(Vector2Int position) => _model.GetItem(position);
+        public bool CanPlaceItem(Item item, Vector2Int position) => _model.CanPlaceItem(item, position);
 
         public abstract bool PlaceItem(Item item, Vector2Int position);
 
