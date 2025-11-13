@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Runtime.Inventory.Common;
 
 namespace Runtime.Inventory.ItemGeneration
 {
@@ -10,7 +11,7 @@ namespace Runtime.Inventory.ItemGeneration
         private readonly ItemGenerationModel _model;
         private readonly ItemGenerationRules _rules;
         
-        public event Action<IEnumerable<Item.Item>> OnItemGenerated;
+        public event Action<IEnumerable<Item>> OnItemGenerated;
 
         public ItemGenerationPresenter(ItemGenerationView view,
             ItemGenerationModel model,

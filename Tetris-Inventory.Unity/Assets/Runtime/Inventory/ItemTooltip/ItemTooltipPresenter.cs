@@ -6,38 +6,38 @@ namespace Runtime.Inventory.ItemTooltip
     public class ItemTooltipPresenter
     {
         private readonly ItemTooltipView _view;
-        private readonly IInventoryPresenter _inventory;
-        private readonly IInventoryPresenter _stash;
+        private readonly InventoryModel _inventory;
+        private readonly InventoryModel _stash;
 
-        public ItemTooltipPresenter(ItemTooltipView view, IInventoryPresenter inventory,
-            IInventoryPresenter stash)
+        public ItemTooltipPresenter(ItemTooltipView view, InventoryModel inventory,
+            InventoryModel stash)
         {
             _view = view;
             _inventory = inventory;
             _stash = stash;
-
-            Enable();
         }
 
         public void Enable()
         {
-            _stash.OnPointerEnterCell += ShowTooltip;
-            _stash.OnPointerLeaveCell += HideTooltip;
-            _inventory.OnPointerEnterCell += ShowTooltip;
-            _inventory.OnPointerLeaveCell += HideTooltip;
+            _stash.OnSelectCell += ShowTooltip;
+            _stash.OnDeselectCell += HideTooltip;
+
+            _inventory.OnSelectCell += ShowTooltip;
+            _inventory.OnDeselectCell += HideTooltip;
         }
         
         public void Disable()
         {
-            _stash.OnPointerEnterCell -= ShowTooltip;
-            _stash.OnPointerLeaveCell -= HideTooltip;
-            _inventory.OnPointerEnterCell -= ShowTooltip;
-            _inventory.OnPointerLeaveCell -= HideTooltip;
+            _stash.OnSelectCell -= ShowTooltip;
+            _stash.OnDeselectCell -= HideTooltip;
+            
+            _inventory.OnSelectCell -= ShowTooltip;
+            _inventory.OnDeselectCell -= HideTooltip;
         }
 
-        private void ShowTooltip(Vector2Int position, IInventoryPresenter presenter)
+        private void ShowTooltip(Vector2Int position, InventoryModel inventory)
         {
-            var item = presenter.GetItem(position);
+            var item = inventory.GetItem(position);
             
             if (item == null)
             {

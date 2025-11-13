@@ -5,55 +5,48 @@ using UnityEngine.UIElements;
 
 namespace Runtime.Inventory.Common
 {
-    public abstract class InventoryPresenterBase : IInventoryPresenter, IDisposable
+    public abstract class InventoryPresenterBase : IDisposable
     {
-        public event Action<Vector2Int, IInventoryPresenter> OnPointerEnterCell;
-        public event Action OnPointerLeaveCell;
-
         public bool HasItems => _model.HasItems;
+        
+        protected InventoryModel Model => _model;
+        
         private int Width => _model.Width;
+        
         private int Height => _model.Height;
 
-        protected readonly InventoryModel _model;
+        private readonly InventoryModel _model;
 
         private readonly InventoryView _view;
         
         private VisualElement[,] _cells;
 
-        private readonly Dictionary<Item.Item, VisualElement> _items  = new Dictionary<Item.Item, VisualElement>();
-
+        private readonly Dictionary<Item, VisualElement> _items  = new Dictionary<Item, VisualElement>();
+        
         protected InventoryPresenterBase(InventoryView view, InventoryModel model, VisualElement menuRoot)
         {
-            this._model = model;
+            _model = model;
+            
             _view = view;
 
             menuRoot.Add(view.Root);
-
-            CreateView();
-            UpdateView();
-            
-            // TODO: TEMP SHIT!
-            Enable();
         }
 
-        public void Enable()
+        public virtual void Enable()
         {
+            CreateView();
+            
             _model.OnAddItem += OnAddItem;
 
             _model.OnRemoveItem += OnRemoveItem;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
-            
+            _model.OnAddItem -= OnAddItem;
+
+            _model.OnRemoveItem -= OnRemoveItem;
         }
-
-        public abstract bool TakeItem(Vector2Int position, out Item.Item item);
-
-        public Item.Item GetItem(Vector2Int position) => _model.GetItem(position);
-        public bool CanPlaceItem(Item.Item item, Vector2Int position) => _model.CanPlaceItem(item, position);
-
-        public abstract bool PlaceItem(Item.Item item, Vector2Int position);
 
         private Color GetCellColor(Vector2Int position)
         {
@@ -69,26 +62,30 @@ namespace Runtime.Inventory.Common
             _cells = new VisualElement[Width, Height];
 
             for (var y = 0; y < Height; y++)
-            for (var x = 0; x < Width; x++)
             {
-                var cell = _view.CreateCell();
-                var pos = new Vector2Int(x, y);
+                for (var x = 0; x < Width; x++)
+                {
+                    var cell = _view.CreateCell();
+                    var pos = new Vector2Int(x, y);
 
-                cell.RegisterCallback<PointerEnterEvent>(_ => OnPointerEnterCell?.Invoke(pos, this));
-                cell.RegisterCallback<PointerLeaveEvent>(_ => OnPointerLeaveCell?.Invoke());
+                    var onSelect = new EventCallback<PointerEnterEvent>(_ => _model.SelectCell(pos));
+                    var onDeselect = new EventCallback<PointerLeaveEvent>(_ => _model.DeselectCell(pos));
+                    
+                    cell.RegisterCallback<PointerEnterEvent>(onSelect);
+                    
+                    cell.RegisterCallback<PointerLeaveEvent>(onDeselect);
                 
-                _cells[x, y] = cell;
+                    _cells[x, y] = cell;
+                }
             }
         }
         
-        private void OnAddItem(Vector2Int position, Item.Item item)
+        private void OnAddItem(Vector2Int position, Item item)
         {
-            Debug.Log($"AddItem");
-            
             _items.Add(item, _view.CreateItem(item.Visual, position, item.Size));
         }
 
-        private void OnRemoveItem(Vector2Int position, Item.Item item)
+        private void OnRemoveItem(Vector2Int position, Item item)
         {
             var visualElement = _items.GetValueOrDefault(item);
 
@@ -98,22 +95,22 @@ namespace Runtime.Inventory.Common
             
             _items.Remove(item);
         }
-
-
-        protected void UpdateView()
-        {
-
-        }
-
+        
+                        
         protected void RedrawView()
         {
             ClearView();
             CreateView();
-            UpdateView();
-        }
 
+            foreach (var item in _model.GetAllItems())
+            {
+                _items.Add(item, _view.CreateItem(item.Visual, item.AnchorPosition, item.Size));
+            }
+        }
+        
         private void ClearView()
         {
+            _items.Clear();
             _view.ClearGrid();
             _cells = null;
         }

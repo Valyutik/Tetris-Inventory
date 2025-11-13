@@ -1,5 +1,6 @@
 using System;
 using Runtime.Input;
+using Runtime.Inventory.Common;
 using UnityEngine.InputSystem;
 
 namespace Runtime.Inventory.ItemRotation
@@ -9,9 +10,9 @@ namespace Runtime.Inventory.ItemRotation
         public event Action OnItemRotated;
         
         private readonly PlayerControls _playerControls;
-        private readonly Func<Item.Item> _getCurrentItem;
+        private readonly Func<Item> _getCurrentItem;
 
-        public ItemRotationHandler(PlayerControls playerControls, Func<Item.Item> getCurrentItem)
+        public ItemRotationHandler(PlayerControls playerControls, Func<Item> getCurrentItem)
         {
             _playerControls = playerControls;
             _getCurrentItem = getCurrentItem;

@@ -6,7 +6,6 @@ using Runtime.Inventory.Common;
 using Runtime.Inventory.DeleteArea;
 using Runtime.Inventory.DeleteConfirmation;
 using Runtime.Inventory.DragAndDrop;
-using Runtime.Inventory.Item;
 using Runtime.Inventory.ItemGeneration;
 using Runtime.Inventory.ItemRotation;
 using Runtime.Inventory.ItemTooltip;
@@ -95,6 +94,7 @@ namespace Runtime.Core
         {
             var inventoryView = new InventoryView(_inventoryAsset);
             _inventoryPresenter = new InventoryPresenter(inventoryView, _inventoryModel, _menuContent.MenuRoot);
+            _inventoryPresenter.Enable();
         }
 
         private void InitializeStash()
@@ -104,6 +104,8 @@ namespace Runtime.Core
                 _stashModel,
                 _menuContent.MenuRoot,
                 _itemGenerationPresenter);
+            
+            _stashPresenter.Enable();
         }
 
         private void InitializeItemGeneration()
@@ -130,20 +132,22 @@ namespace Runtime.Core
 
         private void InitializeDragAndDrop()
         {
-            _dragDropPresenter = new DragDropPresenter(_deleteAreaPresenter,
-                _deleteConfirmationPresenter,
-                _itemRotationHandler);
+            _dragDropPresenter = new DragDropPresenter(_deleteAreaPresenter, _deleteConfirmationPresenter, _itemRotationHandler, _document.rootVisualElement);
 
-            _dragDropPresenter.RegisterInventory(_inventoryPresenter);
-
-            _dragDropPresenter.RegisterInventory(_stashPresenter);
-            _dragDropPresenter.Init(_document.rootVisualElement);
+            _dragDropPresenter.RegisterInventory(_inventoryModel);
+            
+            _dragDropPresenter.RegisterInventory(_stashModel);
+            
+            _dragDropPresenter.Enable();
         }
 
         private void InitializeItemTooltip()
         {
             var itemTooltipView = new ItemTooltipView(_popupContent);
-            var itemTooltipPresenter = new ItemTooltipPresenter(itemTooltipView, _inventoryPresenter, _stashPresenter);
+            
+            var itemTooltipPresenter = new ItemTooltipPresenter(itemTooltipView, _inventoryModel, _stashModel);
+            
+            itemTooltipPresenter.Enable();
         }
     }
 }

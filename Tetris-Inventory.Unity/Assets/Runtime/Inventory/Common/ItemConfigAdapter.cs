@@ -1,4 +1,4 @@
-namespace Runtime.Inventory.Item
+namespace Runtime.Inventory.Common
 {
     public static class ItemConfigAdapter
     {
