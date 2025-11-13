@@ -22,10 +22,13 @@ namespace Editor
             AddNameField(config, root);
 
             AddDescriptionField(root, config);
+            
+            AddVisualField(config, root);
 
             AddColorField(config, root);
             
             AddStackField(config, root);
+            
 
             var shapeLabel = new Label(" Shape")
             {
@@ -39,24 +42,24 @@ namespace Editor
 
             var widthField = new IntegerField("Width")
             {
-                value = config.width
+                value = config.Width
             };
             
             var heightField = new IntegerField("Height")
             {
-                value = config.height
+                value = config.Height
             };
             
             widthField.RegisterValueChangedCallback(evt =>
             {
-                config.width = Mathf.Max(1, evt.newValue);
+                config.Width = Mathf.Max(1, evt.newValue);
                 UpdateShapeGrid(root, config);
                 EditorUtility.SetDirty(config);
             });
             
             heightField.RegisterValueChangedCallback(evt =>
             {
-                config.height = Mathf.Max(1, evt.newValue);
+                config.Height = Mathf.Max(1, evt.newValue);
                 UpdateShapeGrid(root, config);
                 EditorUtility.SetDirty(config);
             });
@@ -109,7 +112,7 @@ namespace Editor
         {
             var isStackableField = new Toggle("Is Stackable")
             {
-                value = config.isStackable
+                value = config.IsStackable
             };
             
             var maxStackField = new IntegerField("Max Stack")
@@ -122,7 +125,7 @@ namespace Editor
 
             isStackableField.RegisterValueChangedCallback(evt =>
             {
-                config.isStackable = evt.newValue;
+                config.IsStackable = evt.newValue;
                 EditorUtility.SetDirty(config);
             });
 
@@ -151,12 +154,12 @@ namespace Editor
         {
             var colorField = new ColorField("Color")
             {
-                value = config.color
+                value = config.Color
             };
             
             colorField.RegisterValueChangedCallback(evt =>
             {
-                config.color = evt.newValue;
+                config.Color = evt.newValue;
                 EditorUtility.SetDirty(config);
             });
             
@@ -171,12 +174,12 @@ namespace Editor
 
             var descriptionField = new TextField
             {
-                value = config.description, multiline = true,
+                value = config.Description, multiline = true,
             };
             
             descriptionField.RegisterValueChangedCallback(evt =>
             {
-                config.description = evt.newValue;
+                config.Description = evt.newValue;
                 EditorUtility.SetDirty(config);
             });
             
@@ -187,28 +190,45 @@ namespace Editor
         {
             var nameField = new TextField("Display Name")
             {
-                value = config.displayName
+                value = config.DisplayName
             };
             
             nameField.RegisterValueChangedCallback(evt =>
             {
-                config.displayName = evt.newValue;
+                config.DisplayName = evt.newValue;
                 EditorUtility.SetDirty(config);
             });
             
             root.Add(nameField);
+        }
+        
+        private void AddVisualField(ItemConfig config, VisualElement root)
+        {
+            var visualField = new ObjectField("Visual")
+            {
+                objectType = typeof(Sprite),
+                value = config.Visual 
+            };
+    
+            visualField.RegisterValueChangedCallback(evt =>
+            {
+                config.Visual = (Sprite)evt.newValue;
+                EditorUtility.SetDirty(config);
+            });
+    
+            root.Add(visualField);
         }
 
         private void AddIdField(ItemConfig config, VisualElement root)
         {
             var idField = new TextField("ID")
             {
-                value = config.id
+                value = config.Id
             };
             
             idField.RegisterValueChangedCallback(evt =>
             {
-                config.id = evt.newValue;
+                config.Id = evt.newValue;
                 EditorUtility.SetDirty(config);
             });
             
@@ -217,7 +237,7 @@ namespace Editor
 
         private void UpdateShapeGrid(VisualElement root, ItemConfig config)
         {
-            var totalCells = config.width * config.height;
+            var totalCells = config.Width * config.Height;
 
             while (config.flatShape.Count < totalCells)
             {
@@ -232,7 +252,7 @@ namespace Editor
             var gridContainer = root.Q<VisualElement>("ShapeGrid");
             gridContainer.Clear();
 
-            for (var y = 0; y < config.height; y++)
+            for (var y = 0; y < config.Height; y++)
             {
                 var row = new VisualElement
                 {
@@ -242,9 +262,9 @@ namespace Editor
                     }
                 };
 
-                for (var x = 0; x < config.width; x++)
+                for (var x = 0; x < config.Width; x++)
                 {
-                    var index = y * config.width + x;
+                    var index = y * config.Width + x;
 
                     var toggle = new Toggle
                     {

@@ -1,3 +1,4 @@
+using System;
 using Runtime.InventorySystem.Common;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,11 @@ namespace Runtime.InventorySystem.Inventory
 {
     public sealed class InventoryModel
     {
+        public event Action<Vector2Int, Item> OnAddItem;
+        public event Action<Vector2Int, Item> OnRemoveItem;
+        
         private readonly List<Item> _items;
+        
         private readonly Grid _grid;
 
         public int Width => _grid.Width;
@@ -106,6 +111,9 @@ namespace Runtime.InventorySystem.Inventory
             }
 
             _items.Add(item);
+            
+            OnAddItem?.Invoke(position, item);
+            
             return true;
         }
 
@@ -131,6 +139,7 @@ namespace Runtime.InventorySystem.Inventory
                 return false;
 
             _items.Add(item);
+            
             return true;
         }
 
@@ -143,6 +152,9 @@ namespace Runtime.InventorySystem.Inventory
 
             _grid.RemoveItem(item);
             _items.Remove(item);
+            
+            OnRemoveItem?.Invoke(item.AnchorPosition, item);
+
             return true;
         }
         
@@ -153,6 +165,9 @@ namespace Runtime.InventorySystem.Inventory
                 return false;
             _grid.RemoveItem(item);
             _items.Remove(item);
+            
+            OnRemoveItem?.Invoke(position, item);
+            
             return true;
         }
         

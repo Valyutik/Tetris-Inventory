@@ -8,7 +8,10 @@ namespace Runtime.InventorySystem.Common
         public  string Name { get; }
         public  string Description { get; }
         public Vector2Int AnchorPosition { get; set; }
+        public Vector2Int Size => new Vector2Int(Width, Height);
         public bool[,] Shape { get; private set; }
+        
+        public Sprite Visual { get; private set;}
         public Color Color { get; private set; }
         public bool IsStackable { get; }
         public bool IsFullStack =>  CurrentStack >= MaxStack;
@@ -27,6 +30,7 @@ namespace Runtime.InventorySystem.Common
             bool isStackable = false,
             int maxStack = 1,
             int currentStack = 1,
+            Sprite sprite = null,
             bool[,] shape = null)
         {
             Id = id;
@@ -37,6 +41,7 @@ namespace Runtime.InventorySystem.Common
             MaxStack = maxStack;
             CurrentStack = currentStack;
             Shape = ValidateShape(shape);
+            Visual = sprite;
         }
 
         public bool TryAddToStack(int amount)
