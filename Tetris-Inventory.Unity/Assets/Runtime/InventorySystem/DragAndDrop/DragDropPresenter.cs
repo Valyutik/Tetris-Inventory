@@ -110,9 +110,19 @@ namespace Runtime.InventorySystem.DragAndDrop
 
         private void OnPointerEnterCell(Vector2Int position, IInventoryPresenter target)
         {
-            _model.CurrentPosition = position;
-            
             _model.CurrentInventory = target;
+            
+            if (_model.CurrentItem != null)
+            {
+                var offsetX = _model.CurrentItem.Width / 2;
+                var offsetY = _model.CurrentItem.Height / 2;
+
+                _model.CurrentPosition = new Vector2Int(position.x - offsetX, position.y - offsetY);
+            }
+            else
+            {
+                _model.CurrentPosition = position;
+            }
         }
         
         private void OnEnterDeleteArea() => _deleteArea.DrawInteractReady(_model.CurrentItem != null);
