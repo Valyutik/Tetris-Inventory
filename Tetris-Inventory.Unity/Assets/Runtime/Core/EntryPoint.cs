@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Runtime.Inventory.DeleteConfirmation;
 using Runtime.Inventory.ItemGeneration;
 using Runtime.Inventory.ItemRotation;
 using Runtime.Systems.ContentManager;
@@ -44,7 +43,6 @@ namespace Runtime.Core
         private ItemGenerationPresenter _itemGenerationPresenter;
         private PopupPresenter _popupPresenter;
         private DragDropPresenter _dragDropPresenter;
-        private DeleteConfirmationPresenter _deleteConfirmationPresenter;
         private DeleteAreaPresenter _deleteAreaPresenter;
         
         private ItemRotationHandler _itemRotationHandler;
@@ -127,10 +125,11 @@ namespace Runtime.Core
 
         private void InitializeDeleteSystem()
         {
-            var deleteAreaView = new DeleteAreaView(_menuContent.MenuRoot);
-            _deleteAreaPresenter = new DeleteAreaPresenter(deleteAreaView);
-            var deleteConfirmationView = new DeleteConfirmationView(_deleteConfirmationAsset);
-            _deleteConfirmationPresenter = new DeleteConfirmationPresenter(deleteConfirmationView, _popupContent);
+            var deleteAreaView = new DeleteAreaView(_menuContent.MenuRoot, _deleteConfirmationAsset, _popupContent);
+            
+            _deleteAreaPresenter = new DeleteAreaPresenter(deleteAreaView, _modelStorage);
+            
+            _deleteAreaPresenter.Enable();
         }
 
         private void InitializeItemRotation()
@@ -140,7 +139,7 @@ namespace Runtime.Core
 
         private void InitializeDragAndDrop()
         {
-            _dragDropPresenter = new DragDropPresenter(_modelStorage.DragDropModel, _deleteAreaPresenter, _deleteConfirmationPresenter, _itemRotationHandler, _document.rootVisualElement);
+            _dragDropPresenter = new DragDropPresenter(_modelStorage.DragDropModel, _itemRotationHandler, _document.rootVisualElement);
 
             _modelStorage.DragDropModel.RegisterInventory(_modelStorage.CoreInventoryModel);
             

@@ -1,51 +1,96 @@
 using System;
+using Runtime.Inventory.Common;
+using Runtime.Inventory.Core;
+using Runtime.Inventory.DragAndDrop;
 using UnityEngine.UIElements;
 
 namespace Runtime.Inventory.DeleteArea
 {
-    public class DeleteAreaPresenter : IDeleteArea
+    public class DeleteAreaPresenter : IDisposable
     {
-        public event Action OnDeleteAreaInput;
-        public event Action OnEnterDeleteArea;
-        public event Action OnLeaveDeleteArea;
-        public bool InDeleteArea { get; private set; }
-        public void DrawInteractReady(bool isReady) => _view.DrawInteractReady(isReady);
-
         private readonly DeleteAreaView _view;
         
-        public DeleteAreaPresenter(DeleteAreaView view)
+        private readonly DragDropModel _dragDropModel;
+        
+        private Item _cachedItem;
+        
+        private InventoryModel _cachedInventory;
+
+        public DeleteAreaPresenter(DeleteAreaView view, InventoryModelStorage modelStorage)
         {
             _view = view;
-
-            SetUpListeners();
+            
+            _dragDropModel = modelStorage.DragDropModel;
         }
 
-        private void SetUpListeners()
+        public void Enable()
         {
-            _view.DeleteButton.RegisterCallback<PointerUpEvent>(OnPointerUp);
-            _view.DeleteButton.RegisterCallback<PointerEnterEvent>(OnPointerEnter);
-            _view.DeleteButton.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
+            _view.DeleteArea.RegisterCallback<PointerUpEvent>(OnPointerUp);
+            
+            _view.DeleteArea.RegisterCallback<PointerEnterEvent>(OnPointerEnter);
+            
+            _view.DeleteArea.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
+
+            _view.ConfirmDeleteButton.clicked += DeleteItem;
+            
+            _view.CancelDeleteButton.clicked += Cancel;
         }
-        
+
+        public void Dispose()
+        {
+            _view.DeleteArea.UnregisterCallback<PointerUpEvent>(OnPointerUp);
+            
+            _view.DeleteArea.UnregisterCallback<PointerEnterEvent>(OnPointerEnter);
+            
+            _view.DeleteArea.UnregisterCallback<PointerLeaveEvent>(OnPointerLeave);
+            
+            _view.ConfirmDeleteButton.clicked -= DeleteItem;
+            
+            _view.CancelDeleteButton.clicked -= Cancel;
+        }
+
         private void OnPointerUp(PointerUpEvent evt)
         {
-            OnDeleteAreaInput?.Invoke();
+            if (_dragDropModel.CurrentItem == null) return;
             
-            DrawInteractReady(false);
+            _view.DrawInteractReady(false);
+            
+            _view.ShowConfirmation();
         }
 
         private void OnPointerEnter(PointerEnterEvent evt)
         {
-            InDeleteArea = true;
-            
-            OnEnterDeleteArea?.Invoke();   
+            _view.DrawInteractReady(_dragDropModel.CurrentItem != null);
+
+            if (_dragDropModel.CurrentItem != null)
+            {
+                _cachedItem = _dragDropModel.CurrentItem;
+                
+                _cachedInventory = _dragDropModel.StartInventory;
+            }
         }
 
         private void OnPointerLeave(PointerLeaveEvent evt)
         {
-            InDeleteArea = false;
+            _view.DrawInteractReady(false);
+        }
+
+        private void DeleteItem()
+        {
+            _cachedInventory.TryRemoveItem(_cachedItem);
+
+            _cachedInventory = null;
             
-            OnLeaveDeleteArea?.Invoke();
+            _cachedItem = null;
+            
+            _view.HideConfirmation();
+            
+            _view.DrawInteractReady(false);
+        }
+
+        private void Cancel()
+        {
+            _view.HideConfirmation();
         }
     }
 }

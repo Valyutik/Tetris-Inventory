@@ -9,6 +9,9 @@ namespace Runtime.Inventory.DragAndDrop
     {
         public event Action<InventoryModel> OnAddInventory;
         public event Action<InventoryModel> OnRemoveInventory;
+
+        public event Action<Item> OnDraggingItem;
+        public event Action OnDropItem;
         
         public Vector2Int CurrentPosition { get; set; }
         public Vector2Int StartPosition { get; set; }
@@ -32,7 +35,24 @@ namespace Runtime.Inventory.DragAndDrop
             Inventories.Remove(inventoryModel);
             
             OnRemoveInventory?.Invoke(inventoryModel);
-        } 
-                
+        }
+
+        public void DeleteItem()
+        {
+            CurrentItem = null;
+            
+            OnDropItem?.Invoke();
+        }
+
+        public void DropItem()
+        {
+            if (CurrentItem == null || StartInventory == null) return;
+            
+            StartInventory.TryPlaceItem(CurrentItem, CurrentItem.AnchorPosition);
+            
+            CurrentItem = null;
+            
+            OnDropItem?.Invoke();
+        }
     }
 }
