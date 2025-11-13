@@ -39,32 +39,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - item_generation_config
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b154c55d9bb315c43a450f0a8e1f34d6
-    m_Address: Configs/Items/First_aid_kit
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - items
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c2c3a95e325b3394f97810b0008c4ee9
     m_Address: Assets/Content/Configs/Items/Sniper-rifle.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - items
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c576ce598a9422a469418be3845bde1a
-    m_Address: Configs/Items/Coin
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - items
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c9997494cf50c2e4fb27826484f4c189
-    m_Address: Configs/Items/Sword
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - items
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e67b36503353c1a439da54db12f1ab88
-    m_Address: Configs/Items/Axe
     m_ReadOnly: 0
     m_SerializedLabels:
     - items
