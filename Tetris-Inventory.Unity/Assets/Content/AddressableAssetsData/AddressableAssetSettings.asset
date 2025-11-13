@@ -102,6 +102,7 @@ MonoBehaviour:
     - default
     - items
     - item_generation_config
+    - item_generation_error_message
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 631e295f25b1f35438e63c95d39a969d, type: 2}

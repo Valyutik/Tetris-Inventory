@@ -1,6 +1,5 @@
 using Runtime.Systems.ContentManager;
 using UnityEngine.UIElements;
-using Runtime.Inventory;
 
 namespace Runtime.Popup
 {
@@ -21,13 +20,13 @@ namespace Runtime.Popup
         public void Show()
         {
             Root.AddToClassList(PopupConstants.Visible);
-            Root.RemoveFromClassList(InventoryConstants.UI.Tooltip.Invisible);
+            Root.RemoveFromClassList(PopupConstants.Invisible);
         }
 
         public void Hide()
         {
-            Root.RemoveFromClassList(PopupConstants.Visible);
             Root.AddToClassList(PopupConstants.Invisible);
+            Root.RemoveFromClassList(PopupConstants.Visible);
         }
     }
 }

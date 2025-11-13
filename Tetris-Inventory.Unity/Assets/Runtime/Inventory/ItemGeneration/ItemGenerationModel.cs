@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using Runtime.Inventory.Common;
+using System.Linq;
 
 namespace Runtime.Inventory.ItemGeneration
 {
@@ -12,14 +12,14 @@ namespace Runtime.Inventory.ItemGeneration
         public ItemGenerationModel(ItemGenerationConfig config, IEnumerable<ItemConfig> allItems)
         {
             _config = config;
-            _availableConfigs = config.useAllItemsFromDatabase
+            _availableConfigs = config.UseAllItemsFromDatabase
                 ? allItems.ToArray()
-                : config.itemConfigs.ToArray();
+                : config.ItemConfigs.ToArray();
         }
         
         public IEnumerable<Item> GetRandomItems()
         {
-            for (var i = 0; i < _config.defaultCount; i++)
+            for (var i = 0; i < _config.DefaultCount; i++)
             {
                 var randomConfig = _availableConfigs[UnityEngine.Random.Range(0, _availableConfigs.Length)];
                 yield return ItemConfigAdapter.ToModel(randomConfig);
