@@ -72,6 +72,8 @@ namespace Runtime.InventorySystem.DragAndDrop
             if (!success) return;
             
             _model.CurrentItem = item;
+
+            CurrentItem.CacheShape();
             
             _model.StartPosition = item.AnchorPosition;
                         
@@ -93,7 +95,11 @@ namespace Runtime.InventorySystem.DragAndDrop
             
             var success = _model.CurrentInventory.PlaceItem(_model.CurrentItem, _model.CurrentPosition);
 
-            if (!success) _model.StartInventory.PlaceItem(_model.CurrentItem, _model.StartPosition);
+            if (!success)
+            {
+                _model.CurrentItem.RestoreShape();
+                _model.StartInventory.PlaceItem(_model.CurrentItem, _model.StartPosition);
+            }
             
             _model.CurrentItem = null;
             
