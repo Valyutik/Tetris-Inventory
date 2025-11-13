@@ -1,4 +1,4 @@
-using Runtime.InventorySystem;
+using Runtime.Inventory;
 using UnityEngine.UIElements;
 
 namespace Runtime.Systems.ContentManager
