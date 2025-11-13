@@ -1,16 +1,16 @@
-using Runtime.InventorySystem.DeleteConfirmation;
-using Runtime.InventorySystem.ItemGeneration;
-using Runtime.InventorySystem.ItemRotation;
-using Runtime.InventorySystem.DragAndDrop;
-using Runtime.InventorySystem.DeleteArea;
-using Runtime.InventorySystem.Inventory;
-using Runtime.InventorySystem.Common;
 using Runtime.Systems.ContentManager;
-using Runtime.InventorySystem.Stash;
-using Runtime.InventorySystem.ItemTooltip;
 using UnityEngine.UIElements;
 using Runtime.Utilities;
 using Runtime.Input;
+using Runtime.Inventory.Common;
+using Runtime.Inventory.DeleteArea;
+using Runtime.Inventory.DeleteConfirmation;
+using Runtime.Inventory.DragAndDrop;
+using Runtime.Inventory.Item;
+using Runtime.Inventory.ItemGeneration;
+using Runtime.Inventory.ItemRotation;
+using Runtime.Inventory.ItemTooltip;
+using Runtime.Inventory.Stash;
 using UnityEngine;
 
 namespace Runtime.Core
