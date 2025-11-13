@@ -10,29 +10,26 @@ namespace Runtime.Inventory.DragAndDrop
     {
         private readonly ItemRotationHandler _rotationHandler;
 
-        private readonly VisualElement _root;
-        
         private readonly DragDropModel _model;
 
-        private DragDropView _view;
+        private readonly DragDropView _view;
 
-        public DragDropPresenter(DragDropModel model, ItemRotationHandler rotationHandler, VisualElement root)
+        public DragDropPresenter(DragDropView view, DragDropModel model, ItemRotationHandler rotationHandler)
         {
+            _view = view;
+            
             _model = model;
             
             _rotationHandler = rotationHandler;
+            
             _rotationHandler.OnItemRotated += UpdateItem;
-
-            _root = root;
         }
 
         public void Enable()
         {
-            _view = new DragDropView(_root);
-            
-            _root.RegisterCallback<PointerDownEvent>(OnPointerDown);
-            _root.RegisterCallback<PointerUpEvent>(OnPointerUp);
-            _root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
+            _view.Root.RegisterCallback<PointerDownEvent>(OnPointerDown);
+            _view.Root.RegisterCallback<PointerUpEvent>(OnPointerUp);
+            _view.Root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
 
             foreach (var inventory in _model.Inventories)
             {
@@ -47,9 +44,9 @@ namespace Runtime.Inventory.DragAndDrop
         {
             _rotationHandler.OnItemRotated -= UpdateItem;
             
-            _root.UnregisterCallback<PointerDownEvent>(OnPointerDown);
-            _root.UnregisterCallback<PointerUpEvent>(OnPointerUp);
-            _root.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
+            _view.Root.UnregisterCallback<PointerDownEvent>(OnPointerDown);
+            _view.Root.UnregisterCallback<PointerUpEvent>(OnPointerUp);
+            _view.Root.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
             
             _model.OnAddInventory -= OnAddInventory;
             _model.OnRemoveInventory -= OnRemoveInventory;

@@ -37,6 +37,8 @@ namespace Runtime.Core
         private PopupContent _popupContent;
             
         private ItemConfig[] _itemConfigs;
+        
+        private DragDropView _dragDropView;
 
         private InventoryPresenter _inventoryPresenter;
         private StashPresenter _stashPresenter;
@@ -48,7 +50,7 @@ namespace Runtime.Core
         private ItemRotationHandler _itemRotationHandler;
         
         private InventoryModelStorage _modelStorage;
-        
+
         private async void Start()
         {
             await InitializeModelStorage();
@@ -139,7 +141,9 @@ namespace Runtime.Core
 
         private void InitializeDragAndDrop()
         {
-            _dragDropPresenter = new DragDropPresenter(_modelStorage.DragDropModel, _itemRotationHandler, _document.rootVisualElement);
+            _dragDropView = new DragDropView(_document.rootVisualElement);
+            
+            _dragDropPresenter = new DragDropPresenter(_dragDropView, _modelStorage.DragDropModel, _itemRotationHandler);
 
             _modelStorage.DragDropModel.RegisterInventory(_modelStorage.CoreInventoryModel);
             

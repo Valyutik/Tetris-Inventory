@@ -6,6 +6,8 @@ namespace Runtime.Inventory.DragAndDrop
 {
     public class DragDropView
     {
+        public VisualElement Root { get; }
+        
         private bool IsDragging
         {
             get => DraggingElement.style.display == DisplayStyle.Flex;
@@ -23,6 +25,8 @@ namespace Runtime.Inventory.DragAndDrop
         
         public DragDropView(VisualElement root)
         {
+            Root = root;
+            
             DraggingElement = new VisualElement
             {
                 style =
