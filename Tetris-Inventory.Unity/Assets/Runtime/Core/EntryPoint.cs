@@ -9,7 +9,6 @@ using Runtime.Inventory.DeleteArea;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Stash;
 using UnityEngine.UIElements;
-using Runtime.Utilities;
 using Runtime.Input;
 using Runtime.Inventory.Core;
 using Runtime.Popup;
@@ -56,14 +55,14 @@ namespace Runtime.Core
         
         private ModelStorage _modelStorage;
 
-        private async void Start()
+        private void Start()
         {
             InitializeModelStorage();
             
             InitializeUI();
             InitializeInput();
             InitializeStash();
-            await InitializeItemGeneration();
+            InitializeItemGeneration();
             InitializeInventory();
             InitializeDeleteSystem();
             InitializeItemRotation();
@@ -118,13 +117,13 @@ namespace Runtime.Core
             _stashPresenter.Enable();
         }
 
-        private async Task InitializeItemGeneration()
+        private void InitializeItemGeneration()
         {
             var itemGenerationView = new ItemGenerationView(_menuContent.MenuRoot, _createButtonAsset);
 
-            _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
-                _modelStorage.ItemGenerationModel,
-                new ItemGenerationRules(_modelStorage.CoreInventoryModel, _modelStorage, _generationErrorMessage));
+            var itemGenerationRules = new ItemGenerationRules(_modelStorage.CoreInventoryModel, _modelStorage, _generationErrorMessage);
+            
+            _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView, _modelStorage.ItemGenerationModel, itemGenerationRules);
             
             _itemGenerationPresenter.Enable();
         }
