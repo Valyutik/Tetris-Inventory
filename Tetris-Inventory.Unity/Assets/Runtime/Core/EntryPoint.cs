@@ -9,11 +9,11 @@ using Runtime.Inventory.DeleteArea;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Stash;
 using UnityEngine.UIElements;
-using Runtime.Utilities;
 using Runtime.Input;
 using Runtime.Inventory.Core;
 using Runtime.Popup;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Runtime.Core
 {
@@ -33,12 +33,14 @@ namespace Runtime.Core
         [SerializeField] private VisualTreeAsset _createButtonAsset;
         [SerializeField] private VisualTreeAsset _deleteConfirmationAsset;
 
+        [Header("Item Generation")]
+        [SerializeField] private ItemGenerationConfig _generationConfig;
+        [SerializeField] private ItemGenerationErrorMessage _generationErrorMessage;
+        
         private PlayerControls _playerControls;
 
         private MenuContent _menuContent;
         private PopupContent _popupContent;
-            
-        private ItemConfig[] _itemConfigs;
         
         private DragDropView _dragDropView;
 
@@ -53,15 +55,14 @@ namespace Runtime.Core
         
         private ModelStorage _modelStorage;
 
-        private async void Start()
+        private void Start()
         {
-            await InitializeModelStorage();
-
-            _itemConfigs = await AddressablesLoader.LoadAllAsync<ItemConfig>("items");
+            InitializeModelStorage();
+            
             InitializeUI();
             InitializeInput();
             InitializeStash();
-            await InitializeItemGeneration();
+            InitializeItemGeneration();
             InitializeInventory();
             InitializeDeleteSystem();
             InitializeItemRotation();
@@ -70,13 +71,11 @@ namespace Runtime.Core
             InitializePopup();
         }
 
-        private async Task InitializeModelStorage()
+        private void InitializeModelStorage()
         {
             var inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
             var stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
-            var itemGenerationModel = new ItemGenerationModel(
-                await AddressablesLoader.LoadAsync<ItemGenerationConfig>("item_generation_config"),
-                _itemConfigs);
+            var itemGenerationModel = new ItemGenerationModel(_generationConfig);
 
             _modelStorage = new ModelStorage(inventoryModel, stashModel, itemGenerationModel);
         }
@@ -118,13 +117,13 @@ namespace Runtime.Core
             _stashPresenter.Enable();
         }
 
-        private async Task InitializeItemGeneration()
+        private void InitializeItemGeneration()
         {
             var itemGenerationView = new ItemGenerationView(_menuContent.MenuRoot, _createButtonAsset);
 
-            _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
-                _modelStorage.ItemGenerationModel,
-                new ItemGenerationRules(_modelStorage.CoreInventoryModel, _modelStorage, await AddressablesLoader.LoadAsync<ItemGenerationErrorMessage>("item_generation_error_message")));
+            var itemGenerationRules = new ItemGenerationRules(_modelStorage.CoreInventoryModel, _modelStorage, _generationErrorMessage);
+            
+            _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView, _modelStorage.ItemGenerationModel, itemGenerationRules);
             
             _itemGenerationPresenter.Enable();
         }

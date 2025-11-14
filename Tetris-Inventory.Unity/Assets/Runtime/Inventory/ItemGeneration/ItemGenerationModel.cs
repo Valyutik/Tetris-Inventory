@@ -10,28 +10,27 @@ namespace Runtime.Inventory.ItemGeneration
         public event Action<IReadOnlyList<Item>> OnItemGenerated;
         
         private readonly ItemGenerationConfig _config;
-        private readonly ItemConfig[] _availableConfigs;
+        private readonly ItemConfig[] _availableItems;
+
+        public ItemGenerationModel(ItemGenerationConfig config)
+        { 
+            _config = config;
+            
+            _availableItems = config.ItemConfigs.ToArray();
+        }
 
         public void ItemGenerated(List<Item> items)
         {
             OnItemGenerated?.Invoke(items);
         }
-        
-        public ItemGenerationModel(ItemGenerationConfig config, IEnumerable<ItemConfig> allItems)
-        {
-            _config = config;
-            _availableConfigs = config.UseAllItemsFromDatabase
-                ? allItems.ToArray()
-                : config.ItemConfigs.ToArray();
-        }
-        
+
         public IReadOnlyList<Item> GetRandomItems()
         {
             var items = new List<Item>();
             
             for (var i = 0; i < _config.DefaultCount; i++)
             {
-                var randomConfig = _availableConfigs[UnityEngine.Random.Range(0, _availableConfigs.Length)];
+                var randomConfig = _availableItems[UnityEngine.Random.Range(0, _availableItems.Length)];
                 
                 var item = ItemConfigAdapter.ToModel(randomConfig);
                 
