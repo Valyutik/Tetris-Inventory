@@ -1,9 +1,10 @@
 using System;
 using System.Linq;
+using Runtime.Inventory.Core;
 
 namespace Runtime.Inventory.ItemGeneration
 {
-    public sealed class ItemGenerationPresenter : IDisposable
+    public sealed class ItemGenerationPresenter : IPresenter
     {
         private readonly ItemGenerationView _view;
         private readonly ItemGenerationModel _model;
@@ -22,8 +23,8 @@ namespace Runtime.Inventory.ItemGeneration
         {
             _view.GenerateButton.clicked += HandleGenerateClicked;
         }
-        
-        public void Dispose()
+
+        public void Disable()
         {
             _view.GenerateButton.clicked -= HandleGenerateClicked;
         }

@@ -1,11 +1,12 @@
 using System;
 using Runtime.Inventory.Common;
+using Runtime.Inventory.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Runtime.Inventory.DragAndDrop
 {
-    public class DragDropPresenter : IDisposable
+    public class DragDropPresenter : IPresenter
     {
         private readonly DragDropModel _model;
 
@@ -34,7 +35,7 @@ namespace Runtime.Inventory.DragAndDrop
             _model.OnRotateItem += OnRotateItem;
         }
 
-        public void Dispose()
+        public void Disable()
         {
             _view.Root.UnregisterCallback<PointerDownEvent>(OnPointerDown);
             _view.Root.UnregisterCallback<PointerUpEvent>(OnPointerUp);

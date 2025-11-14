@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Runtime.Inventory.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Runtime.Inventory.Common
 {
-    public abstract class InventoryPresenterBase : IDisposable
+    public abstract class InventoryPresenterBase : IPresenter
     {
         public bool HasItems => _model.HasItems;
         
@@ -44,7 +45,7 @@ namespace Runtime.Inventory.Common
             _view.Grid.RegisterCallback<PointerLeaveEvent>(_ => _model.PointerInGridArea(false));
         }
 
-        public virtual void Dispose()
+        public virtual void Disable()
         {
             _model.OnAddItem -= OnAddItem;
 
@@ -52,6 +53,7 @@ namespace Runtime.Inventory.Common
             
             _model.OnItemStacked -= OnItemStacked;
         }
+
 
         private void CreateView()
         {

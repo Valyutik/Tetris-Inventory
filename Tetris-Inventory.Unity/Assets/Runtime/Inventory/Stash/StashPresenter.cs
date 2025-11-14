@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Core;
 using Runtime.Inventory.ItemGeneration;
-using UnityEngine.UIElements;
 
 namespace Runtime.Inventory.Stash
 {
@@ -22,9 +21,9 @@ namespace Runtime.Inventory.Stash
             _itemGenerationModel.OnItemGenerated += SetItems;
         }
         
-        public override void Dispose()
+        public override void Disable()
         {
-            base.Dispose();
+            base.Disable();
             
             _itemGenerationModel.OnItemGenerated -= SetItems;
         }

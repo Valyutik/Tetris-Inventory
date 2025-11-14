@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Runtime.Inventory.ItemTooltip
 {
-    public class ItemTooltipPresenter
+    public class ItemTooltipPresenter : IPresenter
     {
         private readonly ItemTooltipView _view;
         private readonly InventoryModel _inventory;
