@@ -10,6 +10,7 @@ namespace Runtime.Inventory.DragAndDrop
         public event Action<InventoryModel> OnAddInventory;
         public event Action<InventoryModel> OnRemoveInventory;
 
+        public event Action<Item> OnRotateItem;
         public event Action<Item> OnDraggingItem;
         public event Action OnDropItem;
         
@@ -37,22 +38,13 @@ namespace Runtime.Inventory.DragAndDrop
             OnRemoveInventory?.Invoke(inventoryModel);
         }
 
-        public void DeleteItem()
+        public void RotateCurrentItem()
         {
-            CurrentItem = null;
+            if (CurrentItem == null) return;
             
-            OnDropItem?.Invoke();
-        }
-
-        public void DropItem()
-        {
-            if (CurrentItem == null || StartInventory == null) return;
+            CurrentItem.RotateShape();
             
-            StartInventory.TryPlaceItem(CurrentItem, CurrentItem.AnchorPosition);
-            
-            CurrentItem = null;
-            
-            OnDropItem?.Invoke();
+            OnRotateItem?.Invoke(CurrentItem);
         }
     }
 }

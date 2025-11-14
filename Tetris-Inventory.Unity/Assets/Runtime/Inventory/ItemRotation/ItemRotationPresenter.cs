@@ -1,22 +1,26 @@
 using System;
 using Runtime.Input;
-using Runtime.Inventory.Common;
+using Runtime.Inventory.Core;
+using Runtime.Inventory.DragAndDrop;
 using UnityEngine.InputSystem;
 
 namespace Runtime.Inventory.ItemRotation
 {
-    public sealed class ItemRotationHandler : IDisposable, IItemRotationHandler
+    public sealed class ItemRotationPresenter : IDisposable
     {
-        public event Action OnItemRotated;
-        
         private readonly PlayerControls _playerControls;
-        private readonly Func<Item> _getCurrentItem;
+        
+        private readonly DragDropModel _dragDropModel;
 
-        public ItemRotationHandler(PlayerControls playerControls, Func<Item> getCurrentItem)
+        public ItemRotationPresenter(PlayerControls playerControls, InventoryModelStorage modelStorage)
         {
             _playerControls = playerControls;
-            _getCurrentItem = getCurrentItem;
 
+            _dragDropModel = modelStorage.DragDropModel;
+        }
+
+        public void Enable()
+        {
             _playerControls.UI.RotateItem.performed += RotateCurrentItem;
         }
         
@@ -27,11 +31,7 @@ namespace Runtime.Inventory.ItemRotation
 
         private void RotateCurrentItem(InputAction.CallbackContext callbackContext)
         {
-            var item = _getCurrentItem?.Invoke();
-            
-            item?.RotateShape();
-            
-            OnItemRotated?.Invoke();
+            _dragDropModel.RotateCurrentItem();
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Runtime.Core
         private DragDropPresenter _dragDropPresenter;
         private DeleteAreaPresenter _deleteAreaPresenter;
         
-        private ItemRotationHandler _itemRotationHandler;
+        private ItemRotationPresenter _itemRotationPresenter;
         
         private InventoryModelStorage _modelStorage;
 
@@ -82,7 +82,7 @@ namespace Runtime.Core
         private void OnDestroy()
         {
             _playerControls?.Disable();
-            _itemRotationHandler.Dispose();
+            _itemRotationPresenter.Dispose();
             _popupPresenter.Disable();
         }
 
@@ -136,14 +136,16 @@ namespace Runtime.Core
 
         private void InitializeItemRotation()
         {
-            _itemRotationHandler = new ItemRotationHandler(_playerControls, () => _modelStorage.DragDropModel.CurrentItem);
+            _itemRotationPresenter = new ItemRotationPresenter(_playerControls, _modelStorage);
+            
+            _itemRotationPresenter.Enable();
         }
 
         private void InitializeDragAndDrop()
         {
             _dragDropView = new DragDropView(_document.rootVisualElement);
             
-            _dragDropPresenter = new DragDropPresenter(_dragDropView, _modelStorage.DragDropModel, _itemRotationHandler);
+            _dragDropPresenter = new DragDropPresenter(_dragDropView, _modelStorage.DragDropModel);
 
             _modelStorage.DragDropModel.RegisterInventory(_modelStorage.CoreInventoryModel);
             

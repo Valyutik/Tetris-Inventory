@@ -8,21 +8,15 @@ namespace Runtime.Inventory.DragAndDrop
 {
     public class DragDropPresenter : IDisposable
     {
-        private readonly ItemRotationHandler _rotationHandler;
-
         private readonly DragDropModel _model;
 
         private readonly DragDropView _view;
 
-        public DragDropPresenter(DragDropView view, DragDropModel model, ItemRotationHandler rotationHandler)
+        public DragDropPresenter(DragDropView view, DragDropModel model)
         {
             _view = view;
             
             _model = model;
-            
-            _rotationHandler = rotationHandler;
-            
-            _rotationHandler.OnItemRotated += UpdateItem;
         }
 
         public void Enable()
@@ -38,18 +32,18 @@ namespace Runtime.Inventory.DragAndDrop
             
             _model.OnAddInventory += OnAddInventory;
             _model.OnRemoveInventory += OnRemoveInventory;
+            _model.OnRotateItem += OnRotateItem;
         }
 
         public void Dispose()
         {
-            _rotationHandler.OnItemRotated -= UpdateItem;
-            
             _view.Root.UnregisterCallback<PointerDownEvent>(OnPointerDown);
             _view.Root.UnregisterCallback<PointerUpEvent>(OnPointerUp);
             _view.Root.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
             
             _model.OnAddInventory -= OnAddInventory;
             _model.OnRemoveInventory -= OnRemoveInventory;
+            _model.OnRotateItem -= OnRotateItem;
         }
 
         private void OnRemoveInventory(InventoryModel inventory)
@@ -62,10 +56,8 @@ namespace Runtime.Inventory.DragAndDrop
             inventory.OnSelectCell -= OnSelectCell;
         }
 
-        private void UpdateItem()
+        private void OnRotateItem(Item item)
         {
-            if (_model.CurrentItem == null) return;
-            
             _view.Drag(_model.CurrentItem);
         }
 
