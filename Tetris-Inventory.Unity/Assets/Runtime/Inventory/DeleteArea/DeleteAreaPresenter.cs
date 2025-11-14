@@ -66,6 +66,8 @@ namespace Runtime.Inventory.DeleteArea
             {
                 _cachedItem = _dragDropModel.CurrentItem;
                 
+                _dragDropModel.CanProjectionPlacementInteract = true;
+                
                 _cachedInventory = _dragDropModel.StartInventory;
             }
         }
@@ -73,6 +75,8 @@ namespace Runtime.Inventory.DeleteArea
         private void OnPointerLeave(PointerLeaveEvent evt)
         {
             _view.DrawInteractReady(false);
+            
+            _dragDropModel.CanProjectionPlacementInteract = false;
         }
 
         private void DeleteItem()

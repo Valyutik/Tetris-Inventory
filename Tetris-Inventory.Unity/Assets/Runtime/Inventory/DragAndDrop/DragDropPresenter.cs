@@ -11,8 +11,6 @@ namespace Runtime.Inventory.DragAndDrop
 
         private readonly DragDropView _view;
 
-        private bool inGridArea;
-
         public DragDropPresenter(DragDropView view, DragDropModel model)
         {
             _view = view;
@@ -106,6 +104,8 @@ namespace Runtime.Inventory.DragAndDrop
             _model.CurrentItem = null;
             
             _view.Drop();
+            
+            _model.CurrentInventory.OnPointerInGridArea -= OnInsideGrid;
         }
 
         private void OnPointerMove(PointerMoveEvent evt)
@@ -125,7 +125,7 @@ namespace Runtime.Inventory.DragAndDrop
             
             var canPlace = _model.CurrentInventory.CanPlaceItem(_model.CurrentItem, _model.CurrentPosition);
             
-            if (canPlace)
+            if (canPlace || _model.CanProjectionPlacementInteract)
             {
                 _view.SetCanPlace();
             }
