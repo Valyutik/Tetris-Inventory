@@ -2,20 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Video;
 
 namespace Runtime.Inventory.Common
 {
     public sealed class InventoryModel
     {
         public event Action<Vector2Int, InventoryModel> OnSelectCell;
-        
         public event Action OnDeselectCell;
-
         public event Action<Item> OnItemStacked;
-        
         public event Action<Vector2Int, Item> OnAddItem;
         public event Action<Vector2Int, Item> OnRemoveItem;
+        public event Action<bool> OnPointerInGridArea;
         
         private readonly List<Item> _items;
         
@@ -38,6 +35,11 @@ namespace Runtime.Inventory.Common
         {
             _grid = grid;
             _items = new List<Item>();
+        }
+
+        public void PointerInGridArea(bool isGridArea)
+        {
+            OnPointerInGridArea?.Invoke(isGridArea);
         }
 
         public bool CanPlaceItem(Item item, Vector2Int position)

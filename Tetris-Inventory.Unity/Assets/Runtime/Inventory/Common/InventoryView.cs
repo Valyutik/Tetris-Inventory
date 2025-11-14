@@ -7,19 +7,18 @@ namespace Runtime.Inventory.Common
     {
         private const string ImageName = "icon";
         public VisualElement Root { get;}
-        
-        private readonly VisualElement _grid;
+        public VisualElement Grid { get; }
 
         public InventoryView(VisualTreeAsset asset)
         {
             Root = asset.CloneTree();
-            _grid = Root.Q<VisualElement>(InventoryConstants.UI.Inventory.Grid);
+            Grid = Root.Q<VisualElement>(InventoryConstants.UI.Inventory.Grid);
         }
 
         public void SetUpGrid(int width, int height)
         {
-            _grid.style.height = height * InventoryConstants.UI.CellSize;
-            _grid.style.width = width * InventoryConstants.UI.CellSize;
+            Grid.style.height = height * InventoryConstants.UI.CellSize;
+            Grid.style.width = width * InventoryConstants.UI.CellSize;
         }
 
         public VisualElement CreateCell()
@@ -28,7 +27,7 @@ namespace Runtime.Inventory.Common
             
             cell.AddToClassList(InventoryConstants.UI.CellStyle);
             
-            _grid.Add(cell);
+            Grid.Add(cell);
 
             return cell;
         }
@@ -65,7 +64,7 @@ namespace Runtime.Inventory.Common
             
             DrawItem(visualElement, item);
 
-            _grid.Add(visualElement);
+            Grid.Add(visualElement);
             
             return visualElement;
         }
@@ -91,7 +90,7 @@ namespace Runtime.Inventory.Common
         
         public void ClearGrid()
         {
-            _grid.Clear();
+            Grid.Clear();
         }
     }
 }
