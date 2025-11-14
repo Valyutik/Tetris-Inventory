@@ -1,4 +1,5 @@
 using Runtime.Inventory.Common;
+using Runtime.Inventory.Core;
 using UnityEngine;
 
 namespace Runtime.Inventory.ItemTooltip
@@ -9,12 +10,11 @@ namespace Runtime.Inventory.ItemTooltip
         private readonly InventoryModel _inventory;
         private readonly InventoryModel _stash;
 
-        public ItemTooltipPresenter(ItemTooltipView view, InventoryModel inventory,
-            InventoryModel stash)
+        public ItemTooltipPresenter(ItemTooltipView view, InventoryModelStorage modelStorage)
         {
             _view = view;
-            _inventory = inventory;
-            _stash = stash;
+            _inventory = modelStorage.CoreInventoryModel;
+            _stash = modelStorage.StashInventoryModel;
         }
 
         public void Enable()
