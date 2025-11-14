@@ -1,6 +1,5 @@
 using System;
 using Runtime.Inventory.Common;
-using Runtime.Inventory.ItemRotation;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,6 +10,8 @@ namespace Runtime.Inventory.DragAndDrop
         private readonly DragDropModel _model;
 
         private readonly DragDropView _view;
+
+        private bool inGridArea;
 
         public DragDropPresenter(DragDropView view, DragDropModel model)
         {
@@ -56,6 +57,14 @@ namespace Runtime.Inventory.DragAndDrop
             inventory.OnSelectCell -= OnSelectCell;
         }
 
+        private void OnInsideGrid(bool isGridArea)
+        {
+            if (!isGridArea)
+            {
+                _model.CurrentPosition = new Vector2Int(-1, -1);
+            }
+        }
+
         private void OnRotateItem(Item item)
         {
             _view.Drag(_model.CurrentItem);
@@ -78,6 +87,8 @@ namespace Runtime.Inventory.DragAndDrop
             _model.StartInventory = _model.CurrentInventory;
             
             _view.Drag(_model.CurrentItem, evt.position);
+            
+            _model.CurrentInventory.OnPointerInGridArea += OnInsideGrid;
         }
 
         private void OnPointerUp(PointerUpEvent evt)
@@ -101,6 +112,7 @@ namespace Runtime.Inventory.DragAndDrop
         {
             _view.Move(evt.position);
 
+            //TODO: Вынести в отдельную фичу
             if (_model.CurrentInventory == null || _model.CurrentItem == null)
             {
                 return;

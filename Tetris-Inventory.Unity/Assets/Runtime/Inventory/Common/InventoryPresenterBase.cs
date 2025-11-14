@@ -41,6 +41,9 @@ namespace Runtime.Inventory.Common
             _model.OnRemoveItem += OnRemoveItem;
 
             _model.OnItemStacked += OnItemStacked;
+            
+            _view.Grid.RegisterCallback<PointerEnterEvent>(_ => _model.PointerInGridArea(true));
+            _view.Grid.RegisterCallback<PointerLeaveEvent>(_ => _model.PointerInGridArea(false));
         }
 
         public virtual void Dispose()
