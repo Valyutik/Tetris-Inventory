@@ -2,7 +2,7 @@ using Runtime.Inventory.Common;
 
 namespace Runtime.Inventory.Extensions
 {
-    public static class ItemModelExtensions
+    public static class ItemExtensions
     {
         public static ItemView ToView(this ItemModel model)
         {
@@ -18,6 +18,20 @@ namespace Runtime.Inventory.Extensions
                 width: model.Width,
                 height: model.Height,
                 anchorPosition: model.AnchorPosition
+            );
+        }
+        
+        public static ItemModel ToModel(this ItemConfig config)
+        {
+            return new ItemModel(
+                id: config.Id,
+                name: config.DisplayName,
+                description: config.Description,
+                isStackable: config.IsStackable,
+                maxStack: config.MaxStack,
+                currentStack: 1,
+                sprite: config.Visual,
+                shape: config.GetShapeMatrix()
             );
         }
     }

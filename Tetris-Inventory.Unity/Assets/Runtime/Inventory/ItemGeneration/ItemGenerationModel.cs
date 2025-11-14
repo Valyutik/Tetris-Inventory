@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Runtime.Inventory.Common;
 using System.Linq;
+using Runtime.Inventory.Extensions;
 
 namespace Runtime.Inventory.ItemGeneration
 {
@@ -31,9 +32,9 @@ namespace Runtime.Inventory.ItemGeneration
             
             for (var i = 0; i < _config.DefaultCount; i++)
             {
-                var randomConfig = _availableItems[UnityEngine.Random.Range(0, _availableItems.Length)];
+                var randomItemConfig = _availableItems[UnityEngine.Random.Range(0, _availableItems.Length)];
                 
-                var item = ItemConfigAdapter.ToModel(randomConfig);
+                var item = randomItemConfig.ToModel();
                 
                 items.Add(item);
             }
