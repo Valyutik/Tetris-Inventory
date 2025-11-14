@@ -10,7 +10,7 @@ namespace Runtime.Inventory.ItemTooltip
         private readonly InventoryModel _inventory;
         private readonly InventoryModel _stash;
 
-        public ItemTooltipPresenter(ItemTooltipView view, InventoryModelStorage modelStorage)
+        public ItemTooltipPresenter(ItemTooltipView view, ModelStorage modelStorage)
         {
             _view = view;
             _inventory = modelStorage.CoreInventoryModel;

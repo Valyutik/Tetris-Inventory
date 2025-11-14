@@ -9,7 +9,7 @@ namespace Runtime.Inventory.Stash
     {
         private readonly ItemGenerationModel _itemGenerationModel;
         
-        public StashPresenter(InventoryView view, InventoryModel model, InventoryModelStorage storage) : base(view, model)
+        public StashPresenter(InventoryView view, InventoryModel model, ModelStorage storage) : base(view, model)
         {
             _itemGenerationModel = storage.ItemGenerationModel;
         }

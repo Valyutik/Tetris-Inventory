@@ -51,7 +51,7 @@ namespace Runtime.Core
         
         private ItemRotationPresenter _itemRotationPresenter;
         
-        private InventoryModelStorage _modelStorage;
+        private ModelStorage _modelStorage;
 
         private async void Start()
         {
@@ -78,13 +78,13 @@ namespace Runtime.Core
                 await AddressablesLoader.LoadAsync<ItemGenerationConfig>("item_generation_config"),
                 _itemConfigs.ToList());
 
-            _modelStorage = new InventoryModelStorage(inventoryModel, stashModel, itemGenerationModel);
+            _modelStorage = new ModelStorage(inventoryModel, stashModel, itemGenerationModel);
         }
 
         private void OnDestroy()
         {
             _playerControls?.Disable();
-            _itemRotationPresenter.Dispose();
+            _itemRotationPresenter.Disable();
             _popupPresenter.Disable();
         }
 
@@ -149,11 +149,7 @@ namespace Runtime.Core
         {
             _dragDropView = new DragDropView(_menuDocument.rootVisualElement);
             
-            _dragDropPresenter = new DragDropPresenter(_dragDropView, _modelStorage.DragDropModel);
-
-            _modelStorage.DragDropModel.RegisterInventory(_modelStorage.CoreInventoryModel);
-            
-            _modelStorage.DragDropModel.RegisterInventory(_modelStorage.StashInventoryModel);
+            _dragDropPresenter = new DragDropPresenter(_dragDropView, _modelStorage.DragDropModel, _modelStorage);
             
             _dragDropPresenter.Enable();
         }

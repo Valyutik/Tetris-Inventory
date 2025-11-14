@@ -5,7 +5,7 @@ using Runtime.Popup;
 
 namespace Runtime.Inventory.Core
 {
-    public class InventoryModelStorage
+    public class ModelStorage
     {
         public InventoryModel CoreInventoryModel { get; private set; }
         
@@ -17,7 +17,7 @@ namespace Runtime.Inventory.Core
         
         public ItemGenerationModel ItemGenerationModel { get; private set; }
         
-        public InventoryModelStorage(InventoryModel coreInventoryModel,  InventoryModel stashInventoryModel, ItemGenerationModel itemGenerationModel)
+        public ModelStorage(InventoryModel coreInventoryModel,  InventoryModel stashInventoryModel, ItemGenerationModel itemGenerationModel)
         {
             CoreInventoryModel = coreInventoryModel;
             StashInventoryModel = stashInventoryModel;

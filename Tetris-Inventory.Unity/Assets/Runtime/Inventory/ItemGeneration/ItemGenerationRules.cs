@@ -12,7 +12,7 @@ namespace Runtime.Inventory.ItemGeneration
         private readonly PopupModel _popupModel;
         private readonly ItemGenerationErrorMessage _errorMessage;
 
-        public ItemGenerationRules(InventoryModel inventory, InventoryModelStorage modelStorage, ItemGenerationErrorMessage errorMessage)
+        public ItemGenerationRules(InventoryModel inventory, ModelStorage modelStorage, ItemGenerationErrorMessage errorMessage)
         {
             _inventory = inventory;
             _stash = modelStorage.StashInventoryModel;

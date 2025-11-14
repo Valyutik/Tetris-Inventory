@@ -12,7 +12,7 @@ namespace Runtime.Inventory.ItemRotation
         
         private readonly DragDropModel _dragDropModel;
 
-        public ItemRotationPresenter(PlayerControls playerControls, InventoryModelStorage modelStorage)
+        public ItemRotationPresenter(PlayerControls playerControls, ModelStorage modelStorage)
         {
             _playerControls = playerControls;
 

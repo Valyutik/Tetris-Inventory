@@ -16,7 +16,7 @@ namespace Runtime.Inventory.DeleteArea
         
         private InventoryModel _cachedInventory;
 
-        public DeleteAreaPresenter(DeleteAreaView view, InventoryModelStorage modelStorage)
+        public DeleteAreaPresenter(DeleteAreaView view, ModelStorage modelStorage)
         {
             _view = view;
             
