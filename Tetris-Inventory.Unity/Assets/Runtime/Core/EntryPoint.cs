@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Runtime.Inventory.ItemGeneration;
 using Runtime.Inventory.ItemRotation;
@@ -75,7 +76,7 @@ namespace Runtime.Core
             var stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
             var itemGenerationModel = new ItemGenerationModel(
                 await AddressablesLoader.LoadAsync<ItemGenerationConfig>("item_generation_config"),
-                _itemConfigs);
+                _itemConfigs.ToList());
 
             _modelStorage = new InventoryModelStorage(inventoryModel, stashModel, itemGenerationModel);
         }
@@ -102,18 +103,17 @@ namespace Runtime.Core
 
         private void InitializeInventory()
         {
-            var inventoryView = new InventoryView(_inventoryAsset);
-            _inventoryPresenter = new InventoryPresenter(inventoryView, _modelStorage.CoreInventoryModel, _menuContent.MenuRoot);
+            var inventoryView = new InventoryView(_inventoryAsset, _menuContent.MenuRoot);
+            
+            _inventoryPresenter = new InventoryPresenter(inventoryView, _modelStorage.CoreInventoryModel);
             
             _inventoryPresenter.Enable();
         }
 
         private void InitializeStash()
         {
-            var stashView = new InventoryView(_stashAsset);
-            _stashPresenter = new StashPresenter(stashView,
-                _modelStorage.StashInventoryModel,
-                _menuContent.MenuRoot, _modelStorage);
+            var stashView = new InventoryView(_stashAsset, _menuContent.MenuRoot);
+            _stashPresenter = new StashPresenter(stashView, _modelStorage.StashInventoryModel, _modelStorage);
             
             _stashPresenter.Enable();
         }

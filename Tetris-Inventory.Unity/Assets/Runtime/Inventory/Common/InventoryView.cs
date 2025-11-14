@@ -9,10 +9,12 @@ namespace Runtime.Inventory.Common
         public VisualElement Root { get;}
         public VisualElement Grid { get; }
 
-        public InventoryView(VisualTreeAsset asset)
+        public InventoryView(VisualTreeAsset asset, VisualElement menuRoot)
         {
             Root = asset.CloneTree();
             Grid = Root.Q<VisualElement>(InventoryConstants.UI.Inventory.Grid);
+            
+            menuRoot.Add(Root);
         }
 
         public void SetUpGrid(int width, int height)

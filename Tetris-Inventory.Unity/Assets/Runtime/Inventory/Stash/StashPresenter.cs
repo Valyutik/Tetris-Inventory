@@ -10,7 +10,7 @@ namespace Runtime.Inventory.Stash
     {
         private readonly ItemGenerationModel _itemGenerationModel;
         
-        public StashPresenter(InventoryView view, InventoryModel model, VisualElement menuRoot, InventoryModelStorage storage) : base(view, model, menuRoot)
+        public StashPresenter(InventoryView view, InventoryModel model, InventoryModelStorage storage) : base(view, model)
         {
             _itemGenerationModel = storage.ItemGenerationModel;
         }
@@ -29,7 +29,7 @@ namespace Runtime.Inventory.Stash
             _itemGenerationModel.OnItemGenerated -= SetItems;
         }
         
-        private void SetItems(IEnumerable<Item> items)
+        private void SetItems(IReadOnlyList<Item> items)
         {
             Model.Clear();
             

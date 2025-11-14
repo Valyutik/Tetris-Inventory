@@ -23,13 +23,11 @@ namespace Runtime.Inventory.Common
 
         private readonly Dictionary<Item, VisualElement> _items  = new Dictionary<Item, VisualElement>();
         
-        protected InventoryPresenterBase(InventoryView view, InventoryModel model, VisualElement menuRoot)
+        protected InventoryPresenterBase(InventoryView view, InventoryModel model)
         {
             _model = model;
             
             _view = view;
-
-            menuRoot.Add(view.Root);
         }
 
         public virtual void Enable()
