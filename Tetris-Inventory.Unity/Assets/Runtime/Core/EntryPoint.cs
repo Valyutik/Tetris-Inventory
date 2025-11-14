@@ -123,7 +123,7 @@ namespace Runtime.Core
 
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
                 _modelStorage.ItemGenerationModel,
-                new ItemGenerationRules(_modelStorage.CoreInventoryModel, _modelStorage.StashInventoryModel));
+                new ItemGenerationRules(_modelStorage.CoreInventoryModel, _modelStorage, await AddressablesLoader.LoadAsync<ItemGenerationErrorMessage>("item_generation_error_message")));
         }
 
         private void InitializeDeleteSystem()

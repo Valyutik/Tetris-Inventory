@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Runtime.Inventory.Common;
+using Runtime.Inventory.Core;
 using Runtime.Popup;
 
 namespace Runtime.Inventory.ItemGeneration
@@ -11,11 +12,11 @@ namespace Runtime.Inventory.ItemGeneration
         private readonly PopupModel _popupModel;
         private readonly ItemGenerationErrorMessage _errorMessage;
 
-        public ItemGenerationRules(InventoryModel inventory, InventoryModel stash, PopupModel popupModel, ItemGenerationErrorMessage errorMessage)
+        public ItemGenerationRules(InventoryModel inventory, InventoryModelStorage modelStorage, ItemGenerationErrorMessage errorMessage)
         {
             _inventory = inventory;
-            _stash = stash;
-            _popupModel = popupModel;
+            _stash = modelStorage.StashInventoryModel;
+            _popupModel = modelStorage.PopupModel;
             _errorMessage = errorMessage;
         }
 
