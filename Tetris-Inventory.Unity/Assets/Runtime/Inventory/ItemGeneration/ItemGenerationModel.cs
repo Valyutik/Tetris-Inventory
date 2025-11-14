@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Runtime.Inventory.Common;
-using System.Linq;
 using Runtime.Inventory.Extensions;
 
 namespace Runtime.Inventory.ItemGeneration
@@ -12,16 +11,12 @@ namespace Runtime.Inventory.ItemGeneration
         
         private readonly ItemGenerationConfig _config;
         
-        private readonly ItemConfig[] _availableItems;
-
         public ItemGenerationModel(ItemGenerationConfig config)
         { 
             _config = config;
-            
-            _availableItems = config.ItemConfigs.ToArray();
         }
 
-        public void ItemGenerated(List<ItemModel> items)
+        public void GenerateItem(List<ItemModel> items)
         {
             OnItemGenerated?.Invoke(items);
         }
@@ -32,7 +27,7 @@ namespace Runtime.Inventory.ItemGeneration
             
             for (var i = 0; i < _config.DefaultCount; i++)
             {
-                var randomItemConfig = _availableItems[UnityEngine.Random.Range(0, _availableItems.Length)];
+                var randomItemConfig = _config.ItemConfigs[UnityEngine.Random.Range(0, _config.ItemConfigs.Count)];
                 
                 var item = randomItemConfig.ToModel();
                 
