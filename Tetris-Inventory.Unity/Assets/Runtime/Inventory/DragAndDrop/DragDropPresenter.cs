@@ -125,17 +125,7 @@ namespace Runtime.Inventory.DragAndDrop
         {
             _model.CurrentInventory = target;
             
-            if (_model.CurrentItem != null)
-            {
-                var offsetX = _model.CurrentItem.Width / 2;
-                var offsetY = _model.CurrentItem.Height / 2;
-
-                _model.CurrentPosition = new Vector2Int(position.x - offsetX, position.y - offsetY);
-            }
-            else
-            {
-                _model.CurrentPosition = position;
-            }
+            _model.CurrentPosition = position;
         }
     }
 }

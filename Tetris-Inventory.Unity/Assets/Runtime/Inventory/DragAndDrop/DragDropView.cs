@@ -47,7 +47,6 @@ namespace Runtime.Inventory.DragAndDrop
                 }
             };
             
-            
             DraggingElement.AddToClassList(InventoryConstants.UI.Projection.ItemProjection);
 
             IsDragging = false;
@@ -95,9 +94,9 @@ namespace Runtime.Inventory.DragAndDrop
         {
             if (!IsDragging) return;
 
-            DraggingElement.style.left = screenPosition.x - _dragOffset.x;
+            DraggingElement.style.left = screenPosition.x - _dragOffset.x * 0.1f;
             
-            DraggingElement.style.top = screenPosition.y - _dragOffset.y;
+            DraggingElement.style.top = screenPosition.y - _dragOffset.y * 0.1f;
 
             _cachedPointerPosition = screenPosition;
         }
