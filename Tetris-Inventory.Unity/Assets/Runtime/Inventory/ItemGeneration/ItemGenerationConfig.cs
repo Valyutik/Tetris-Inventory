@@ -12,8 +12,6 @@ namespace Runtime.Inventory.ItemGeneration
 
         [Tooltip("The default number of items to generate.")]
         public int DefaultCount = 3;
-
-        [Tooltip("If true, all items from the database can be used.")]
-        public bool UseAllItemsFromDatabase = true;
+        
     }
 }

@@ -384,6 +384,8 @@ MonoBehaviour:
   _stashAsset: {fileID: 9197481963319205126, guid: d88e2d7222e6d3c459702eb8336cc730, type: 3}
   _createButtonAsset: {fileID: 9197481963319205126, guid: 9ada57e7f8d190e45913d63afb2ad7cb, type: 3}
   _deleteConfirmationAsset: {fileID: 9197481963319205126, guid: 28d73a08a0fec5c4c94c5bc89cb2d049, type: 3}
+  _generationConfig: {fileID: 11400000, guid: 9f6bfde83d4bdd446a0f039f9272e6e3, type: 2}
+  _generationErrorMessage: {fileID: 0}
 --- !u!4 &1794183512
 Transform:
   m_ObjectHideFlags: 0
