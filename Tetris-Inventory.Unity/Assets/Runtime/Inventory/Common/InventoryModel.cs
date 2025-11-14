@@ -91,6 +91,10 @@ namespace Runtime.Inventory.Common
                         additionalCellsNeeded += CountOccupiedCells(newItem);
                     }
                 }
+                else
+                {
+                    additionalCellsNeeded += CountOccupiedCells(newItem);
+                }
             }
             
             var freeCells = 0;

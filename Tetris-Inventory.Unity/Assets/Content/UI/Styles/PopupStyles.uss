@@ -54,43 +54,27 @@
     transition-property: all;
 }
 
-.popup-visible {
+.popup-base {
     flex-grow: 0;
     min-width: 400px;
     max-width: 400px;
     min-height: 120px;
-    max-height: none;
+
     background-color: rgba(0, 0, 0, 0.59);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-radius: 20px;
+
     flex-shrink: 1;
     display: flex;
-    opacity: 1;
-    transition-duration: 0.3s;
-    transition-delay: 0.7s;
+
     margin-top: 20px;
-    transition-property: all;
-    transition-timing-function: ease;
+    
+    transition: opacity 0.3s ease;
+}
+
+.popup-visible {
+    opacity: 1;
 }
 
 .popup-invisible {
-    flex-grow: 0;
-    min-width: 300px;
-    max-width: 300px;
-    min-height: 120px;
-    max-height: none;
-    background-color: rgba(0, 0, 0, 0.59);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    flex-shrink: 1;
-    display: flex;
-    transition-duration: 0.3s;
     opacity: 0;
-    transition-timing-function: ease-in-out;
-    transition-delay: 0.3s;
-    transition-property: all;
 }

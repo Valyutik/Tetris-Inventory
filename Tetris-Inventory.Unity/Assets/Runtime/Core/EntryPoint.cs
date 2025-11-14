@@ -8,6 +8,7 @@ using Runtime.Inventory.DeleteArea;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Stash;
 using UnityEngine.UIElements;
+using System.Threading.Tasks;
 using Runtime.Utilities;
 using Runtime.Input;
 using Runtime.Inventory.Core;
@@ -58,7 +59,7 @@ namespace Runtime.Core
             _itemConfigs = await AddressablesLoader.LoadAllAsync<ItemConfig>("items");
             InitializeUI();
             InitializeInput();
-            InitializeItemGeneration();
+            await InitializeItemGeneration();
             InitializeStash();
             InitializeInventory();
             InitializeDeleteSystem();
@@ -116,7 +117,7 @@ namespace Runtime.Core
             _stashPresenter.Enable();
         }
 
-        private void InitializeItemGeneration()
+        private async Task InitializeItemGeneration()
         {
             var itemGenerationView = new ItemGenerationView(_menuContent.MenuRoot, _createButtonAsset);
 
