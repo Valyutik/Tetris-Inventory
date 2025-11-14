@@ -40,9 +40,10 @@ namespace Runtime.Inventory.Common
             _model.OnRemoveItem += OnRemoveItem;
 
             _model.OnItemStacked += OnItemStacked;
-            
-            _view.Grid.RegisterCallback<PointerEnterEvent>(_ => _model.PointerInGridArea(true));
-            _view.Grid.RegisterCallback<PointerLeaveEvent>(_ => _model.PointerInGridArea(false));
+
+            _view.Grid.RegisterCallback<PointerEnterEvent>(OnEnterInventoryArea);
+
+            _view.Grid.RegisterCallback<PointerLeaveEvent>(OnLeaveInventoryArea);
         }
 
         public virtual void Disable()
@@ -54,6 +55,15 @@ namespace Runtime.Inventory.Common
             _model.OnItemStacked -= OnItemStacked;
         }
 
+        private void OnEnterInventoryArea(PointerEnterEvent evt)
+        {
+            _model.PointerInGridArea(true);
+        }
+
+        private void OnLeaveInventoryArea(PointerLeaveEvent evt)
+        {
+            _model.PointerInGridArea(false);
+        }
 
         private void CreateView()
         {
