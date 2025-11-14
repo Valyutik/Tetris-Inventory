@@ -9,12 +9,12 @@ namespace Runtime.Inventory.Common
     {
         public event Action<Vector2Int, InventoryModel> OnSelectCell;
         public event Action OnDeselectCell;
-        public event Action<Item> OnItemStacked;
-        public event Action<Vector2Int, Item> OnAddItem;
-        public event Action<Vector2Int, Item> OnRemoveItem;
+        public event Action<ItemModel> OnItemStacked;
+        public event Action<Vector2Int, ItemModel> OnAddItem;
+        public event Action<Vector2Int, ItemModel> OnRemoveItem;
         public event Action<bool> OnPointerInGridArea;
         
-        private readonly List<Item> _items;
+        private readonly List<ItemModel> _items;
         
         private readonly Grid _grid;
 
@@ -28,13 +28,13 @@ namespace Runtime.Inventory.Common
         public InventoryModel(int width, int height)
         { 
             _grid = new Grid(width, height);
-            _items = new List<Item>();
+            _items = new List<ItemModel>();
         }
         
         public InventoryModel(Grid grid)
         {
             _grid = grid;
-            _items = new List<Item>();
+            _items = new List<ItemModel>();
         }
 
         public void PointerInGridArea(bool isGridArea)
@@ -42,9 +42,9 @@ namespace Runtime.Inventory.Common
             OnPointerInGridArea?.Invoke(isGridArea);
         }
 
-        public bool CanPlaceItem(Item item, Vector2Int position)
+        public bool CanPlaceItem(ItemModel itemModel, Vector2Int position)
         {
-            return _grid.CanPlaceItem(item, position);
+            return _grid.CanPlaceItem(itemModel, position);
         }
 
         public void SelectCell(Vector2Int position)
@@ -52,7 +52,7 @@ namespace Runtime.Inventory.Common
             OnSelectCell?.Invoke(position, this);
         }
 
-        public bool CanFitItems(IEnumerable<Item> items)
+        public bool CanFitItems(IEnumerable<ItemModel> items)
         {
             var itemsToCheck = items.ToArray();
 
@@ -115,15 +115,15 @@ namespace Runtime.Inventory.Common
             OnDeselectCell?.Invoke();
         }
 
-        public bool TryPlaceItem(Item item, Vector2Int position, bool allowStacking = true)
+        public bool TryPlaceItem(ItemModel itemModel, Vector2Int position, bool allowStacking = true)
         {
             var existingItem = _grid.GetItem(position);
 
-            if (existingItem != null && existingItem.Id == item.Id)
+            if (existingItem != null && existingItem.Id == itemModel.Id)
             {
                 if (existingItem.IsStackable && allowStacking)
                 {
-                    var success = existingItem.TryAddToStack(item.CurrentStack);
+                    var success = existingItem.TryAddToStack(itemModel.CurrentStack);
 
                     if (success) OnItemStacked?.Invoke(existingItem);
 
@@ -133,78 +133,78 @@ namespace Runtime.Inventory.Common
                 return false;
             }
 
-            if (!_grid.TryAddItem(item, position))
+            if (!_grid.TryAddItem(itemModel, position))
             {
                 return false;
             }
 
-            _items.Add(item);
+            _items.Add(itemModel);
             
-            OnAddItem?.Invoke(position, item);
+            OnAddItem?.Invoke(position, itemModel);
             
             return true;
         }
 
-        public bool TryPlaceItem(Item item, bool allowStacking = true)
+        public bool TryPlaceItem(ItemModel itemModel, bool allowStacking = true)
         {
-            if (item.IsStackable && allowStacking)
+            if (itemModel.IsStackable && allowStacking)
             {
-                var existingStack = FindNonFullStack(item.Id);
+                var existingStack = FindNonFullStack(itemModel.Id);
                 if (existingStack != null)
                 {
-                    var success = existingStack.TryAddToStack(item.CurrentStack);
+                    var success = existingStack.TryAddToStack(itemModel.CurrentStack);
 
                     if (success)
                     {
-                        OnItemStacked?.Invoke(item);
+                        OnItemStacked?.Invoke(itemModel);
                         return true;
                     }
                 }
             }
             
-            if (!_grid.TryAddItem(item))
+            if (!_grid.TryAddItem(itemModel))
                 return false;
 
-            _items.Add(item);
+            _items.Add(itemModel);
             
-            OnAddItem?.Invoke(item.AnchorPosition, item);
+            OnAddItem?.Invoke(itemModel.AnchorPosition, itemModel);
             
             return true;
         }
 
-        public bool TryRemoveItem(Item item)
+        public bool TryRemoveItem(ItemModel itemModel)
         {
-            if (!_items.Contains(item))
+            if (!_items.Contains(itemModel))
                 return false;
 
-            _grid.RemoveItem(item);
-            _items.Remove(item);
+            _grid.RemoveItem(itemModel);
+            _items.Remove(itemModel);
             
-            OnRemoveItem?.Invoke(item.AnchorPosition, item);
+            OnRemoveItem?.Invoke(itemModel.AnchorPosition, itemModel);
 
             return true;
         }
 
-        public bool TryRemoveItem(Vector2Int position, out Item item)
+        public bool TryRemoveItem(Vector2Int position, out ItemModel itemModel)
         {
-            item = _grid.GetItem(position);
+            itemModel = _grid.GetItem(position);
 
-            if (item == null)
+            if (itemModel == null)
             {
                 return false;
             }
             
-            _grid.RemoveItem(item);
-            _items.Remove(item);
+            _grid.RemoveItem(itemModel);
+            _items.Remove(itemModel);
             
-            OnRemoveItem?.Invoke(position, item);
+            OnRemoveItem?.Invoke(position, itemModel);
             
             return true;
         }
         
-        public IReadOnlyCollection<Item> GetAllItems() => _items.AsReadOnly();
+        public IReadOnlyCollection<ItemModel> GetAllItems() => _items.AsReadOnly();
 
-        public Item GetItem(Vector2Int position)
+        public ItemModel GetItem(Vector2Int position)
         {
             return _grid.GetItem(position);
         }
@@ -215,18 +215,18 @@ namespace Runtime.Inventory.Common
             _items.Clear();
         }
 
-        private Item FindNonFullStack(string id)
+        private ItemModel FindNonFullStack(string id)
         {
             return _items.FirstOrDefault(existing =>
                 existing.Id == id && existing.IsStackable && !existing.IsFullStack);
         }
         
-        private static int CountOccupiedCells(Item item)
+        private static int CountOccupiedCells(ItemModel itemModel)
         {
             var count = 0;
-            for (var x = 0; x < item.Width; x++)
-            for (var y = 0; y < item.Height; y++)
-                if (item.Shape[x, y])
+            for (var x = 0; x < itemModel.Width; x++)
+            for (var y = 0; y < itemModel.Height; y++)
+                if (itemModel.Shape[x, y])
                     count++;
             return count;
         }

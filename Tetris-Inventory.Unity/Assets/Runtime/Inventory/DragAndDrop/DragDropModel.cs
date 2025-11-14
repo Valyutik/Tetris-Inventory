@@ -7,26 +7,26 @@ namespace Runtime.Inventory.DragAndDrop
 {
     public class DragDropModel
     {
-        public event Action<Item> OnRotateItem;
-        public event Action<Item> OnDraggingItem;
+        public event Action<ItemModel> OnRotateItem;
+        public event Action<ItemModel> OnDraggingItem;
         public event Action OnDropItem;
         
         public bool CanProjectionPlacementInteract { get; set; }
         
         public Vector2Int CurrentPosition { get; set; }
         public Vector2Int StartPosition { get; set; }
-        public Item CurrentItem { get; set; }
+        public ItemModel CurrentItemModel { get; set; }
         public InventoryModel CurrentInventory { get; set; }
         public InventoryModel StartInventory { get; set; }
 
 
         public void RotateCurrentItem()
         {
-            if (CurrentItem == null) return;
+            if (CurrentItemModel == null) return;
             
-            CurrentItem.RotateShape();
+            CurrentItemModel.RotateShape();
             
-            OnRotateItem?.Invoke(CurrentItem);
+            OnRotateItem?.Invoke(CurrentItemModel);
         }
     }
 }

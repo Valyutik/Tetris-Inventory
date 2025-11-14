@@ -5,22 +5,22 @@ namespace Runtime.Inventory.Common
     public sealed class Cell
     {
         public Vector2Int Position { get; private set; }
-        public Item Item { get; private set; }
-        public bool IsEmpty => Item == null;
+        public ItemModel ItemModel { get; private set; }
+        public bool IsEmpty => ItemModel == null;
         
         public Cell(Vector2Int position)
         {
             Position = position;
         }
 
-        public void SetItem(Item item)
+        public void SetItem(ItemModel itemModel)
         {
-            Item = item;
+            ItemModel = itemModel;
         }
         
         public void Clear()
         {
-            Item = null;
+            ItemModel = null;
         }
     }
 }

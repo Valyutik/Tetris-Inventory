@@ -19,16 +19,16 @@ namespace Runtime.Inventory.Common
             _initialHeight = 0;
         }
 
-        public override bool TryAddItem(Item item)
+        public override bool TryAddItem(ItemModel itemModel)
         {
-            if (base.TryAddItem(item))
+            if (base.TryAddItem(itemModel))
             {
                 return true;
             }
             
-            ExpandToFit(item);
+            ExpandToFit(itemModel);
             
-            return base.TryAddItem(item);
+            return base.TryAddItem(itemModel);
         }
 
         public override void Clear()
@@ -46,19 +46,19 @@ namespace Runtime.Inventory.Common
             }
         }
 
-        private void ExpandToFit(Item item)
+        private void ExpandToFit(ItemModel itemModel)
         {
             var newWidth = Width;
             var newHeight = Height;
 
             if (Width < _maxWidth)
             {
-                newWidth = Math.Min(_maxWidth, Width + Math.Max(1, item.Width));
+                newWidth = Math.Min(_maxWidth, Width + Math.Max(1, itemModel.Width));
             }
     
             if (Height < _maxHeight)
             {
-                newHeight = Math.Min(_maxHeight, Height + Math.Max(1, item.Height));
+                newHeight = Math.Min(_maxHeight, Height + Math.Max(1, itemModel.Height));
             }
 
             if (newWidth == Width && newHeight == Height)

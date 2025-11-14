@@ -2,20 +2,16 @@ using UnityEngine;
 
 namespace Runtime.Inventory.Common
 {
-    public class Item
+    public class ItemModel
     {
         private const int RotationStep = 90;
         
         public string Id { get; }
-        public  string Name { get; }
-        public  string Description { get; }
+        public string Name { get; }
+        public string Description { get; }
         public Vector2Int AnchorPosition { get; set; }
-        public Vector2Int Size => new Vector2Int(Width, Height);
-        public Vector2Int OriginalSize => new Vector2Int(OriginalWidth, OriginalHeight);
         public bool[,] Shape { get; private set; }
-        
         public Sprite Visual { get; private set;}
-        public Color Color { get; private set; }
         public bool IsStackable { get; }
         public bool IsFullStack =>  CurrentStack >= MaxStack;
         public int MaxStack { get; }
@@ -51,10 +47,9 @@ namespace Runtime.Inventory.Common
 
         private int _rotation;
 
-        public Item(string id,
+        public ItemModel(string id,
             string name,
             string description,
-            Color color,
             bool isStackable = false,
             int maxStack = 1,
             int currentStack = 1,
@@ -64,7 +59,6 @@ namespace Runtime.Inventory.Common
             Id = id;
             Name = name;
             Description = description;
-            Color =  color;
             IsStackable = isStackable;
             MaxStack = maxStack;
             CurrentStack = currentStack;
