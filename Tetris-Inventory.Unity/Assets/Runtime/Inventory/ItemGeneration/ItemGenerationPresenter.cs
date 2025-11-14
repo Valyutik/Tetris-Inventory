@@ -20,8 +20,6 @@ namespace Runtime.Inventory.ItemGeneration
             _view = view;
             _model = model;
             _rules = rules;
-
-            Enable();
         }
 
         public void Enable()

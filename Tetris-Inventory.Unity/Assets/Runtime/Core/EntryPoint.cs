@@ -14,23 +14,25 @@ using Runtime.Input;
 using Runtime.Inventory.Core;
 using Runtime.Popup;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Runtime.Core
 {
     public class EntryPoint : MonoBehaviour
     {
-        [SerializeField] private UIDocument _document;
+        [Header("Grid sizes")]
         [SerializeField] private Vector2Int _inventorySize;
         [SerializeField] private Vector2Int _stashMaxSize;
-
+        
+        [Header("UI Documents")] 
+        [SerializeField] private UIDocument _menuDocument;
+        [SerializeField] private UIDocument _popupDocument;
+        
         [Header("UI Elements")] 
         [SerializeField] private VisualTreeAsset _inventoryAsset;
         [SerializeField] private VisualTreeAsset _stashAsset;
         [SerializeField] private VisualTreeAsset _createButtonAsset;
-
-        [Header("Popup")] 
         [SerializeField] private VisualTreeAsset _deleteConfirmationAsset;
-        [SerializeField] private UIDocument _popupUIDocument;
 
         private PlayerControls _playerControls;
 
@@ -89,13 +91,14 @@ namespace Runtime.Core
 
         private void InitializeUI()
         {
-            _menuContent = new MenuContent(_document);
-            _popupContent = new PopupContent(_popupUIDocument);
+            _menuContent = new MenuContent(_menuDocument);
+            _popupContent = new PopupContent(_popupDocument);
         }
 
         private void InitializeInput()
         {
             _playerControls = new PlayerControls();
+            
             _playerControls.Enable();
         }
 
@@ -103,6 +106,7 @@ namespace Runtime.Core
         {
             var inventoryView = new InventoryView(_inventoryAsset);
             _inventoryPresenter = new InventoryPresenter(inventoryView, _modelStorage.CoreInventoryModel, _menuContent.MenuRoot);
+            
             _inventoryPresenter.Enable();
         }
 
@@ -124,6 +128,8 @@ namespace Runtime.Core
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView,
                 _modelStorage.ItemGenerationModel,
                 new ItemGenerationRules(_modelStorage.CoreInventoryModel, _modelStorage, await AddressablesLoader.LoadAsync<ItemGenerationErrorMessage>("item_generation_error_message")));
+            
+            _itemGenerationPresenter.Enable();
         }
 
         private void InitializeDeleteSystem()
@@ -144,7 +150,7 @@ namespace Runtime.Core
 
         private void InitializeDragAndDrop()
         {
-            _dragDropView = new DragDropView(_document.rootVisualElement);
+            _dragDropView = new DragDropView(_menuDocument.rootVisualElement);
             
             _dragDropPresenter = new DragDropPresenter(_dragDropView, _modelStorage.DragDropModel);
 
@@ -168,6 +174,7 @@ namespace Runtime.Core
         {
             var popupView = new PopupView(_popupContent);
             _popupPresenter = new PopupPresenter(_modelStorage.PopupModel, popupView);
+            
             _popupPresenter.Enable();
         }
     }
