@@ -11,49 +11,50 @@ namespace Runtime.Inventory.DragAndDrop
         private readonly DragDropModel _model;
 
         private readonly DragDropView _view;
+        
+        private readonly InventoryModel _inventoryModel;
 
-        public DragDropPresenter(DragDropView view, DragDropModel model)
+        private readonly InventoryModel _stashInventoryModel;
+        
+        public DragDropPresenter(DragDropView view, DragDropModel model, ModelStorage modelStorage)
         {
             _view = view;
             
             _model = model;
+            
+            _inventoryModel =  modelStorage.CoreInventoryModel;
+            
+            _stashInventoryModel = modelStorage.StashInventoryModel;
         }
 
         public void Enable()
         {
             _view.Root.RegisterCallback<PointerDownEvent>(OnPointerDown);
+            
             _view.Root.RegisterCallback<PointerUpEvent>(OnPointerUp);
+            
             _view.Root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
 
-            foreach (var inventory in _model.Inventories)
-            {
-                inventory.OnSelectCell +=  OnSelectCell;
-            }
+            _inventoryModel.OnSelectCell += OnSelectCell;
             
-            _model.OnAddInventory += OnAddInventory;
-            _model.OnRemoveInventory += OnRemoveInventory;
+            _stashInventoryModel.OnSelectCell += OnSelectCell;
+
             _model.OnRotateItem += OnRotateItem;
         }
 
         public void Disable()
         {
             _view.Root.UnregisterCallback<PointerDownEvent>(OnPointerDown);
+            
             _view.Root.UnregisterCallback<PointerUpEvent>(OnPointerUp);
+            
             _view.Root.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
             
-            _model.OnAddInventory -= OnAddInventory;
-            _model.OnRemoveInventory -= OnRemoveInventory;
+            _inventoryModel.OnSelectCell += OnSelectCell;
+            
+            _stashInventoryModel.OnSelectCell += OnSelectCell;
+
             _model.OnRotateItem -= OnRotateItem;
-        }
-
-        private void OnRemoveInventory(InventoryModel inventory)
-        {
-            inventory.OnSelectCell -= OnSelectCell;
-        }
-
-        private void OnAddInventory(InventoryModel inventory)
-        {
-            inventory.OnSelectCell -= OnSelectCell;
         }
 
         private void OnInsideGrid(bool isGridArea)
@@ -116,7 +117,6 @@ namespace Runtime.Inventory.DragAndDrop
             IndicatePlacementProjection();
         }
         
-        //TODO: Вынести в отдельную фичу
         private void IndicatePlacementProjection()
         {
             if (_model.CurrentInventory == null || _model.CurrentItem == null)
