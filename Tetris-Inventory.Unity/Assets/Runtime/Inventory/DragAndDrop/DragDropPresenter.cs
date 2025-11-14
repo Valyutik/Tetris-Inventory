@@ -112,16 +112,18 @@ namespace Runtime.Inventory.DragAndDrop
         {
             _view.Move(evt.position);
 
-            //TODO: Вынести в отдельную фичу
+            IndicatePlacementProjection();
+        }
+        
+        //TODO: Вынести в отдельную фичу
+        private void IndicatePlacementProjection()
+        {
             if (_model.CurrentInventory == null || _model.CurrentItem == null)
             {
                 return;
             }
             
-            var canPlace = _model.CurrentInventory.CanPlaceItem(
-                _model.CurrentItem, 
-                _model.CurrentPosition
-            );
+            var canPlace = _model.CurrentInventory.CanPlaceItem(_model.CurrentItem, _model.CurrentPosition);
             
             if (canPlace)
             {
