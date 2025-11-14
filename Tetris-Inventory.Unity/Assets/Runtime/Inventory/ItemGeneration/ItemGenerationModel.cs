@@ -17,7 +17,7 @@ namespace Runtime.Inventory.ItemGeneration
             OnItemGenerated?.Invoke(items);
         }
         
-        public ItemGenerationModel(ItemGenerationConfig config, List<ItemConfig> allItems)
+        public ItemGenerationModel(ItemGenerationConfig config, IEnumerable<ItemConfig> allItems)
         {
             _config = config;
             _availableConfigs = config.UseAllItemsFromDatabase

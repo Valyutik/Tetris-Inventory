@@ -76,7 +76,7 @@ namespace Runtime.Core
             var stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
             var itemGenerationModel = new ItemGenerationModel(
                 await AddressablesLoader.LoadAsync<ItemGenerationConfig>("item_generation_config"),
-                _itemConfigs.ToList());
+                _itemConfigs);
 
             _modelStorage = new ModelStorage(inventoryModel, stashModel, itemGenerationModel);
         }
