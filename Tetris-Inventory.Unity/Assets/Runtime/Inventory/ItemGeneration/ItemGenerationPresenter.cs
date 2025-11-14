@@ -1,18 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using Runtime.Inventory.Common;
 
 namespace Runtime.Inventory.ItemGeneration
 {
-    public sealed class ItemGenerationPresenter : IItemGenerationPresenter, IDisposable
+    public sealed class ItemGenerationPresenter : IDisposable
     {
         private readonly ItemGenerationView _view;
         private readonly ItemGenerationModel _model;
         private readonly ItemGenerationRules _rules;
         
-        public event Action<IEnumerable<Item>> OnItemGenerated;
-
         public ItemGenerationPresenter(ItemGenerationView view,
             ItemGenerationModel model,
             ItemGenerationRules rules)
@@ -38,7 +34,7 @@ namespace Runtime.Inventory.ItemGeneration
             
             if (_rules.CanGenerateItems(items))
             {
-                OnItemGenerated?.Invoke(items);
+                _model.ItemGenerated(items);
             }
         }
     }

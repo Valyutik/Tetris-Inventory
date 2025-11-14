@@ -8,13 +8,11 @@ using Runtime.Inventory.DeleteArea;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Stash;
 using UnityEngine.UIElements;
-using System.Threading.Tasks;
 using Runtime.Utilities;
 using Runtime.Input;
 using Runtime.Inventory.Core;
 using Runtime.Popup;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Runtime.Core
 {
@@ -61,8 +59,8 @@ namespace Runtime.Core
             _itemConfigs = await AddressablesLoader.LoadAllAsync<ItemConfig>("items");
             InitializeUI();
             InitializeInput();
-            await InitializeItemGeneration();
             InitializeStash();
+            await InitializeItemGeneration();
             InitializeInventory();
             InitializeDeleteSystem();
             InitializeItemRotation();
@@ -115,8 +113,7 @@ namespace Runtime.Core
             var stashView = new InventoryView(_stashAsset);
             _stashPresenter = new StashPresenter(stashView,
                 _modelStorage.StashInventoryModel,
-                _menuContent.MenuRoot,
-                _itemGenerationPresenter);
+                _menuContent.MenuRoot, _modelStorage);
             
             _stashPresenter.Enable();
         }
