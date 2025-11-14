@@ -34,7 +34,7 @@ namespace Runtime.Inventory.Common
             return cell;
         }
 
-        public VisualElement CreateItem(Item item)
+        public VisualElement CreateItem(ItemView item)
         {
             var visualElement = new VisualElement();
 
@@ -71,7 +71,7 @@ namespace Runtime.Inventory.Common
             return visualElement;
         }
 
-        public void DrawItem(VisualElement visualElement, Item item)
+        public void DrawItem(VisualElement visualElement, ItemView item)
         {
             visualElement.Q<VisualElement>(ImageName).style.rotate = new Rotate(item.Rotation);
             visualElement.Q<TextElement>().text = $"x{item.CurrentStack}";

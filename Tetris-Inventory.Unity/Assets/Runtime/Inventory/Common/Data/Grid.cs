@@ -23,53 +23,53 @@ namespace Runtime.Inventory.Common
             }
         }
 
-        public bool TryAddItem(Item item, Vector2Int position)
+        public bool TryAddItem(ItemModel itemModel, Vector2Int position)
         {
-            if (!CanPlaceItem(item, position))
+            if (!CanPlaceItem(itemModel, position))
                 return false;
             
-            ApplyPlacement(item, position);
-            item.AnchorPosition = position;
+            ApplyPlacement(itemModel, position);
+            itemModel.AnchorPosition = position;
             return true;
         }
         
-        public virtual bool TryAddItem(Item item)
+        public virtual bool TryAddItem(ItemModel itemModel)
         {
-            for (var y = 0; y <= Height - item.Height; y++)
-            for (var x = 0; x <= Width - item.Width; x++)
+            for (var y = 0; y <= Height - itemModel.Height; y++)
+            for (var x = 0; x <= Width - itemModel.Width; x++)
             {
                 var position = new Vector2Int(x, y);
                 
-                if (!CanPlaceItem(item, position)) continue;
-                ApplyPlacement(item, position);
-                item.AnchorPosition = position;
+                if (!CanPlaceItem(itemModel, position)) continue;
+                ApplyPlacement(itemModel, position);
+                itemModel.AnchorPosition = position;
                 return true;
             }
             return false;
         }
         
-        public void RemoveItem(Item item)
+        public void RemoveItem(ItemModel itemModel)
         {
             foreach (var cell in Cells)
             {
-                if (cell.Item == item)
+                if (cell.ItemModel == itemModel)
                     cell.Clear();
             }
         }
         
         public Cell GetCell(int x, int y) => Cells[x, y];
 
-        public Item GetItem(Vector2Int position)
+        public ItemModel GetItem(Vector2Int position)
         {
-            return IsInsideBounds(position) ? Cells[position.x, position.y].Item : null;
+            return IsInsideBounds(position) ? Cells[position.x, position.y].ItemModel : null;
         }
 
-        public bool CanPlaceItem(Item item, Vector2Int position)
+        public bool CanPlaceItem(ItemModel itemModel, Vector2Int position)
         {
-            for (var dy = 0; dy < item.Height; dy++)
-            for (var dx = 0; dx < item.Width; dx++)
+            for (var dy = 0; dy < itemModel.Height; dy++)
+            for (var dx = 0; dx < itemModel.Width; dx++)
             {
-                if (!item.Shape[dx, dy])
+                if (!itemModel.Shape[dx, dy])
                     continue;
 
                 var x = position.x + dx;
@@ -79,7 +79,7 @@ namespace Runtime.Inventory.Common
                     return false;
             }
 
-            return GetOccupiedCells(item, position).All(cell => cell.IsEmpty);
+            return GetOccupiedCells(itemModel, position).All(cell => cell.IsEmpty);
         }
 
         public virtual void Clear()
@@ -88,20 +88,20 @@ namespace Runtime.Inventory.Common
                 cell.Clear();
         }
 
-        private void ApplyPlacement(Item item, Vector2Int position)
+        private void ApplyPlacement(ItemModel itemModel, Vector2Int position)
         {
-            foreach (var occupiedTiles in GetOccupiedCells(item, position))
+            foreach (var occupiedTiles in GetOccupiedCells(itemModel, position))
             {
-                occupiedTiles.SetItem(item);
+                occupiedTiles.SetItem(itemModel);
             }
         }
 
-        private IEnumerable<Cell> GetOccupiedCells(Item item, Vector2Int position)
+        private IEnumerable<Cell> GetOccupiedCells(ItemModel itemModel, Vector2Int position)
         {
-            for (var dy = 0; dy < item.Height; dy++)
-            for (var dx = 0; dx < item.Width; dx++)
+            for (var dy = 0; dy < itemModel.Height; dy++)
+            for (var dx = 0; dx < itemModel.Width; dx++)
             {
-                if (!item.Shape[dx, dy])
+                if (!itemModel.Shape[dx, dy])
                     continue;
 
                 yield return Cells[position.x + dx, position.y + dy];

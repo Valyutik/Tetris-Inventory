@@ -20,7 +20,7 @@ namespace Runtime.Inventory.ItemGeneration
             _errorMessage = errorMessage;
         }
 
-        public bool CanGenerateItems(List<Item> items)
+        public bool CanGenerateItems(List<ItemModel> items)
         {
             if (_stash.HasItems)
             {

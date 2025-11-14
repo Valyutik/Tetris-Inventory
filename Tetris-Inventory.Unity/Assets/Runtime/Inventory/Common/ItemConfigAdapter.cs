@@ -2,13 +2,12 @@ namespace Runtime.Inventory.Common
 {
     public static class ItemConfigAdapter
     {
-        public static Item ToModel(ItemConfig config)
+        public static ItemModel ToModel(ItemConfig config)
         {
-            return new Item(
+            return new ItemModel(
                 id: config.Id,
                 name: config.DisplayName,
                 description: config.Description,
-                color: config.Color,
                 isStackable: config.IsStackable,
                 maxStack: config.MaxStack,
                 shape: config.GetShapeMatrix(),

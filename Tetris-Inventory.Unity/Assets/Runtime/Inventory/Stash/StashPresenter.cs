@@ -28,7 +28,7 @@ namespace Runtime.Inventory.Stash
             _itemGenerationModel.OnItemGenerated -= SetItems;
         }
         
-        private void SetItems(IReadOnlyList<Item> items)
+        private void SetItems(IReadOnlyList<ItemModel> items)
         {
             Model.Clear();
             

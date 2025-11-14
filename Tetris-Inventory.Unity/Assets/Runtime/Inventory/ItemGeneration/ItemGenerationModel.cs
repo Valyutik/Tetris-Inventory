@@ -7,9 +7,10 @@ namespace Runtime.Inventory.ItemGeneration
 {
     public sealed class ItemGenerationModel
     {
-        public event Action<IReadOnlyList<Item>> OnItemGenerated;
+        public event Action<IReadOnlyList<ItemModel>> OnItemGenerated;
         
         private readonly ItemGenerationConfig _config;
+        
         private readonly ItemConfig[] _availableItems;
 
         public ItemGenerationModel(ItemGenerationConfig config)
@@ -19,14 +20,14 @@ namespace Runtime.Inventory.ItemGeneration
             _availableItems = config.ItemConfigs.ToArray();
         }
 
-        public void ItemGenerated(List<Item> items)
+        public void ItemGenerated(List<ItemModel> items)
         {
             OnItemGenerated?.Invoke(items);
         }
 
-        public IReadOnlyList<Item> GetRandomItems()
+        public IReadOnlyList<ItemModel> GetRandomItems()
         {
-            var items = new List<Item>();
+            var items = new List<ItemModel>();
             
             for (var i = 0; i < _config.DefaultCount; i++)
             {

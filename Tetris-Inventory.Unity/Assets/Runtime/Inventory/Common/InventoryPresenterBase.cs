@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Runtime.Inventory.Core;
+using Runtime.Inventory.Extensions;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,7 +23,7 @@ namespace Runtime.Inventory.Common
         
         private VisualElement[,] _cells;
 
-        private readonly Dictionary<Item, VisualElement> _items  = new Dictionary<Item, VisualElement>();
+        private readonly Dictionary<ItemModel, VisualElement> _items  = new Dictionary<ItemModel, VisualElement>();
         
         protected InventoryPresenterBase(InventoryView view, InventoryModel model)
         {
@@ -89,32 +90,32 @@ namespace Runtime.Inventory.Common
             }
         }
 
-        private void OnAddItem(Vector2Int position, Item item)
+        private void OnAddItem(Vector2Int position, ItemModel itemModel)
         {
-            _items.Add(item, _view.CreateItem(item));
+            _items.Add(itemModel, _view.CreateItem(itemModel.ToView()));
         }
 
-        private void OnItemStacked(Item item)
+        private void OnItemStacked(ItemModel itemModel)
         {
             Debug.Log("Item stacked");
-            Debug.Log($"Succses item: {item.CurrentStack}");
+            Debug.Log($"Succses item: {itemModel.CurrentStack}");
 
-            if (_items.TryGetValue(item, out var visualElement))
+            if (_items.TryGetValue(itemModel, out var visualElement))
             {
-                Debug.Log($"Succses item: {item.CurrentStack}");
-                _view.DrawItem(visualElement, item);
+                Debug.Log($"Succses item: {itemModel.CurrentStack}");
+                _view.DrawItem(visualElement, itemModel.ToView());
             }
         }
 
-        private void OnRemoveItem(Vector2Int position, Item item)
+        private void OnRemoveItem(Vector2Int position, ItemModel itemModel)
         {
-            var visualElement = _items.GetValueOrDefault(item);
+            var visualElement = _items.GetValueOrDefault(itemModel);
 
             if (visualElement == null) return;
             
             visualElement.RemoveFromHierarchy();
             
-            _items.Remove(item);
+            _items.Remove(itemModel);
         }
 
 
@@ -125,7 +126,7 @@ namespace Runtime.Inventory.Common
 
             foreach (var item in _model.GetAllItems())
             {
-                _items.Add(item, _view.CreateItem(item));
+                _items.Add(item, _view.CreateItem(item.ToView()));
             }
         }
         

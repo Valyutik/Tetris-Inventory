@@ -56,7 +56,7 @@ namespace Runtime.Inventory.DragAndDrop
             root.Add(DraggingElement);
         }
 
-        public void Drag(Item item, Vector2 startPosition)
+        public void Drag(ItemView item, Vector2 startPosition)
         {
             IsDragging = true;
 
@@ -79,7 +79,7 @@ namespace Runtime.Inventory.DragAndDrop
             DraggingElement.RemoveFromClassList(InventoryConstants.UI.Projection.ItemProjectionCanPlace);
         }
 
-        public void Drag(Item item)
+        public void Drag(ItemView item)
         {
             IsDragging = true;
             
@@ -103,7 +103,7 @@ namespace Runtime.Inventory.DragAndDrop
 
         public void Drop() => IsDragging = false;
 
-        private void UpdateVisualByItem(Item item)
+        private void UpdateVisualByItem(ItemView item)
         {
             _icon.style.backgroundImage= item.Visual.texture;
             
@@ -118,7 +118,7 @@ namespace Runtime.Inventory.DragAndDrop
             DraggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
         }
 
-        private Vector2 GetOffsetByItem(Item item) 
+        private Vector2 GetOffsetByItem(ItemView item) 
             => new Vector2(item.Width * InventoryConstants.UI.CellSize, item.Height * InventoryConstants.UI.CellSize) / 2f;
     }
 }

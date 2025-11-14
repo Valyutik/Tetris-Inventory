@@ -12,7 +12,7 @@ namespace Runtime.Inventory.DeleteArea
         
         private readonly DragDropModel _dragDropModel;
         
-        private Item _cachedItem;
+        private ItemModel _cachedItemModel;
         
         private InventoryModel _cachedInventory;
 
@@ -51,7 +51,7 @@ namespace Runtime.Inventory.DeleteArea
 
         private void OnPointerUp(PointerUpEvent evt)
         {
-            if (_dragDropModel.CurrentItem == null) return;
+            if (_dragDropModel.CurrentItemModel == null) return;
             
             _view.DrawInteractReady(false);
             
@@ -60,11 +60,11 @@ namespace Runtime.Inventory.DeleteArea
 
         private void OnPointerEnter(PointerEnterEvent evt)
         {
-            _view.DrawInteractReady(_dragDropModel.CurrentItem != null);
+            _view.DrawInteractReady(_dragDropModel.CurrentItemModel != null);
 
-            if (_dragDropModel.CurrentItem != null)
+            if (_dragDropModel.CurrentItemModel != null)
             {
-                _cachedItem = _dragDropModel.CurrentItem;
+                _cachedItemModel = _dragDropModel.CurrentItemModel;
                 
                 _dragDropModel.CanProjectionPlacementInteract = true;
                 
@@ -81,11 +81,11 @@ namespace Runtime.Inventory.DeleteArea
 
         private void DeleteItem()
         {
-            _cachedInventory.TryRemoveItem(_cachedItem);
+            _cachedInventory.TryRemoveItem(_cachedItemModel);
 
             _cachedInventory = null;
             
-            _cachedItem = null;
+            _cachedItemModel = null;
             
             _view.HideConfirmation();
             
