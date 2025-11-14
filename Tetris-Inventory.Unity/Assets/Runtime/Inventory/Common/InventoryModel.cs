@@ -52,11 +52,6 @@ namespace Runtime.Inventory.Common
             OnSelectCell?.Invoke(position, this);
         }
 
-        public void DeselectCell(Vector2Int position)
-        {
-            OnDeselectCell?.Invoke();
-        }
-
         public bool CanFitItems(IEnumerable<Item> items)
         {
             var itemsToCheck = items.ToArray();
@@ -100,21 +95,28 @@ namespace Runtime.Inventory.Common
             }
             
             var freeCells = 0;
+            
             for (var y = 0; y < Height; y++)
-            for (var x = 0; x < Width; x++)
-                if (_grid.GetCell(x, y).IsEmpty)
-                    freeCells++;
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    if (_grid.GetCell(x, y).IsEmpty)
+                    {
+                        freeCells++;
+                    }
+                }
+            }
             
             return freeCells >= additionalCellsNeeded;
         }
 
+        public void DeselectCell(Vector2Int position)
+        {
+            OnDeselectCell?.Invoke();
+        }
+
         public bool TryPlaceItem(Item item, Vector2Int position, bool allowStacking = true)
         {
-            if (item == null)
-            {
-                return false;
-            }
-            
             var existingItem = _grid.GetItem(position);
 
             if (existingItem != null && existingItem.Id == item.Id)
@@ -145,11 +147,6 @@ namespace Runtime.Inventory.Common
 
         public bool TryPlaceItem(Item item, bool allowStacking = true)
         {
-            if (item == null)
-            {
-                return false;
-            }
-
             if (item.IsStackable && allowStacking)
             {
                 var existingStack = FindNonFullStack(item.Id);
@@ -177,8 +174,6 @@ namespace Runtime.Inventory.Common
 
         public bool TryRemoveItem(Item item)
         {
-            if  (item == null) return false;
-            
             if (!_items.Contains(item))
                 return false;
 
@@ -193,9 +188,12 @@ namespace Runtime.Inventory.Common
         public bool TryRemoveItem(Vector2Int position, out Item item)
         {
             item = _grid.GetItem(position);
-            
+
             if (item == null)
+            {
                 return false;
+            }
+            
             _grid.RemoveItem(item);
             _items.Remove(item);
             
@@ -209,24 +207,6 @@ namespace Runtime.Inventory.Common
         public Item GetItem(Vector2Int position)
         {
             return _grid.GetItem(position);
-        }
-
-        public bool IsCellOccupied(Vector2Int position)
-        {
-            return _grid.GetCell(position.x, position.y).IsEmpty;
-        }
-
-        public bool[,] GetOccupancyMap()
-        {
-            var occupancyMap = new bool[Width, Height];
-
-            for (var y = 0; y < Height; y++)
-            {
-                for(var x = 0; x < Width; x++) 
-                    occupancyMap[x, y] = _grid.GetCell(x, y).IsEmpty;
-            }
-
-            return occupancyMap;
         }
 
         public void Clear()

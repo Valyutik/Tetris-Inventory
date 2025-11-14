@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace Runtime.Inventory.DeleteArea
 {
-    public class DeleteAreaPresenter : IDisposable
+    public class DeleteAreaPresenter : IPresenter
     {
         private readonly DeleteAreaView _view;
         
@@ -16,7 +16,7 @@ namespace Runtime.Inventory.DeleteArea
         
         private InventoryModel _cachedInventory;
 
-        public DeleteAreaPresenter(DeleteAreaView view, InventoryModelStorage modelStorage)
+        public DeleteAreaPresenter(DeleteAreaView view, ModelStorage modelStorage)
         {
             _view = view;
             
@@ -36,7 +36,7 @@ namespace Runtime.Inventory.DeleteArea
             _view.CancelDeleteButton.clicked += Cancel;
         }
 
-        public void Dispose()
+        public void Disable()
         {
             _view.DeleteArea.UnregisterCallback<PointerUpEvent>(OnPointerUp);
             

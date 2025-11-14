@@ -7,7 +7,7 @@ namespace Runtime.Inventory.ItemGeneration
 {
     public sealed class ItemGenerationModel
     {
-        public event Action<IEnumerable<Item>> OnItemGenerated;
+        public event Action<IReadOnlyList<Item>> OnItemGenerated;
         
         private readonly ItemGenerationConfig _config;
         private readonly ItemConfig[] _availableConfigs;
@@ -25,13 +25,20 @@ namespace Runtime.Inventory.ItemGeneration
                 : config.ItemConfigs.ToArray();
         }
         
-        public IEnumerable<Item> GetRandomItems()
+        public IReadOnlyList<Item> GetRandomItems()
         {
+            var items = new List<Item>();
+            
             for (var i = 0; i < _config.DefaultCount; i++)
             {
                 var randomConfig = _availableConfigs[UnityEngine.Random.Range(0, _availableConfigs.Length)];
-                yield return ItemConfigAdapter.ToModel(randomConfig);
+                
+                var item = ItemConfigAdapter.ToModel(randomConfig);
+                
+                items.Add(item);
             }
+
+            return items;
         }
     }
 }

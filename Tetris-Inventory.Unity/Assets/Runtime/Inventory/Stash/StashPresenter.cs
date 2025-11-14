@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Core;
 using Runtime.Inventory.ItemGeneration;
-using UnityEngine.UIElements;
 
 namespace Runtime.Inventory.Stash
 {
@@ -10,7 +9,7 @@ namespace Runtime.Inventory.Stash
     {
         private readonly ItemGenerationModel _itemGenerationModel;
         
-        public StashPresenter(InventoryView view, InventoryModel model, VisualElement menuRoot, InventoryModelStorage storage) : base(view, model, menuRoot)
+        public StashPresenter(InventoryView view, InventoryModel model, ModelStorage storage) : base(view, model)
         {
             _itemGenerationModel = storage.ItemGenerationModel;
         }
@@ -22,14 +21,14 @@ namespace Runtime.Inventory.Stash
             _itemGenerationModel.OnItemGenerated += SetItems;
         }
         
-        public override void Dispose()
+        public override void Disable()
         {
-            base.Dispose();
+            base.Disable();
             
             _itemGenerationModel.OnItemGenerated -= SetItems;
         }
         
-        private void SetItems(IEnumerable<Item> items)
+        private void SetItems(IReadOnlyList<Item> items)
         {
             Model.Clear();
             

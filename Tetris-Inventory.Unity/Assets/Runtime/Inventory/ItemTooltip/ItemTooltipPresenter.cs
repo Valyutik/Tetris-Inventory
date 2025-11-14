@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Runtime.Inventory.ItemTooltip
 {
-    public class ItemTooltipPresenter
+    public class ItemTooltipPresenter : IPresenter
     {
         private readonly ItemTooltipView _view;
         private readonly InventoryModel _inventory;
         private readonly InventoryModel _stash;
 
-        public ItemTooltipPresenter(ItemTooltipView view, InventoryModelStorage modelStorage)
+        public ItemTooltipPresenter(ItemTooltipView view, ModelStorage modelStorage)
         {
             _view = view;
             _inventory = modelStorage.CoreInventoryModel;

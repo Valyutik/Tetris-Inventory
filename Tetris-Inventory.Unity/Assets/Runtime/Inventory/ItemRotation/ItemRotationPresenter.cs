@@ -6,13 +6,13 @@ using UnityEngine.InputSystem;
 
 namespace Runtime.Inventory.ItemRotation
 {
-    public sealed class ItemRotationPresenter : IDisposable
+    public sealed class ItemRotationPresenter : IPresenter
     {
         private readonly PlayerControls _playerControls;
         
         private readonly DragDropModel _dragDropModel;
 
-        public ItemRotationPresenter(PlayerControls playerControls, InventoryModelStorage modelStorage)
+        public ItemRotationPresenter(PlayerControls playerControls, ModelStorage modelStorage)
         {
             _playerControls = playerControls;
 
@@ -23,8 +23,8 @@ namespace Runtime.Inventory.ItemRotation
         {
             _playerControls.UI.RotateItem.performed += RotateCurrentItem;
         }
-        
-        public void Dispose()
+
+        public void Disable()
         {
             _playerControls.UI.RotateItem.performed -= RotateCurrentItem;
         }

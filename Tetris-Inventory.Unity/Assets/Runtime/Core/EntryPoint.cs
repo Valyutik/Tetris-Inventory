@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Runtime.Inventory.ItemGeneration;
 using Runtime.Inventory.ItemRotation;
@@ -50,7 +51,7 @@ namespace Runtime.Core
         
         private ItemRotationPresenter _itemRotationPresenter;
         
-        private InventoryModelStorage _modelStorage;
+        private ModelStorage _modelStorage;
 
         private async void Start()
         {
@@ -77,13 +78,13 @@ namespace Runtime.Core
                 await AddressablesLoader.LoadAsync<ItemGenerationConfig>("item_generation_config"),
                 _itemConfigs);
 
-            _modelStorage = new InventoryModelStorage(inventoryModel, stashModel, itemGenerationModel);
+            _modelStorage = new ModelStorage(inventoryModel, stashModel, itemGenerationModel);
         }
 
         private void OnDestroy()
         {
             _playerControls?.Disable();
-            _itemRotationPresenter.Dispose();
+            _itemRotationPresenter.Disable();
             _popupPresenter.Disable();
         }
 
@@ -102,18 +103,17 @@ namespace Runtime.Core
 
         private void InitializeInventory()
         {
-            var inventoryView = new InventoryView(_inventoryAsset);
-            _inventoryPresenter = new InventoryPresenter(inventoryView, _modelStorage.CoreInventoryModel, _menuContent.MenuRoot);
+            var inventoryView = new InventoryView(_inventoryAsset, _menuContent.MenuRoot);
+            
+            _inventoryPresenter = new InventoryPresenter(inventoryView, _modelStorage.CoreInventoryModel);
             
             _inventoryPresenter.Enable();
         }
 
         private void InitializeStash()
         {
-            var stashView = new InventoryView(_stashAsset);
-            _stashPresenter = new StashPresenter(stashView,
-                _modelStorage.StashInventoryModel,
-                _menuContent.MenuRoot, _modelStorage);
+            var stashView = new InventoryView(_stashAsset, _menuContent.MenuRoot);
+            _stashPresenter = new StashPresenter(stashView, _modelStorage.StashInventoryModel, _modelStorage);
             
             _stashPresenter.Enable();
         }
@@ -149,11 +149,7 @@ namespace Runtime.Core
         {
             _dragDropView = new DragDropView(_menuDocument.rootVisualElement);
             
-            _dragDropPresenter = new DragDropPresenter(_dragDropView, _modelStorage.DragDropModel);
-
-            _modelStorage.DragDropModel.RegisterInventory(_modelStorage.CoreInventoryModel);
-            
-            _modelStorage.DragDropModel.RegisterInventory(_modelStorage.StashInventoryModel);
+            _dragDropPresenter = new DragDropPresenter(_dragDropView, _modelStorage.DragDropModel, _modelStorage);
             
             _dragDropPresenter.Enable();
         }

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Runtime.Inventory.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Runtime.Inventory.Common
 {
-    public abstract class InventoryPresenterBase : IDisposable
+    public abstract class InventoryPresenterBase : IPresenter
     {
         public bool HasItems => _model.HasItems;
         
@@ -23,13 +24,11 @@ namespace Runtime.Inventory.Common
 
         private readonly Dictionary<Item, VisualElement> _items  = new Dictionary<Item, VisualElement>();
         
-        protected InventoryPresenterBase(InventoryView view, InventoryModel model, VisualElement menuRoot)
+        protected InventoryPresenterBase(InventoryView view, InventoryModel model)
         {
             _model = model;
             
             _view = view;
-
-            menuRoot.Add(view.Root);
         }
 
         public virtual void Enable()
@@ -41,18 +40,29 @@ namespace Runtime.Inventory.Common
             _model.OnRemoveItem += OnRemoveItem;
 
             _model.OnItemStacked += OnItemStacked;
-            
-            _view.Grid.RegisterCallback<PointerEnterEvent>(_ => _model.PointerInGridArea(true));
-            _view.Grid.RegisterCallback<PointerLeaveEvent>(_ => _model.PointerInGridArea(false));
+
+            _view.Grid.RegisterCallback<PointerEnterEvent>(OnEnterInventoryArea);
+
+            _view.Grid.RegisterCallback<PointerLeaveEvent>(OnLeaveInventoryArea);
         }
 
-        public virtual void Dispose()
+        public virtual void Disable()
         {
             _model.OnAddItem -= OnAddItem;
 
             _model.OnRemoveItem -= OnRemoveItem;
             
             _model.OnItemStacked -= OnItemStacked;
+        }
+
+        private void OnEnterInventoryArea(PointerEnterEvent evt)
+        {
+            _model.PointerInGridArea(true);
+        }
+
+        private void OnLeaveInventoryArea(PointerLeaveEvent evt)
+        {
+            _model.PointerInGridArea(false);
         }
 
         private void CreateView()
