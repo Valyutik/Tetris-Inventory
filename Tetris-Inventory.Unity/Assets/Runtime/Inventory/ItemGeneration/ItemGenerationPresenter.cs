@@ -35,7 +35,7 @@ namespace Runtime.Inventory.ItemGeneration
             
             if (_rules.CanGenerateItems(items))
             {
-                _model.ItemGenerated(items);
+                _model.GenerateItem(items);
             }
         }
     }
