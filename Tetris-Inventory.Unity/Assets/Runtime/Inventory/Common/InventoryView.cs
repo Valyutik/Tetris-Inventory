@@ -53,7 +53,10 @@ namespace Runtime.Inventory.Common
                 },
             };
 
-            var textElement = new TextElement();
+            var textElement = new TextElement()
+            {
+                pickingMode = PickingMode.Ignore
+            };
             
             textElement.AddToClassList(InventoryConstants.UI.Inventory.ItemCountLabel);
             

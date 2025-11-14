@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4708a492f2cc42ceabc038055fed920c, type: 3}
   m_Name: ItemGenerationErrorMessage
   m_EditorClassIdentifier: 
-  stashNotEmptyTitle: "\u0421\u0442\u044D\u0448 \u043F\u043E\u043B\u043E\u043D!!!"
+  stashNotEmptyTitle: "\u0425\u0440\u0430\u043D\u0438\u043B\u0438\u0449\u0435 \u043F\u0435\u0440\u0435\u043F\u043E\u043B\u043D\u0435\u043D\u043E!"
   stashNotEmptyMessage: 
   inventoryHasNoSpaceTitle: "\u041D\u0435\u0442\u0443 \u043C\u0435\u0441\u0442\u0430
     \u0432 \u0438\u043D\u0432\u0435\u043D\u0442\u0430\u0440\u0435!"

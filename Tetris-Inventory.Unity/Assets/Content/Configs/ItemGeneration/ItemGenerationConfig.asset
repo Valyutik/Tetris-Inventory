@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5961091f6be84ff78f34e3f01066ac04, type: 3}
   m_Name: ItemGenerationConfig
   m_EditorClassIdentifier: 
-  itemConfigs:
+  ItemConfigs:
+  - {fileID: 11400000, guid: 206fcff1b3da65946b5236ae47b66d0c, type: 2}
+  - {fileID: 11400000, guid: 3918666df1311044a85f78f69043acba, type: 2}
+  - {fileID: 11400000, guid: 2ad6c354bf1398b4b8aaff85363c5c3b, type: 2}
+  - {fileID: 11400000, guid: fc6f9d4f25d98354495f09e2e1d4bd66, type: 2}
   - {fileID: 11400000, guid: 4d538ef34545c5e4f837f566342a10b6, type: 2}
   - {fileID: 11400000, guid: 0e0f1e49ae51b104f8eae2aa080b5a67, type: 2}
   - {fileID: 11400000, guid: 193838f533ad50140970f65eeb867fbf, type: 2}
   - {fileID: 11400000, guid: c2c3a95e325b3394f97810b0008c4ee9, type: 2}
-  defaultCount: 3
-  useAllItemsFromDatabase: 0
+  DefaultCount: 3
+  UseAllItemsFromDatabase: 0
