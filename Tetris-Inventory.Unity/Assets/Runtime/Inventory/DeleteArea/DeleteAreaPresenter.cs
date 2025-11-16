@@ -51,11 +51,12 @@ namespace Runtime.Inventory.DeleteArea
 
         private void OnPointerUp(PointerUpEvent evt)
         {
-            if (_dragDropModel.CurrentItemModel == null) return;
-            
-            _view.DrawInteractReady(false);
-            
-            _view.ShowConfirmation();
+            if (_dragDropModel.CurrentItemModel != null)
+            {
+                _view.DrawInteractReady(false);
+
+                _view.ShowConfirmation();
+            }
         }
 
         private void OnPointerEnter(PointerEnterEvent evt)

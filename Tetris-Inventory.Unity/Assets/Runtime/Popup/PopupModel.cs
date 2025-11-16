@@ -22,13 +22,11 @@ namespace Runtime.Popup
 
         public void CloseCurrent(PopupData data)
         {
-            if (_popupStack.Count == 0)
+            if (_popupStack.Count != 0)
             {
-                return;
+                var closed = _popupStack.Pop();
+                OnPopupClosed?.Invoke(closed);
             }
-            
-            var closed = _popupStack.Pop();
-            OnPopupClosed?.Invoke(closed);
         }
         
         public void CloseAll()

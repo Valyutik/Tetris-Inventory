@@ -92,13 +92,14 @@ namespace Runtime.Inventory.DragAndDrop
 
         public void Move(Vector2 screenPosition)
         {
-            if (!IsDragging) return;
+            if (IsDragging)
+            {
+                DraggingElement.style.left = screenPosition.x - _dragOffset.x * 0.1f;
 
-            DraggingElement.style.left = screenPosition.x - _dragOffset.x * 0.1f;
-            
-            DraggingElement.style.top = screenPosition.y - _dragOffset.y * 0.1f;
+                DraggingElement.style.top = screenPosition.y - _dragOffset.y * 0.1f;
 
-            _cachedPointerPosition = screenPosition;
+                _cachedPointerPosition = screenPosition;
+            }
         }
 
         public void Drop() => IsDragging = false;
@@ -118,7 +119,10 @@ namespace Runtime.Inventory.DragAndDrop
             DraggingElement.style.height = item.Height * InventoryConstants.UI.CellSize;
         }
 
-        private Vector2 GetOffsetByItem(ItemView item) 
-            => new Vector2(item.Width * InventoryConstants.UI.CellSize, item.Height * InventoryConstants.UI.CellSize) / 2f;
+        private Vector2 GetOffsetByItem(ItemView item)
+        {
+            return new Vector2(item.Width * InventoryConstants.UI.CellSize,
+                item.Height * InventoryConstants.UI.CellSize) / 2f;
+        }
     }
 }

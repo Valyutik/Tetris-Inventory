@@ -31,8 +31,10 @@ namespace Runtime.Inventory.DeleteArea
 
         public void DrawInteractReady(bool isReady)
         {
-            if (isReady) DeleteArea.AddToClassList(InventoryConstants.UI.DeleteAreaStyle);
-            else DeleteArea.RemoveFromClassList(InventoryConstants.UI.DeleteAreaStyle);
+            if (isReady)
+                DeleteArea.AddToClassList(InventoryConstants.UI.DeleteAreaStyle);
+            else
+                DeleteArea.RemoveFromClassList(InventoryConstants.UI.DeleteAreaStyle);
         }
 
         public void ShowConfirmation()

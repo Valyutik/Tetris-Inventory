@@ -70,19 +70,19 @@ namespace Runtime.Inventory.Item
 
         public bool TryAddToStack(int amount)
         {
-            if (!IsStackable || amount <= 0)
+            if (IsStackable && amount > 0)
             {
-                return false;
+                if (CurrentStack >= MaxStack)
+                {
+                    return false;
+                }
+
+                CurrentStack = Mathf.Min(CurrentStack + amount, MaxStack);
+
+                return true;
             }
 
-            if (CurrentStack >= MaxStack)
-            {
-                return false;
-            }
-            
-            CurrentStack = Mathf.Min(CurrentStack + amount, MaxStack);
-            
-            return true;
+            return false;
         }
 
         public void CacheShape()

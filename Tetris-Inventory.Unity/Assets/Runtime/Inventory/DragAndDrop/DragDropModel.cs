@@ -8,8 +8,6 @@ namespace Runtime.Inventory.DragAndDrop
     public class DragDropModel
     {
         public event Action<ItemModel> OnRotateItem;
-        public event Action<ItemModel> OnDraggingItem;
-        public event Action OnDropItem;
         
         public bool CanProjectionPlacementInteract { get; set; }
         
@@ -22,11 +20,12 @@ namespace Runtime.Inventory.DragAndDrop
 
         public void RotateCurrentItem()
         {
-            if (CurrentItemModel == null) return;
-            
-            CurrentItemModel.RotateShape();
-            
-            OnRotateItem?.Invoke(CurrentItemModel);
+            if (CurrentItemModel != null)
+            {
+                CurrentItemModel.RotateShape();
+
+                OnRotateItem?.Invoke(CurrentItemModel);
+            }
         }
     }
 }
