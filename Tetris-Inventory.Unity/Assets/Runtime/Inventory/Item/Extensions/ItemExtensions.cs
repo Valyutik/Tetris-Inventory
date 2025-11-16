@@ -1,6 +1,4 @@
-using Runtime.Inventory.Common;
-
-namespace Runtime.Inventory.Extensions
+namespace Runtime.Inventory.Item.Extensions
 {
     public static class ItemExtensions
     {

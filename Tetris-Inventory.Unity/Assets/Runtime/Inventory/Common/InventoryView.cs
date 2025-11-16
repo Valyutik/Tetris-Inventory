@@ -1,5 +1,6 @@
-using UnityEngine;
+using Runtime.Inventory.Item;
 using UnityEngine.UIElements;
+using UnityEngine;
 
 namespace Runtime.Inventory.Common
 {

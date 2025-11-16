@@ -1,14 +1,7 @@
-using UnityEngine;
-
 namespace Runtime.Inventory
 {
     public static class InventoryConstants
     {
-        public static class Game
-        {
-            public static readonly Vector2Int UserGridSize = new Vector2Int(5, 7);
-        }
-        
         public static class UI
         {
             public const int CellSize = 100;

@@ -1,6 +1,6 @@
-using Runtime.Inventory.Common;
-using Runtime.Inventory.DragAndDrop;
 using Runtime.Inventory.ItemGeneration;
+using Runtime.Inventory.DragAndDrop;
+using Runtime.Inventory.Common;
 using Runtime.Popup;
 
 namespace Runtime.Inventory.Core

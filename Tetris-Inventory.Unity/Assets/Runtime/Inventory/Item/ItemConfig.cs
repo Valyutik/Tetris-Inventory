@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Runtime.Inventory.Common
+namespace Runtime.Inventory.Item
 {
     [CreateAssetMenu(fileName = "ItemConfig", menuName = "Items/Item")]
     public sealed class ItemConfig : ScriptableObject

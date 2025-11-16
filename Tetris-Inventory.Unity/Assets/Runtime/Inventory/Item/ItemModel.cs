@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Runtime.Inventory.Common
+namespace Runtime.Inventory.Item
 {
     public class ItemModel
     {
@@ -27,7 +27,7 @@ namespace Runtime.Inventory.Common
         public int Rotation
         {
             get => _rotation;
-            set
+            private set
             {
                 if (value >= 360)
                 {

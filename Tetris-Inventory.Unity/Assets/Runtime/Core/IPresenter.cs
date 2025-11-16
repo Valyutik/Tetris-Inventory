@@ -1,4 +1,4 @@
-namespace Runtime.Inventory.Core
+namespace Runtime.Core
 {
     public interface IPresenter
     {

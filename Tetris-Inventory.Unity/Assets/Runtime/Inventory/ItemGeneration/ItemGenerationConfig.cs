@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Runtime.Inventory.Common;
+using Runtime.Inventory.Item;
 using UnityEngine;
 
 namespace Runtime.Inventory.ItemGeneration

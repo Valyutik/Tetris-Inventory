@@ -1,6 +1,6 @@
-using Runtime.Inventory.Common;
-using UnityEngine;
+using Runtime.Inventory.Item;
 using UnityEngine.UIElements;
+using UnityEngine;
 
 namespace Runtime.Inventory.DragAndDrop
 {

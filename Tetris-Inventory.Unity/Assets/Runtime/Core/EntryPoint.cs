@@ -1,19 +1,17 @@
-using System.Linq;
-using System.Threading.Tasks;
 using Runtime.Inventory.ItemGeneration;
 using Runtime.Inventory.ItemRotation;
 using Runtime.Systems.ContentManager;
 using Runtime.Inventory.ItemTooltip;
 using Runtime.Inventory.DragAndDrop;
+using Runtime.Inventory.Common.Data;
 using Runtime.Inventory.DeleteArea;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Stash;
+using Runtime.Inventory.Core;
 using UnityEngine.UIElements;
 using Runtime.Input;
-using Runtime.Inventory.Core;
 using Runtime.Popup;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Runtime.Core
 {

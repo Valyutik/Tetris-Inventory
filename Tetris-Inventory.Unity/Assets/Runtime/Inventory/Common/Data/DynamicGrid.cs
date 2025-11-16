@@ -1,7 +1,8 @@
-using System;
+using Runtime.Inventory.Item;
 using UnityEngine;
+using System;
 
-namespace Runtime.Inventory.Common
+namespace Runtime.Inventory.Common.Data
 {
     public sealed class DynamicGrid : Grid
     {

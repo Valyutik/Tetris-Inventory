@@ -1,6 +1,7 @@
+using Runtime.Inventory.Item;
 using UnityEngine;
 
-namespace Runtime.Inventory.Common
+namespace Runtime.Inventory.Common.Data
 {
     public sealed class Cell
     {

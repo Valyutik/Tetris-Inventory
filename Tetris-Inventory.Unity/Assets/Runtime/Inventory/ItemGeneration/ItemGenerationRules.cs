@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Core;
+using Runtime.Inventory.Item;
 using Runtime.Popup;
 
 namespace Runtime.Inventory.ItemGeneration

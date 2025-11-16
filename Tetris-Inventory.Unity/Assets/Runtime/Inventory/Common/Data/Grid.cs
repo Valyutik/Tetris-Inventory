@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Runtime.Inventory.Item;
 using System.Linq;
 using UnityEngine;
 
-namespace Runtime.Inventory.Common
+namespace Runtime.Inventory.Common.Data
 {
     public class Grid
     {

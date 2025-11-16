@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Runtime.Inventory.Common
+namespace Runtime.Inventory.Item
 {
     public struct ItemView
     {

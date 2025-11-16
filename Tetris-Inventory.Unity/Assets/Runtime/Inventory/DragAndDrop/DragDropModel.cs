@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Runtime.Inventory.Common;
+using Runtime.Inventory.Item;
 using UnityEngine;
+using System;
 
 namespace Runtime.Inventory.DragAndDrop
 {
