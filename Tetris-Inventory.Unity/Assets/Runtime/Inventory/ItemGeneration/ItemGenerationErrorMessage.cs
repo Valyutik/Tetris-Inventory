@@ -6,12 +6,12 @@ namespace Runtime.Inventory.ItemGeneration
     public sealed class ItemGenerationErrorMessage : ScriptableObject   
     {
         [Header("Stash is not empty")]
-        public string stashNotEmptyTitle;
-        [TextArea] public string stashNotEmptyMessage;
+        public string StashNotEmptyTitle;
+        [TextArea] public string StashNotEmptyMessage;
         
         [Space]
         [Header("No space for items")]
-        public string inventoryHasNoSpaceTitle;
-        [TextArea] public string inventoryHasNoSpaceMessage;
+        public string InventoryHasNoSpaceTitle;
+        [TextArea] public string InventoryHasNoSpaceMessage;
     }
 }
