@@ -8,7 +8,6 @@ namespace Runtime.Inventory.Common
         private const string ImageName = "icon";
         
         public VisualElement Root { get;}
-        
         public VisualElement Grid { get; }
 
         public InventoryView(VisualTreeAsset asset, VisualElement menuRoot)
@@ -21,8 +20,8 @@ namespace Runtime.Inventory.Common
 
         public void SetUpGrid(int width, int height)
         {
-            Grid.style.height = height * InventoryConstants.UI.CellSize;
-            Grid.style.width = width * InventoryConstants.UI.CellSize;
+            Grid.style.width = ToPx(width);
+            Grid.style.height = ToPx(height);
         }
 
         public VisualElement CreateCell()
@@ -36,62 +35,78 @@ namespace Runtime.Inventory.Common
             return cell;
         }
 
-        public VisualElement CreateItem(ItemView item)
+        public VisualElement CreateItem(ItemViewData item)
         {
-            var visualElement = new VisualElement();
+            var el = new VisualElement();
+            el.AddToClassList(InventoryConstants.UI.ItemStyle);
 
-            visualElement.AddToClassList(InventoryConstants.UI.ItemStyle);
-            
-            var image = new VisualElement()
-            {
-                name = ImageName,
-                pickingMode = PickingMode.Ignore,
-                style =
-                {
-                    width = item.OriginalWidth * InventoryConstants.UI.CellSize, 
-                    height = item.OriginalHeight * InventoryConstants.UI.CellSize,
-                    backgroundImage =  item.Visual.texture,
-                    alignSelf = Align.Center,
-                    flexGrow = 0
-                },
-            };
+            el.Add(CreateItemImage(item));
+            el.Add(CreateItemCountLabel());
 
-            var textElement = new TextElement()
-            {
-                pickingMode = PickingMode.Ignore
-            };
-            
-            textElement.AddToClassList(InventoryConstants.UI.Inventory.ItemCountLabel);
-            
-            visualElement.Add(image);
-            visualElement.Add(textElement);
-            
-            DrawItem(visualElement, item);
+            ApplyItemVisual(el, item);
+            ApplyItemTransform(el, item);
 
-            Grid.Add(visualElement);
-            
-            return visualElement;
+            Grid.Add(el);
+            return el;
         }
 
-        public void DrawItem(VisualElement visualElement, ItemView item)
+        public void DrawItem(VisualElement element, ItemViewData item)
         {
-            visualElement.Q<VisualElement>(ImageName).style.rotate = new Rotate(item.Rotation);
-            visualElement.Q<TextElement>().text = $"x{item.CurrentStack}";
-            
-            
-            visualElement.style.width = item.Width * InventoryConstants.UI.CellSize;
-            visualElement.style.height = item.Height * InventoryConstants.UI.CellSize;
-
-            visualElement.style.position = Position.Absolute;
-            visualElement.pickingMode = PickingMode.Ignore;
-            
-            visualElement.style.left = item.AnchorPosition.x * InventoryConstants.UI.CellSize;
-            visualElement.style.top = item.AnchorPosition.y * InventoryConstants.UI.CellSize;
+            ApplyItemVisual(element, item);
+            ApplyItemTransform(element, item);
         }
 
         public void ClearGrid()
         {
             Grid.Clear();
         }
+        
+        private VisualElement CreateItemImage(ItemViewData item)
+        {
+            return new VisualElement
+            {
+                name = ImageName,
+                pickingMode = PickingMode.Ignore,
+                style =
+                {
+                    width = ToPx(item.OriginalWidth),
+                    height = ToPx(item.OriginalHeight),
+                    backgroundImage = item.Visual.texture,
+                    flexGrow = 0,
+                    alignSelf = Align.Center
+                }
+            };
+        }
+
+        private TextElement CreateItemCountLabel()
+        {
+            var label = new TextElement
+            {
+                pickingMode = PickingMode.Ignore
+            };
+
+            label.AddToClassList(InventoryConstants.UI.Inventory.ItemCountLabel);
+            return label;
+        }
+
+        private void ApplyItemVisual(VisualElement el, ItemViewData item)
+        {
+            el.Q<VisualElement>(ImageName).style.rotate = new Rotate(item.Rotation);
+            el.Q<TextElement>().text = $"x{item.CurrentStack}";
+        }
+
+        private void ApplyItemTransform(VisualElement el, ItemViewData item)
+        {
+            el.style.width = ToPx(item.Width);
+            el.style.height = ToPx(item.Height);
+
+            el.style.position = Position.Absolute;
+            el.pickingMode = PickingMode.Ignore;
+
+            el.style.left = ToPx(item.AnchorPosition.x);
+            el.style.top = ToPx(item.AnchorPosition.y);
+        }
+        
+        private static float ToPx(int cells) => cells * InventoryConstants.UI.CellSize;
     }
 }

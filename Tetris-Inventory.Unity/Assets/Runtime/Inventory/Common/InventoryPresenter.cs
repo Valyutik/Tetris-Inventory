@@ -9,8 +9,6 @@ namespace Runtime.Inventory.Common
 {
     public class InventoryPresenter : IPresenter
     {
-        public bool HasItems => Model.HasItems;
-
         protected InventoryModel Model { get; }
 
         private int Width => Model.Width;
@@ -19,7 +17,7 @@ namespace Runtime.Inventory.Common
 
         private readonly InventoryView _view;
         
-        private VisualElement[,] _cells;
+        private CellView[,] _cells;
 
         private readonly Dictionary<ItemModel, VisualElement> _items  = new();
 
@@ -57,23 +55,19 @@ namespace Runtime.Inventory.Common
         private void CreateView()
         {
             _view.SetUpGrid(Width, Height);
-            _cells = new VisualElement[Width, Height];
+            _cells = new CellView[Width, Height];
 
             for (var y = 0; y < Height; y++)
             {
                 for (var x = 0; x < Width; x++)
                 {
-                    var cell = _view.CreateCell();
-                    var pos = new Vector2Int(x, y);
+                    var element = _view.CreateCell();
+                    var cellView = new CellView(element, new Vector2Int(x, y));
 
-                    var onSelect = new EventCallback<PointerEnterEvent>(_ => Model.SelectCell(pos));
-                    var onDeselect = new EventCallback<PointerLeaveEvent>(_ => Model.DeselectCell(pos));
-                    
-                    cell.RegisterCallback(onSelect);
-                    
-                    cell.RegisterCallback(onDeselect);
+                    element.RegisterCallback<PointerEnterEvent>(HandleCellPointerEnter);
+                    element.RegisterCallback<PointerLeaveEvent>(HandleCellPointerLeave);
                 
-                    _cells[x, y] = cell;
+                    _cells[x, y] = cellView;
                 }
             }
         }
@@ -83,7 +77,7 @@ namespace Runtime.Inventory.Common
             ClearView();
             CreateView();
 
-            foreach (var item in Model.GetAllItems())
+            foreach (var item in Model.Items)
             {
                 _items.Add(item, _view.CreateItem(item.ToView()));
             }
@@ -128,6 +122,26 @@ namespace Runtime.Inventory.Common
         private void HandleLeaveInventoryArea(PointerLeaveEvent evt)
         {
             Model.PointerInGridArea(false);
+        }
+        
+        private void HandleCellPointerEnter(PointerEnterEvent evt)
+        {
+            if (evt.currentTarget is VisualElement element)
+            {
+                foreach (var cell in _cells)
+                {
+                    if (cell.Element == element)
+                    {
+                        Model.SelectCell(cell.Position);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void HandleCellPointerLeave(PointerLeaveEvent evt)
+        {
+            Model.DeselectCell();
         }
     }
 }

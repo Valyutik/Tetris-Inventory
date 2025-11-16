@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Runtime.Inventory.Item;
-using System.Linq;
 using UnityEngine;
 
 namespace Runtime.Inventory.Common.Data
@@ -58,10 +57,15 @@ namespace Runtime.Inventory.Common.Data
         
         public void RemoveItem(ItemModel itemModel)
         {
-            foreach (var cell in _cells)
+            var pos = itemModel.AnchorPosition;
+
+            for (var dy = 0; dy < itemModel.Height; dy++)
             {
-                if (cell.ItemModel == itemModel)
-                    cell.Clear();
+                for (var dx = 0; dx < itemModel.Width; dx++)
+                {
+                    if (itemModel.Shape[dx, dy])
+                        _cells[pos.x + dx, pos.y + dy].Clear();
+                }
             }
         }
         
@@ -69,7 +73,7 @@ namespace Runtime.Inventory.Common.Data
 
         public ItemModel GetItem(Vector2Int position)
         {
-            return IsInsideBounds(position) ? _cells[position.x, position.y].ItemModel : null;
+            return IsInsideBounds(position.x, position.y) ? _cells[position.x, position.y].ItemModel : null;
         }
 
         public bool CanPlaceItem(ItemModel itemModel, Vector2Int position)
@@ -78,18 +82,21 @@ namespace Runtime.Inventory.Common.Data
             {
                 for (var dx = 0; dx < itemModel.Width; dx++)
                 {
-                    if (!itemModel.Shape[dx, dy])
-                        continue;
+                    if (itemModel.Shape[dx, dy])
+                    {
+                        var x = position.x + dx;
+                        var y = position.y + dy;
 
-                    var x = position.x + dx;
-                    var y = position.y + dy;
+                        if (!IsInsideBounds(x, y))
+                            return false;
 
-                    if (IsInsideBounds(new Vector2Int(x, y))) continue;
-                    return false;
+                        if (!_cells[x, y].IsEmpty)
+                            return false;
+                    }
                 }
             }
 
-            return GetOccupiedCells(itemModel, position).All(cell => cell.IsEmpty);
+            return true;
         }
 
         public void Clear()
@@ -118,9 +125,9 @@ namespace Runtime.Inventory.Common.Data
             }
         }
         
-        private bool IsInsideBounds(Vector2Int position)
+        private bool IsInsideBounds(int x, int y)
         {
-            return position is { x: >= 0, y: >= 0 } && position.x < Width && position.y < Height;
+            return x >= 0 && y >= 0 && x < Width && y < Height;
         }
     }
 }

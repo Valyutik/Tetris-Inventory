@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Runtime.Inventory.Item
 {
-    public struct ItemView
+    public struct ItemViewData
     {
         public Sprite Visual { get; }
 
@@ -26,7 +26,7 @@ namespace Runtime.Inventory.Item
         
         public Vector2Int AnchorPosition { get; }
 
-        public ItemView(Sprite visual, string name, string description, int currentStack, int maxStack, int rotation, int originalWidth, int originalHeight, int width, int height, Vector2Int anchorPosition)
+        public ItemViewData(Sprite visual, string name, string description, int currentStack, int maxStack, int rotation, int originalWidth, int originalHeight, int width, int height, Vector2Int anchorPosition)
         {
             Visual = visual;
             Name = name;

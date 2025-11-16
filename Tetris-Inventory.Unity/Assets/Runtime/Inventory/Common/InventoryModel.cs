@@ -16,6 +16,8 @@ namespace Runtime.Inventory.Common
         public event Action<Vector2Int, ItemModel> OnRemoveItem;
         public event Action<bool> OnPointerInGridArea;
         
+        public IReadOnlyList<ItemModel> Items => _items;
+        
         private readonly List<ItemModel> _items;
         
         private Grid _grid;
@@ -37,169 +39,46 @@ namespace Runtime.Inventory.Common
         {
             OnPointerInGridArea?.Invoke(isGridArea);
         }
+        
+        public void SelectCell(Vector2Int position)
+        {
+            OnSelectCell?.Invoke(position, this);
+        }
+        
+        public void DeselectCell()
+        {
+            OnDeselectCell?.Invoke();
+        }
 
         public bool CanPlaceItem(ItemModel itemModel, Vector2Int position)
         {
             return _grid.CanPlaceItem(itemModel, position);
         }
 
-        public void SelectCell(Vector2Int position)
+        public bool CanFitItems(IReadOnlyList<ItemModel> items)
         {
-            OnSelectCell?.Invoke(position, this);
-        }
+            var requiredCells = CalculateRequiredCellsForItems(items);
+            var freeCells = CountFreeCells();
 
-        public bool CanFitItems(IEnumerable<ItemModel> items)
-        {
-            var itemsToCheck = items.ToArray();
-
-            var additionalCellsNeeded = 0;
-
-            foreach (var newItem in itemsToCheck)
-            {
-                if (newItem.IsStackable)
-                {
-                    var existingStacks = _items.Where(existingItem => existingItem.Id == newItem.Id).ToList();
-                    var remainingToPlace = newItem.CurrentStack;
-
-                    foreach (var stack in existingStacks)
-                    {
-                        var spaceLeft = stack.MaxStack - stack.CurrentStack;
-
-                        if (spaceLeft <= 0)
-                        {
-                            continue;
-                        }
-
-                        if (remainingToPlace <= spaceLeft)
-                        {
-                            remainingToPlace = 0;
-                            break;
-                        }
-
-                        remainingToPlace -= spaceLeft;
-                    }
-
-                    if (remainingToPlace > 0)
-                    {
-                        additionalCellsNeeded += CountOccupiedCells(newItem);
-                    }
-                }
-                else
-                {
-                    additionalCellsNeeded += CountOccupiedCells(newItem);
-                }
-            }
-            
-            var freeCells = 0;
-            
-            for (var y = 0; y < Height; y++)
-            {
-                for (var x = 0; x < Width; x++)
-                {
-                    if (_grid.GetCell(x, y).IsEmpty)
-                    {
-                        freeCells++;
-                    }
-                }
-            }
-            
-            return freeCells >= additionalCellsNeeded;
-        }
-
-        public void DeselectCell(Vector2Int position)
-        {
-            OnDeselectCell?.Invoke();
+            return freeCells >= requiredCells;
         }
 
         public bool TryPlaceItem(ItemModel itemModel, Vector2Int position, bool allowStacking = true)
         {
             var existingItem = _grid.GetItem(position);
-
-            if (existingItem != null && existingItem.Id == itemModel.Id)
-            {
-                if (existingItem.IsStackable && allowStacking)
-                {
-                    var success = existingItem.TryAddToStack(itemModel.CurrentStack);
-
-                    if (success) OnItemStacked?.Invoke(existingItem);
-
-                    return success;
-                }
-                
-                return false;
-            }
-
-            if (_grid.TryAddItem(itemModel, position))
-            {
-                _items.Add(itemModel);
-
-                OnAddItem?.Invoke(position, itemModel);
-
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool TryPlaceItem(ItemModel itemModel, bool allowStacking = true)
-        {
-            if (itemModel.IsStackable && allowStacking)
-            {
-                var existingStack = FindNonFullStack(itemModel.Id);
-                if (existingStack != null)
-                {
-                    var success = existingStack.TryAddToStack(itemModel.CurrentStack);
-
-                    if (success)
-                    {
-                        OnItemStacked?.Invoke(itemModel);
-                        return true;
-                    }
-                }
-            }
-
-            if (_grid.TryAddItem(itemModel))
-            {
-                _items.Add(itemModel);
-
-                OnAddItem?.Invoke(itemModel.AnchorPosition, itemModel);
-
-                return true;
-            }
-
-            return false;
+            
+            return TryStack(existingItem, itemModel, allowStacking) || TryPlaceInGrid(itemModel, position);
         }
 
         public bool TryRemoveItem(ItemModel itemModel)
         {
-            if (_items.Contains(itemModel))
-            {
-                _grid.RemoveItem(itemModel);
-                _items.Remove(itemModel);
-
-                OnRemoveItem?.Invoke(itemModel.AnchorPosition, itemModel);
-
-                return true;
-            }
-
-            return false;
+            return _items.Contains(itemModel) && RemoveInternal(itemModel, itemModel.AnchorPosition);
         }
 
         public bool TryRemoveItem(Vector2Int position, out ItemModel itemModel)
         {
             itemModel = _grid.GetItem(position);
-            
-            _grid.RemoveItem(itemModel);
-            _items.Remove(itemModel);
-            
-            OnRemoveItem?.Invoke(position, itemModel);
-            
-            return true;
-        }
-        
-        public IReadOnlyCollection<ItemModel> GetAllItems()
-        {
-            return _items.AsReadOnly();
+            return itemModel != null && RemoveInternal(itemModel, position);
         }
 
         public ItemModel GetItem(Vector2Int position)
@@ -234,26 +113,94 @@ namespace Runtime.Inventory.Common
             _grid.Clear();
             _items.Clear();
         }
-
-        private ItemModel FindNonFullStack(string id)
+        
+        private int CalculateRequiredCellsForItems(IReadOnlyList<ItemModel> items)
         {
-            return _items.FirstOrDefault(existing =>
-                existing.Id == id && existing.IsStackable && !existing.IsFullStack);
+            var total = 0;
+
+            foreach (var item in items)
+            {
+                total += item.IsStackable
+                    ? CalculateRequiredCellsForStackableItem(item)
+                    : ItemModel.CountOccupiedCells(item);
+            }
+
+            return total;
         }
         
-        private static int CountOccupiedCells(ItemModel itemModel)
+        private int CalculateRequiredCellsForStackableItem(ItemModel newItem)
         {
-            var count = 0;
-            for (var x = 0; x < itemModel.Width; x++)
+            var remaining = newItem.CurrentStack;
+            var existingStacks = _items.Where(i => i.Id == newItem.Id);
+
+            foreach (var existing in existingStacks)
             {
-                for (var y = 0; y < itemModel.Height; y++)
+                var space = existing.MaxStack - existing.CurrentStack;
+                if (space <= 0) continue;
+
+                if (remaining <= space)
+                    return 0; 
+
+                remaining -= space;
+            }
+
+            return remaining > 0
+                ? ItemModel.CountOccupiedCells(newItem)
+                : 0;
+        }
+        
+        private int CountFreeCells()
+        {
+            var free = 0;
+
+            for (var y = 0; y < Height; y++)
+            for (var x = 0; x < Width; x++)
+                if (_grid.GetCell(x, y).IsEmpty)
+                    free++;
+
+            return free;
+        }
+        
+        private bool TryStack(ItemModel existingItem, ItemModel newItem, bool allowStacking)
+        {
+            if (existingItem != null)
+            {
+                if (allowStacking && existingItem.IsStackable)
                 {
-                    if (itemModel.Shape[x, y])
-                        count++;
+                    if (existingItem.Id == newItem.Id)
+                    {
+                        if (existingItem.TryAddToStack(newItem.CurrentStack))
+                        {
+                            OnItemStacked?.Invoke(existingItem);
+                            return true;
+                        }
+                    }
                 }
             }
-            
-            return count;
+
+            return false;
+        }
+        
+        private bool TryPlaceInGrid(ItemModel item, Vector2Int position)
+        {
+            return _grid.TryAddItem(item, position) && CompletePlacement(position, item);
+        }
+        
+        private bool CompletePlacement(Vector2Int position, ItemModel item)
+        {
+            _items.Add(item);
+            OnAddItem?.Invoke(position, item);
+            return true;
+        }
+        
+        private bool RemoveInternal(ItemModel item, Vector2Int eventPosition)
+        {
+            _grid.RemoveItem(item);
+            _items.Remove(item);
+
+            OnRemoveItem?.Invoke(eventPosition, item);
+
+            return true;
         }
     }
 }

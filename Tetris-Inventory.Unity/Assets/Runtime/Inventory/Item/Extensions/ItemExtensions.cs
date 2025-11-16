@@ -2,9 +2,9 @@ namespace Runtime.Inventory.Item.Extensions
 {
     public static class ItemExtensions
     {
-        public static ItemView ToView(this ItemModel model)
+        public static ItemViewData ToView(this ItemModel model)
         {
-            return new ItemView(
+            return new ItemViewData(
                 visual: model.Visual,
                 name: model.Name,
                 description: model.Description,

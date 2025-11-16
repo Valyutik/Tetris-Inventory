@@ -141,5 +141,20 @@ namespace Runtime.Inventory.Item
 
             return hasAny ? shape : CreateDefaultShape();
         }
+
+        public static int CountOccupiedCells(ItemModel itemModel)
+        {
+            var count = 0;
+            for (var x = 0; x < itemModel.Width; x++)
+            {
+                for (var y = 0; y < itemModel.Height; y++)
+                {
+                    if (itemModel.Shape[x, y])
+                        count++;
+                }
+            }
+            
+            return count;
+        }
     }
 }
