@@ -1,7 +1,7 @@
-using System;
+using Runtime.Inventory.Extensions;
 using System.Collections.Generic;
 using Runtime.Inventory.Common;
-using Runtime.Inventory.Extensions;
+using System;
 
 namespace Runtime.Inventory.ItemGeneration
 {

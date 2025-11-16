@@ -24,13 +24,13 @@ namespace Runtime.Inventory.ItemGeneration
         {
             if (_stash.HasItems)
             {
-                _popupModel.Open(new PopupData(_errorMessage.stashNotEmptyTitle, _errorMessage.stashNotEmptyMessage));
+                _popupModel.Open(new PopupData(_errorMessage.StashNotEmptyTitle, _errorMessage.StashNotEmptyMessage));
                 return false;
             }
 
             if (!_inventory.CanFitItems(items))
             {
-                _popupModel.Open(new PopupData(_errorMessage.inventoryHasNoSpaceTitle, _errorMessage.inventoryHasNoSpaceMessage));
+                _popupModel.Open(new PopupData(_errorMessage.InventoryHasNoSpaceTitle, _errorMessage.InventoryHasNoSpaceMessage));
                 return false;
             }
             
