@@ -19,7 +19,7 @@ namespace Runtime.Inventory.Common.Data
             {
                 for (var x = 0; x < Width; x++)
                 {
-                    Cells[x, y] = new Cell(new Vector2Int(x, y));
+                    Cells[x, y] = new Cell();
                 }
             }
         }

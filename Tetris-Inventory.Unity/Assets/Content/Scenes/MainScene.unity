@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventorySize: {x: 5, y: 5}
-  _stashMaxSize: {x: 5, y: 5}
+  _stashInitialSize: {x: 1, y: 1}
   _menuDocument: {fileID: 244221743}
   _popupDocument: {fileID: 1384974881}
   _inventoryAsset: {fileID: 9197481963319205126, guid: 05f97cbfee2cbc3428d6e981da5c67a4, type: 3}

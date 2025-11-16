@@ -1,12 +1,13 @@
 using Runtime.Inventory.ItemGeneration;
 using System.Collections.Generic;
-using Runtime.Core;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Item;
+using Runtime.Core;
+using UnityEngine;
 
 namespace Runtime.Inventory.Stash
 {
-    public sealed class StashPresenter : InventoryPresenterBase
+    public sealed class StashPresenter : InventoryPresenter
     {
         private readonly ItemGenerationModel _itemGenerationModel;
         
@@ -32,12 +33,17 @@ namespace Runtime.Inventory.Stash
         private void SetItems(IReadOnlyList<ItemModel> items)
         {
             Model.Clear();
+            var size = InventoryModel.CalculateGridSize(items);
+            Model.RebuildGrid(size.x, size.y);
+            
+            var xOffset = 0;
             
             foreach (var item in items)
             {
-                Model.TryPlaceItem(item, false);
+                Model.TryPlaceItem(item, new Vector2Int(xOffset, 0), allowStacking: false);
+                xOffset += item.Width;
             }
-            
+
             RedrawView();
         }
     }

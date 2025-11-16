@@ -18,7 +18,7 @@ namespace Runtime.Inventory.Common
         
         private readonly List<ItemModel> _items;
         
-        private readonly Grid _grid;
+        private Grid _grid;
 
         public int Width => _grid.Width;
         
@@ -30,12 +30,6 @@ namespace Runtime.Inventory.Common
         public InventoryModel(int width, int height)
         { 
             _grid = new Grid(width, height);
-            _items = new List<ItemModel>();
-        }
-        
-        public InventoryModel(Grid grid)
-        {
-            _grid = grid;
             _items = new List<ItemModel>();
         }
 
@@ -135,16 +129,16 @@ namespace Runtime.Inventory.Common
                 return false;
             }
 
-            if (!_grid.TryAddItem(itemModel, position))
+            if (_grid.TryAddItem(itemModel, position))
             {
-                return false;
+                _items.Add(itemModel);
+
+                OnAddItem?.Invoke(position, itemModel);
+
+                return true;
             }
 
-            _items.Add(itemModel);
-            
-            OnAddItem?.Invoke(position, itemModel);
-            
-            return true;
+            return false;
         }
 
         public bool TryPlaceItem(ItemModel itemModel, bool allowStacking = true)
@@ -163,38 +157,37 @@ namespace Runtime.Inventory.Common
                     }
                 }
             }
-            
-            if (!_grid.TryAddItem(itemModel))
-                return false;
 
-            _items.Add(itemModel);
-            
-            OnAddItem?.Invoke(itemModel.AnchorPosition, itemModel);
-            
-            return true;
+            if (_grid.TryAddItem(itemModel))
+            {
+                _items.Add(itemModel);
+
+                OnAddItem?.Invoke(itemModel.AnchorPosition, itemModel);
+
+                return true;
+            }
+
+            return false;
         }
 
         public bool TryRemoveItem(ItemModel itemModel)
         {
-            if (!_items.Contains(itemModel))
-                return false;
+            if (_items.Contains(itemModel))
+            {
+                _grid.RemoveItem(itemModel);
+                _items.Remove(itemModel);
 
-            _grid.RemoveItem(itemModel);
-            _items.Remove(itemModel);
-            
-            OnRemoveItem?.Invoke(itemModel.AnchorPosition, itemModel);
+                OnRemoveItem?.Invoke(itemModel.AnchorPosition, itemModel);
 
-            return true;
+                return true;
+            }
+
+            return false;
         }
 
         public bool TryRemoveItem(Vector2Int position, out ItemModel itemModel)
         {
             itemModel = _grid.GetItem(position);
-
-            if (itemModel == null)
-            {
-                return false;
-            }
             
             _grid.RemoveItem(itemModel);
             _items.Remove(itemModel);
@@ -204,11 +197,36 @@ namespace Runtime.Inventory.Common
             return true;
         }
         
-        public IReadOnlyCollection<ItemModel> GetAllItems() => _items.AsReadOnly();
+        public IReadOnlyCollection<ItemModel> GetAllItems()
+        {
+            return _items.AsReadOnly();
+        }
 
         public ItemModel GetItem(Vector2Int position)
         {
             return _grid.GetItem(position);
+        }
+
+        public void RebuildGrid(int width, int height)
+        {
+            _items.Clear();
+            _grid.Clear();
+            
+            _grid = new Grid(width, height);
+        }
+
+        public static Vector2Int CalculateGridSize(IReadOnlyList<ItemModel> items)
+        {
+            var totalWidth = 0;
+            var maxHeight = 0;
+
+            foreach (var item in items)
+            {
+                totalWidth += item.Width;
+                maxHeight = Mathf.Max(maxHeight, item.Height);
+            }
+
+            return new Vector2Int(totalWidth, maxHeight);
         }
 
         public void Clear()
@@ -227,9 +245,14 @@ namespace Runtime.Inventory.Common
         {
             var count = 0;
             for (var x = 0; x < itemModel.Width; x++)
-            for (var y = 0; y < itemModel.Height; y++)
-                if (itemModel.Shape[x, y])
-                    count++;
+            {
+                for (var y = 0; y < itemModel.Height; y++)
+                {
+                    if (itemModel.Shape[x, y])
+                        count++;
+                }
+            }
+            
             return count;
         }
     }

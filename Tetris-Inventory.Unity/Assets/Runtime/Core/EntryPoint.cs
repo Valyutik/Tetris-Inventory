@@ -3,7 +3,6 @@ using Runtime.Inventory.ItemRotation;
 using Runtime.Systems.ContentManager;
 using Runtime.Inventory.ItemTooltip;
 using Runtime.Inventory.DragAndDrop;
-using Runtime.Inventory.Common.Data;
 using Runtime.Inventory.DeleteArea;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Stash;
@@ -18,7 +17,7 @@ namespace Runtime.Core
     {
         [Header("Grid sizes")]
         [SerializeField] private Vector2Int _inventorySize;
-        [SerializeField] private Vector2Int _stashMaxSize;
+        [SerializeField] private Vector2Int _stashInitialSize;
         
         [Header("UI Documents")] 
         [SerializeField] private UIDocument _menuDocument;
@@ -71,7 +70,7 @@ namespace Runtime.Core
         private void InitializeModelStorage()
         {
             var inventoryModel = new InventoryModel(_inventorySize.x, _inventorySize.y);
-            var stashModel = new InventoryModel(new DynamicGrid(_stashMaxSize.x, _stashMaxSize.y));
+            var stashModel = new InventoryModel(_stashInitialSize.x, _stashInitialSize.y);
             var itemGenerationModel = new ItemGenerationModel(_generationConfig);
 
             _modelStorage = new ModelStorage(inventoryModel, stashModel, itemGenerationModel);

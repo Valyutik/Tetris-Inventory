@@ -1,13 +1,14 @@
 using Runtime.Inventory.Item;
 using UnityEngine.UIElements;
-using UnityEngine;
 
 namespace Runtime.Inventory.Common
 {
     public class InventoryView
     {
         private const string ImageName = "icon";
+        
         public VisualElement Root { get;}
+        
         public VisualElement Grid { get; }
 
         public InventoryView(VisualTreeAsset asset, VisualElement menuRoot)
@@ -87,10 +88,7 @@ namespace Runtime.Inventory.Common
             visualElement.style.left = item.AnchorPosition.x * InventoryConstants.UI.CellSize;
             visualElement.style.top = item.AnchorPosition.y * InventoryConstants.UI.CellSize;
         }
-        
-        public void RepaintCell(VisualElement cell, Color newColor) => cell.style.backgroundColor = newColor;
-        
-        
+
         public void ClearGrid()
         {
             Grid.Clear();
