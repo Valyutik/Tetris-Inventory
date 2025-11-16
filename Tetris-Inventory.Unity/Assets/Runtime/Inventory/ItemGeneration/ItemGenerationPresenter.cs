@@ -1,6 +1,5 @@
-using System;
-using System.Linq;
 using Runtime.Inventory.Core;
+using System.Linq;
 
 namespace Runtime.Inventory.ItemGeneration
 {
