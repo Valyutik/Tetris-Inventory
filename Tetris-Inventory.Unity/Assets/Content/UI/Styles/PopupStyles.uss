@@ -27,8 +27,9 @@
     display: flex;
     opacity: 1;
     transition-duration: 0.3s;
-    transition-delay: 0.7s;
+    transition-delay: 0s;
     margin-top: 20px;
+    transition-property: opacity;
 }
 
 .tooltip-invisible {
@@ -44,8 +45,8 @@
     transition-duration: 0.3s;
     opacity: 0;
     transition-timing-function: ease-in-out;
-    transition-delay: 0.3s;
-    transition-property: all;
+    transition-delay: 0s;
+    transition-property: opacity;
 }
 
 .popup-base {
