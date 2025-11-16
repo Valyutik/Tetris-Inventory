@@ -1,4 +1,5 @@
-<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements"
+         noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Content/UI/Styles/PopupStyles.uss?fileID=7433441132597879392&amp;guid=41c19d7f6089c404f8e563a2d764b3f7&amp;type=3#PopupStyles" />
     <ui:VisualElement name="popup-container" enabled="true" focusable="false" picking-mode="Ignore" class="popup-container-size" style="flex-grow: 1; justify-content: flex-start; align-items: center; align-self: auto; display: flex; align-content: flex-start; visibility: visible; overflow: hidden;">
         <ui:VisualElement name="tooltip" picking-mode="Ignore" class="tooltip-invisible">

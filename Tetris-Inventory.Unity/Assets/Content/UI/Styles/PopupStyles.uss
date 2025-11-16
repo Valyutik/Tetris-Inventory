@@ -22,10 +22,7 @@
     min-height: 120px;
     max-height: none;
     background-color: rgba(0, 0, 0, 0.59);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-radius: 20px;
     flex-shrink: 1;
     display: flex;
     opacity: 1;
@@ -41,10 +38,7 @@
     min-height: 120px;
     max-height: none;
     background-color: rgba(0, 0, 0, 0.59);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-radius: 20px;
     flex-shrink: 1;
     display: none;
     transition-duration: 0.3s;

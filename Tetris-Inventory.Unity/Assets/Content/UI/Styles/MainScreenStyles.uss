@@ -5,10 +5,7 @@
     -unity-font-style: bold;
     font-size: 45px;
     color: rgb(255, 255, 255);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-radius: 20px;
     transition-duration: 0.1s;
     transition-delay: 0s;
     transition-timing-function: ease-in-out;
@@ -53,20 +50,11 @@
     border-right-color: rgb(171, 0, 0);
     border-top-color: rgb(171, 0, 0);
     border-bottom-color: rgb(171, 0, 0);
-    margin-top: 70px;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
+    margin: 70px 0 0;
+    padding: 0;
     min-width: 160px;
     height: auto;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-radius: 20px;
     font-size: 45px;
     -unity-font-style: bold;
     color: rgb(255, 255, 255);
@@ -91,20 +79,11 @@
     border-right-color: rgb(171, 0, 0);
     border-top-color: rgb(171, 0, 0);
     border-bottom-color: rgb(171, 0, 0);
-    margin-top: 70px;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
+    margin: 70px 0 0;
+    padding: 0;
     min-width: 160px;
     height: auto;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-radius: 20px;
     font-size: 45px;
     -unity-font-style: bold;
     color: rgb(255, 255, 255);
@@ -122,15 +101,9 @@
 .cell {
     flex-grow: 0;
     background-color: rgb(48, 48, 48);
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
+    margin: 0;
     flex-shrink: 0;
-    padding-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
+    padding: 0;
     border-left-color: rgb(34, 34, 34);
     border-right-color: rgb(34, 34, 34);
     border-top-color: rgb(34, 34, 34);
@@ -139,25 +112,16 @@
     border-right-width: 2px;
     border-bottom-width: 2px;
     border-left-width: 2px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    border-radius: 0;
     width: 100px;
     height: 100px;
 }
 
 .item {
     flex-grow: 0;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
+    margin: 0;
     flex-shrink: 0;
-    padding-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
+    padding: 0;
     border-left-color: rgb(34, 34, 34);
     border-right-color: rgb(34, 34, 34);
     border-top-color: rgb(34, 34, 34);
@@ -166,10 +130,7 @@
     border-right-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    border-radius: 0;
     width: 100px;
     height: 100px;
     position: absolute;
@@ -186,10 +147,7 @@
     border-top-color: rgb(255, 71, 38);
     border-bottom-color: rgb(255, 71, 38);
     background-color: rgb(0, 0, 0);
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
+    border-radius: 15px;
 }
 
 .item-count-label {
@@ -200,14 +158,8 @@
     -unity-font-style: bold;
     width: 64px;
     height: 64px;
-    margin-top: 0;
-    margin-right: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-left: 0;
+    margin: 0;
+    padding: 0;
     -unity-text-align: lower-right;
     bottom: 0;
     right: 0;

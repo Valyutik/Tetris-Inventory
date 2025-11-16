@@ -10,10 +10,7 @@
     border-right-color: rgb(94, 255, 102);
     border-top-color: rgb(94, 255, 102);
     border-bottom-color: rgb(94, 255, 102);
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
+    border-radius: 15px;
     background-color: rgba(0, 0, 0, 0.39);
 }
 
@@ -26,9 +23,6 @@
     border-right-color: rgb(255, 71, 38);
     border-top-color: rgb(255, 71, 38);
     border-bottom-color: rgb(255, 71, 38);
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
+    border-radius: 15px;
     background-color: rgba(0, 0, 0, 0.39);
 }
