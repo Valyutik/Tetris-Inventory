@@ -1,6 +1,5 @@
 using Runtime.Inventory.Item.Extensions;
 using Runtime.Inventory.Common;
-using Runtime.Inventory.Core;
 using Runtime.Inventory.Item;
 using UnityEngine.UIElements;
 using Runtime.Core;

@@ -1,6 +1,5 @@
 using Runtime.Inventory.DragAndDrop;
 using Runtime.Inventory.Common;
-using Runtime.Inventory.Core;
 using Runtime.Inventory.Item;
 using UnityEngine.UIElements;
 using Runtime.Core;

@@ -7,7 +7,6 @@ using Runtime.Inventory.Common.Data;
 using Runtime.Inventory.DeleteArea;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Stash;
-using Runtime.Inventory.Core;
 using UnityEngine.UIElements;
 using Runtime.Input;
 using Runtime.Popup;

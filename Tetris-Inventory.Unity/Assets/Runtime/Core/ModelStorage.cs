@@ -1,9 +1,9 @@
-using Runtime.Inventory.ItemGeneration;
-using Runtime.Inventory.DragAndDrop;
 using Runtime.Inventory.Common;
+using Runtime.Inventory.DragAndDrop;
+using Runtime.Inventory.ItemGeneration;
 using Runtime.Popup;
 
-namespace Runtime.Inventory.Core
+namespace Runtime.Core
 {
     public class ModelStorage
     {

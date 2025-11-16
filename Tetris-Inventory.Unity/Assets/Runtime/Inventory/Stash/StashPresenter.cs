@@ -1,7 +1,7 @@
 using Runtime.Inventory.ItemGeneration;
 using System.Collections.Generic;
+using Runtime.Core;
 using Runtime.Inventory.Common;
-using Runtime.Inventory.Core;
 using Runtime.Inventory.Item;
 
 namespace Runtime.Inventory.Stash

@@ -1,6 +1,5 @@
 using Runtime.Inventory.DragAndDrop;
 using UnityEngine.InputSystem;
-using Runtime.Inventory.Core;
 using Runtime.Core;
 using Runtime.Input;
 
