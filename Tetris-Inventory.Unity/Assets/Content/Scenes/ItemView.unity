@@ -385,7 +385,7 @@ MonoBehaviour:
   _createButtonAsset: {fileID: 9197481963319205126, guid: 9ada57e7f8d190e45913d63afb2ad7cb, type: 3}
   _deleteConfirmationAsset: {fileID: 9197481963319205126, guid: 28d73a08a0fec5c4c94c5bc89cb2d049, type: 3}
   _generationConfig: {fileID: 11400000, guid: 9f6bfde83d4bdd446a0f039f9272e6e3, type: 2}
-  _generationErrorMessage: {fileID: 0}
+  _generationErrorMessage: {fileID: 11400000, guid: 4d01060839df20d43a5b453b56147ce5, type: 2}
 --- !u!4 &1794183512
 Transform:
   m_ObjectHideFlags: 0
