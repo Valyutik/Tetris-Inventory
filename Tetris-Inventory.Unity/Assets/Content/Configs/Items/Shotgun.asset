@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39d6c810f6543e88ecb3c41ee5fe2cd, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
-  Id: 6
+  Id: shotgun
   DisplayName: "\u0414\u0440\u043E\u0431\u043E\u0432\u0438\u043A"
-  Description: "\u043C\u043E\u0449\u043D\u043E\u0435 \u043E\u0440\u0443\u0436\u0438\u0435
+  Description: "\u041C\u043E\u0449\u043D\u043E\u0435 \u043E\u0440\u0443\u0436\u0438\u0435
     \u0431\u043B\u0438\u0436\u043D\u0435\u0433\u043E \u0431\u043E\u044F \u0441 \u0432\u044B\u0441\u043E\u043A\u0438\u043C
     \u0440\u0430\u0437\u0431\u0440\u043E\u0441\u043E\u043C \u0434\u0440\u043E\u0431\u0438"
   Color: {r: 0, g: 0, b: 0, a: 0}
