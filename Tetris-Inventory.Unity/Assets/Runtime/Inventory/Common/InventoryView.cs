@@ -20,8 +20,8 @@ namespace Runtime.Inventory.Common
 
         public void SetUpGrid(int width, int height)
         {
-            Grid.style.width = ToPx(width);
-            Grid.style.height = ToPx(height);
+            Grid.style.width = ToPixel(width);
+            Grid.style.height = ToPixel(height);
         }
 
         public VisualElement CreateCell()
@@ -37,17 +37,21 @@ namespace Runtime.Inventory.Common
 
         public VisualElement CreateItem(ItemViewData item)
         {
-            var el = new VisualElement();
-            el.AddToClassList(InventoryConstants.UI.ItemStyle);
+            var element = new VisualElement();
+            element.AddToClassList(InventoryConstants.UI.ItemStyle);
 
-            el.Add(CreateItemImage(item));
-            el.Add(CreateItemCountLabel());
+            var image = CreateItemImage(item);
+            var countLabel = CreateItemCountLabel();
+            
+            image.Add(countLabel);
+            
+            element.Add(image);
 
-            ApplyItemVisual(el, item);
-            ApplyItemTransform(el, item);
+            ApplyItemVisual(element, item);
+            ApplyItemTransform(element, item);
 
-            Grid.Add(el);
-            return el;
+            Grid.Add(element);
+            return element;
         }
 
         public void DrawItem(VisualElement element, ItemViewData item)
@@ -69,8 +73,8 @@ namespace Runtime.Inventory.Common
                 pickingMode = PickingMode.Ignore,
                 style =
                 {
-                    width = ToPx(item.OriginalWidth),
-                    height = ToPx(item.OriginalHeight),
+                    width = ToPixel(item.OriginalWidth),
+                    height = ToPixel(item.OriginalHeight),
                     backgroundImage = item.Visual.texture,
                     flexGrow = 0,
                     alignSelf = Align.Center
@@ -89,24 +93,28 @@ namespace Runtime.Inventory.Common
             return label;
         }
 
-        private void ApplyItemVisual(VisualElement el, ItemViewData item)
+        private void ApplyItemVisual(VisualElement element, ItemViewData item)
         {
-            el.Q<VisualElement>(ImageName).style.rotate = new Rotate(item.Rotation);
-            el.Q<TextElement>().text = $"x{item.CurrentStack}";
+            element.Q<VisualElement>(ImageName).style.rotate = new Rotate(item.Rotation);
+            
+            var textElement = element.Q<TextElement>();
+            
+            textElement.style.rotate = new Rotate(-item.Rotation);
+            textElement.text = $"x{item.CurrentStack}";
         }
 
-        private void ApplyItemTransform(VisualElement el, ItemViewData item)
+        private void ApplyItemTransform(VisualElement element, ItemViewData item)
         {
-            el.style.width = ToPx(item.Width);
-            el.style.height = ToPx(item.Height);
+            element.style.width = ToPixel(item.Width);
+            element.style.height = ToPixel(item.Height);
 
-            el.style.position = Position.Absolute;
-            el.pickingMode = PickingMode.Ignore;
+            element.style.position = Position.Absolute;
+            element.pickingMode = PickingMode.Ignore;
 
-            el.style.left = ToPx(item.AnchorPosition.x);
-            el.style.top = ToPx(item.AnchorPosition.y);
+            element.style.left = ToPixel(item.AnchorPosition.x);
+            element.style.top = ToPixel(item.AnchorPosition.y);
         }
         
-        private static float ToPx(int cells) => cells * InventoryConstants.UI.CellSize;
+        private static float ToPixel(int cells) => cells * InventoryConstants.UI.CellSize;
     }
 }
