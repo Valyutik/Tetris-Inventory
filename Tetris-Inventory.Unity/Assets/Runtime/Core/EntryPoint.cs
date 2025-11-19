@@ -10,6 +10,7 @@ using UnityEngine.UIElements;
 using Runtime.Input;
 using Runtime.Inventory;
 using Runtime.Popup;
+using Runtime.Systems;
 using UnityEngine;
 
 namespace Runtime.Core
@@ -33,6 +34,8 @@ namespace Runtime.Core
         [Header("Item Generation")]
         [SerializeField] private ItemGenerationConfig _generationConfig;
         [SerializeField] private ItemGenerationErrorMessage _generationErrorMessage;
+        
+        [SerializeField] private AudioService _audioService;
         
         private PlayerControls _playerControls;
 
@@ -155,7 +158,7 @@ namespace Runtime.Core
         {
             _dragDropView = new DragDropView(_menuDocument.rootVisualElement);
             
-            _dragDropPresenter = new DragDropPresenter(_dragDropView, _modelStorage.DragDropModel, _modelStorage);
+            _dragDropPresenter = new DragDropPresenter(_dragDropView, _modelStorage, _audioService);
             
             _dragDropPresenter.Enable();
         }

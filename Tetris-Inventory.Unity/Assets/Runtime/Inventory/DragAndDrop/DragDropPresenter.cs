@@ -3,6 +3,7 @@ using Runtime.Inventory.Common;
 using Runtime.Inventory.Item;
 using UnityEngine.UIElements;
 using Runtime.Core;
+using Runtime.Systems;
 using UnityEngine;
 
 namespace Runtime.Inventory.DragAndDrop
@@ -17,11 +18,15 @@ namespace Runtime.Inventory.DragAndDrop
 
         private readonly InventoryModel _stashInventoryModel;
         
-        public DragDropPresenter(DragDropView view, DragDropModel model, ModelStorage modelStorage)
+        private readonly IAudioService _audioService;
+        
+        public DragDropPresenter(DragDropView view, ModelStorage modelStorage, IAudioService audioService)
         {
             _view = view;
             
-            _model = model;
+            _model = modelStorage.DragDropModel;
+            
+            _audioService = audioService;
             
             _inventoryModel =  modelStorage.InventoryStorageModel.Get(InventoryType.Core);
             
@@ -103,6 +108,8 @@ namespace Runtime.Inventory.DragAndDrop
 
             _view.Drag(_model.CurrentItemModel.ToView(), evt.position);
 
+            _audioService.PlayDragSound();
+            
             _model.CurrentInventory.OnPointerInGridArea += OnInsideGrid;
         }
 
@@ -124,6 +131,8 @@ namespace Runtime.Inventory.DragAndDrop
             _model.CurrentItemModel = null;
 
             _view.Drop();
+            
+            _audioService.PlayDragSound();
 
             _model.CurrentInventory.OnPointerInGridArea -= OnInsideGrid;
         }
@@ -134,7 +143,7 @@ namespace Runtime.Inventory.DragAndDrop
 
             IndicatePlacementProjection();
         }
-
+        
         private void IndicatePlacementProjection()
         {
             if (_model.CurrentInventory != null && _model.CurrentItemModel != null)
