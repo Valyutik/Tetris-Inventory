@@ -69,11 +69,14 @@ namespace Runtime.Inventory.DragAndDrop
             _stashInventoryModel.OnChangeEnabled -= OnChangeInventoryEnabled;
 
             _model.OnRotateItem -= OnRotateItem;
+            
+            _inventoryModel.OnPointerInGridArea -= OnPointerInOrOutGrid;
+            _stashInventoryModel.OnPointerInGridArea -= OnPointerInOrOutGrid;
         }
 
-        private void OnInsideGrid(bool isGridArea)
+        private void OnPointerInOrOutGrid(bool isInsideGrid)
         {
-            if (!isGridArea)
+            if (!isInsideGrid)
             {
                 _model.CurrentPosition = new Vector2Int(-1, -1);
             }
@@ -110,7 +113,8 @@ namespace Runtime.Inventory.DragAndDrop
 
             _audioService.PlayDragSound();
 
-            _model.CurrentInventory.OnPointerInGridArea += OnInsideGrid;
+            _inventoryModel.OnPointerInGridArea += OnPointerInOrOutGrid;
+            _stashInventoryModel.OnPointerInGridArea += OnPointerInOrOutGrid;
         }
 
         private void OnPointerUp(PointerUpEvent evt)
@@ -133,8 +137,6 @@ namespace Runtime.Inventory.DragAndDrop
             _view.Drop();
 
             _audioService.PlayDragSound();
-
-            _model.CurrentInventory.OnPointerInGridArea -= OnInsideGrid;
         }
 
         private void OnPointerMove(PointerMoveEvent evt)
