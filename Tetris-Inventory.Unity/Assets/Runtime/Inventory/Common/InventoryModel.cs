@@ -10,6 +10,8 @@ namespace Runtime.Inventory.Common
     public sealed class InventoryModel
     {
         public event Action<Vector2Int, InventoryModel> OnSelectCell;
+        public event Action<bool, InventoryModel> OnChangeEnabled; 
+        
         public event Action OnDeselectCell;
         public event Action<ItemModel> OnItemStacked;
         public event Action<Vector2Int, ItemModel> OnAddItem;
@@ -27,7 +29,22 @@ namespace Runtime.Inventory.Common
         public int Height => _grid.Height;
         
         public bool HasItems => _items.Count > 0;
-        
+
+        public bool Enabled
+        {
+            get => _enabled;
+            set
+            {
+                if (_enabled != value) 
+                {
+                    _enabled = value;
+                    
+                    OnChangeEnabled?.Invoke(_enabled, this);
+                }
+            }
+        }
+
+        private bool _enabled = false;
         
         public InventoryModel(int width, int height)
         { 

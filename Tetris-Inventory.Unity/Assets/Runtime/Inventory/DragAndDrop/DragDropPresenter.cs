@@ -40,6 +40,10 @@ namespace Runtime.Inventory.DragAndDrop
             
             _stashInventoryModel.OnSelectCell += OnSelectCell;
 
+            _inventoryModel.OnChangeEnabled += OnChangeInventoryEnabled;
+
+            _stashInventoryModel.OnChangeEnabled += OnChangeInventoryEnabled;
+            
             _model.OnRotateItem += OnRotateItem;
         }
 
@@ -54,6 +58,10 @@ namespace Runtime.Inventory.DragAndDrop
             _inventoryModel.OnSelectCell += OnSelectCell;
             
             _stashInventoryModel.OnSelectCell += OnSelectCell;
+            
+            _inventoryModel.OnChangeEnabled -= OnChangeInventoryEnabled;
+
+            _stashInventoryModel.OnChangeEnabled -= OnChangeInventoryEnabled;
 
             _model.OnRotateItem -= OnRotateItem;
         }
@@ -73,45 +81,51 @@ namespace Runtime.Inventory.DragAndDrop
 
         private void OnPointerDown(PointerDownEvent evt)
         {
-            if (_model.CurrentInventory != null && _model.CurrentItemModel == null)
+            if (_model.CurrentInventory == null || _model.CurrentItemModel != null || !_model.CurrentInventory.Enabled)
             {
-                var success = _model.CurrentInventory.TryRemoveItem(_model.CurrentPosition, out var item);
-
-                if (success)
-                {
-                    _model.CurrentItemModel = item;
-
-                    _model.CurrentItemModel.CacheShape();
-
-                    _model.StartPosition = item.AnchorPosition;
-
-                    _model.StartInventory = _model.CurrentInventory;
-
-                    _view.Drag(_model.CurrentItemModel.ToView(), evt.position);
-
-                    _model.CurrentInventory.OnPointerInGridArea += OnInsideGrid;
-                }
+                return;
             }
+            
+            var success = _model.CurrentInventory.TryRemoveItem(_model.CurrentPosition, out var item);
+
+            if (!success)
+            {
+                return;
+            }
+            
+            _model.CurrentItemModel = item;
+
+            _model.CurrentItemModel.CacheShape();
+
+            _model.StartPosition = item.AnchorPosition;
+
+            _model.StartInventory = _model.CurrentInventory;
+
+            _view.Drag(_model.CurrentItemModel.ToView(), evt.position);
+
+            _model.CurrentInventory.OnPointerInGridArea += OnInsideGrid;
         }
 
         private void OnPointerUp(PointerUpEvent evt)
         {
-            if (_model.CurrentInventory != null && _model.CurrentItemModel != null)
+            if (_model.CurrentInventory == null || _model.CurrentItemModel == null)
             {
-                var success = _model.CurrentInventory.TryPlaceItem(_model.CurrentItemModel, _model.CurrentPosition);
-
-                if (!success)
-                {
-                    _model.CurrentItemModel.RestoreShape();
-                    _model.StartInventory.TryPlaceItem(_model.CurrentItemModel, _model.StartPosition);
-                }
-
-                _model.CurrentItemModel = null;
-
-                _view.Drop();
-
-                _model.CurrentInventory.OnPointerInGridArea -= OnInsideGrid;
+                return;
             }
+            
+            var success = _model.CurrentInventory.TryPlaceItem(_model.CurrentItemModel, _model.CurrentPosition);
+
+            if (!success)
+            {
+                _model.CurrentItemModel.RestoreShape();
+                _model.StartInventory.TryPlaceItem(_model.CurrentItemModel, _model.StartPosition);
+            }
+
+            _model.CurrentItemModel = null;
+
+            _view.Drop();
+
+            _model.CurrentInventory.OnPointerInGridArea -= OnInsideGrid;
         }
 
         private void OnPointerMove(PointerMoveEvent evt)
@@ -120,7 +134,7 @@ namespace Runtime.Inventory.DragAndDrop
 
             IndicatePlacementProjection();
         }
-        
+
         private void IndicatePlacementProjection()
         {
             if (_model.CurrentInventory != null && _model.CurrentItemModel != null)
@@ -135,6 +149,17 @@ namespace Runtime.Inventory.DragAndDrop
                 {
                     _view.SetCannotPlace();
                 }
+            }
+        }
+
+        private void OnChangeInventoryEnabled(bool value, InventoryModel target)
+        {
+            if (_model.CurrentInventory == target)
+            {
+                _model.CurrentPosition = _model.StartPosition;
+                _model.CurrentInventory = _model.StartInventory;
+                
+                _view.SetCannotPlace();
             }
         }
 

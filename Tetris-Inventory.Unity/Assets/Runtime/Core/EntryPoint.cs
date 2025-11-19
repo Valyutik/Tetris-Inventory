@@ -8,6 +8,7 @@ using Runtime.Inventory.Common;
 using Runtime.Inventory.Stash;
 using UnityEngine.UIElements;
 using Runtime.Input;
+using Runtime.Inventory;
 using Runtime.Popup;
 using UnityEngine;
 
@@ -50,6 +51,7 @@ namespace Runtime.Core
         private ItemRotationPresenter _itemRotationPresenter;
         
         private ModelStorage _modelStorage;
+        private InventoryController _inventoryController;
 
         private void Start()
         {
@@ -65,6 +67,15 @@ namespace Runtime.Core
             InitializeDragAndDrop();
             InitializeItemTooltip();
             InitializePopup();
+
+            InitializeInventoryController();
+        }
+
+        private void InitializeInventoryController()
+        {
+            _inventoryController = new InventoryController(_playerControls, _modelStorage.InventoryStorageModel, _inventoryPresenter, _stashPresenter);
+            
+            _inventoryController.Enable();
         }
 
         private void InitializeModelStorage()
@@ -105,16 +116,12 @@ namespace Runtime.Core
             var inventoryView = new InventoryView(_inventoryAsset, _menuContent.MenuRoot);
             
             _inventoryPresenter = new InventoryPresenter(inventoryView, _modelStorage.InventoryStorageModel.Get(InventoryType.Core));
-            
-            _inventoryPresenter.Enable();
         }
 
         private void InitializeStash()
         {
             var stashView = new InventoryView(_stashAsset, _menuContent.MenuRoot);
             _stashPresenter = new StashPresenter(stashView, _modelStorage.InventoryStorageModel.Get(InventoryType.Stash), _modelStorage);
-            
-            _stashPresenter.Enable();
         }
 
         private void InitializeItemGeneration()
