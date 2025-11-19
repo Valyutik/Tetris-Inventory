@@ -138,7 +138,7 @@
 }
 
 .item-count-label {
-    font-size: 48px;
+    font-size: 36px;
     color: rgb(255, 255, 255);
     -unity-text-outline-width: 2px;
     -unity-text-outline-color: rgb(0, 0, 0);
@@ -147,10 +147,11 @@
     height: 64px;
     margin: 0;
     padding: 0;
-    -unity-text-align: lower-right;
+    -unity-text-align: middle-center;
     position: absolute;
     left: 0;
     top: 0;
+    -unity-font-definition: url("project://database/Assets/Settings/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=b732cff8aacc0b342ad2d95c07d36dc5&type=3#NotInter-Regular");
 }
 
 .item-drag {
