@@ -16,12 +16,21 @@ namespace Runtime.Inventory.Common
             Grid = Root.Q<VisualElement>(InventoryConstants.UI.Inventory.Grid);
             
             menuRoot.Add(Root);
+            
+            HideGrid();
         }
 
-        public void SetUpGrid(int width, int height)
+        public void ShowGrid(int width, int height)
         {
+            Grid.parent.style.visibility = Visibility.Visible;
+            
             Grid.style.width = ToPx(width);
             Grid.style.height = ToPx(height);
+        }
+
+        public void HideGrid()
+        {
+            Grid.parent.style.visibility = Visibility.Hidden;
         }
 
         public VisualElement CreateCell()

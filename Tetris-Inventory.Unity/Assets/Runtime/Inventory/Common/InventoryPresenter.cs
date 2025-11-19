@@ -59,6 +59,8 @@ namespace Runtime.Inventory.Common
 
             _view.Grid.UnregisterCallback<PointerLeaveEvent>(HandleLeaveInventoryArea);
             
+            _view.HideGrid();
+            
             Model.Enabled = false;
         }
 
@@ -71,7 +73,7 @@ namespace Runtime.Inventory.Common
 
         private void CreateView()
         {
-            _view.SetUpGrid(Width, Height);
+            _view.ShowGrid(Width, Height);
             _cells = new CellView[Width, Height];
 
             for (var y = 0; y < Height; y++)
