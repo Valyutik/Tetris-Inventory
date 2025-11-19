@@ -27,6 +27,7 @@ namespace Runtime.Inventory
                 public const string ItemProjection = "item-projection";
                 public const string ItemProjectionCanPlace = "item-projection-can-place";
                 public const string ItemProjectionCannotPlace = "item-projection-cannot-place";
+                public const string ItemProjectionCanStack = "item-projection-can-stack";
             }
             
             public static class Tooltip

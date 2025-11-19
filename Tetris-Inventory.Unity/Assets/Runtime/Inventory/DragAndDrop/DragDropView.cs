@@ -71,16 +71,25 @@ namespace Runtime.Inventory.DragAndDrop
             Root.Q<VisualElement>("item-icon").AddToClassList("item-drag");
         }
 
-        public void SetCanPlace()
+        public void DrawCanPlace()
         {
             DraggingElement.RemoveFromClassList(InventoryConstants.UI.Projection.ItemProjectionCannotPlace);
+            DraggingElement.RemoveFromClassList(InventoryConstants.UI.Projection.ItemProjectionCanStack);
             DraggingElement.AddToClassList(InventoryConstants.UI.Projection.ItemProjectionCanPlace);
         }
 
-        public void SetCannotPlace()
+        public void DrawCannotPlace()
         {
-            DraggingElement.AddToClassList(InventoryConstants.UI.Projection.ItemProjectionCannotPlace);
             DraggingElement.RemoveFromClassList(InventoryConstants.UI.Projection.ItemProjectionCanPlace);
+            DraggingElement.RemoveFromClassList(InventoryConstants.UI.Projection.ItemProjectionCanStack);
+            DraggingElement.AddToClassList(InventoryConstants.UI.Projection.ItemProjectionCannotPlace);
+        }
+        
+        public void DrawCanStack()
+        {
+            DraggingElement.RemoveFromClassList(InventoryConstants.UI.Projection.ItemProjectionCannotPlace);
+            DraggingElement.RemoveFromClassList(InventoryConstants.UI.Projection.ItemProjectionCanPlace);
+            DraggingElement.AddToClassList(InventoryConstants.UI.Projection.ItemProjectionCanStack);
         }
 
         public void Drag(ItemViewData item)

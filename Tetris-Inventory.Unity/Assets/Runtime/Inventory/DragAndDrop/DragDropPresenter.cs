@@ -13,57 +13,57 @@ namespace Runtime.Inventory.DragAndDrop
         private readonly DragDropModel _model;
 
         private readonly DragDropView _view;
-        
+
         private readonly InventoryModel _inventoryModel;
 
         private readonly InventoryModel _stashInventoryModel;
-        
+
         private readonly IAudioService _audioService;
-        
+
         public DragDropPresenter(DragDropView view, ModelStorage modelStorage, IAudioService audioService)
         {
             _view = view;
-            
+
             _model = modelStorage.DragDropModel;
-            
+
             _audioService = audioService;
-            
-            _inventoryModel =  modelStorage.InventoryStorageModel.Get(InventoryType.Core);
-            
+
+            _inventoryModel = modelStorage.InventoryStorageModel.Get(InventoryType.Core);
+
             _stashInventoryModel = modelStorage.InventoryStorageModel.Get(InventoryType.Stash);
         }
 
         public void Enable()
         {
             _view.Root.RegisterCallback<PointerDownEvent>(OnPointerDown);
-            
+
             _view.Root.RegisterCallback<PointerUpEvent>(OnPointerUp);
-            
+
             _view.Root.RegisterCallback<PointerMoveEvent>(OnPointerMove);
 
             _inventoryModel.OnSelectCell += OnSelectCell;
-            
+
             _stashInventoryModel.OnSelectCell += OnSelectCell;
 
             _inventoryModel.OnChangeEnabled += OnChangeInventoryEnabled;
 
             _stashInventoryModel.OnChangeEnabled += OnChangeInventoryEnabled;
-            
+
             _model.OnRotateItem += OnRotateItem;
         }
 
         public void Disable()
         {
             _view.Root.UnregisterCallback<PointerDownEvent>(OnPointerDown);
-            
+
             _view.Root.UnregisterCallback<PointerUpEvent>(OnPointerUp);
-            
+
             _view.Root.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
-            
+
             _inventoryModel.OnSelectCell += OnSelectCell;
-            
+
             _stashInventoryModel.OnSelectCell += OnSelectCell;
-            
+
             _inventoryModel.OnChangeEnabled -= OnChangeInventoryEnabled;
 
             _stashInventoryModel.OnChangeEnabled -= OnChangeInventoryEnabled;
@@ -90,14 +90,14 @@ namespace Runtime.Inventory.DragAndDrop
             {
                 return;
             }
-            
+
             var success = _model.CurrentInventory.TryRemoveItem(_model.CurrentPosition, out var item);
 
             if (!success)
             {
                 return;
             }
-            
+
             _model.CurrentItemModel = item;
 
             _model.CurrentItemModel.CacheShape();
@@ -109,7 +109,7 @@ namespace Runtime.Inventory.DragAndDrop
             _view.Drag(_model.CurrentItemModel.ToView(), evt.position);
 
             _audioService.PlayDragSound();
-            
+
             _model.CurrentInventory.OnPointerInGridArea += OnInsideGrid;
         }
 
@@ -119,7 +119,7 @@ namespace Runtime.Inventory.DragAndDrop
             {
                 return;
             }
-            
+
             var success = _model.CurrentInventory.TryPlaceItem(_model.CurrentItemModel, _model.CurrentPosition);
 
             if (!success)
@@ -131,7 +131,7 @@ namespace Runtime.Inventory.DragAndDrop
             _model.CurrentItemModel = null;
 
             _view.Drop();
-            
+
             _audioService.PlayDragSound();
 
             _model.CurrentInventory.OnPointerInGridArea -= OnInsideGrid;
@@ -143,20 +143,26 @@ namespace Runtime.Inventory.DragAndDrop
 
             IndicatePlacementProjection();
         }
-        
+
         private void IndicatePlacementProjection()
         {
             if (_model.CurrentInventory != null && _model.CurrentItemModel != null)
             {
                 var canPlace = _model.CurrentInventory.CanPlaceItem(_model.CurrentItemModel, _model.CurrentPosition);
 
-                if (canPlace || _model.CanProjectionPlacementInteract)
+                var canStack = _model.CurrentInventory.CanStackAt(_model.CurrentPosition, _model.CurrentItemModel);
+
+                if (canStack)
                 {
-                    _view.SetCanPlace();
+                    _view.DrawCanStack();
+                }
+                else if (canPlace || _model.CanProjectionPlacementInteract)
+                {
+                    _view.DrawCanPlace();
                 }
                 else
                 {
-                    _view.SetCannotPlace();
+                    _view.DrawCannotPlace();
                 }
             }
         }
@@ -167,15 +173,15 @@ namespace Runtime.Inventory.DragAndDrop
             {
                 _model.CurrentPosition = _model.StartPosition;
                 _model.CurrentInventory = _model.StartInventory;
-                
-                _view.SetCannotPlace();
+
+                _view.DrawCannotPlace();
             }
         }
 
         private void OnSelectCell(Vector2Int position, InventoryModel target)
         {
             _model.CurrentInventory = target;
-            
+
             _model.CurrentPosition = position;
         }
     }

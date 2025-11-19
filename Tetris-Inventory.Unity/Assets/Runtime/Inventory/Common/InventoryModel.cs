@@ -178,7 +178,7 @@ namespace Runtime.Inventory.Common
             return free;
         }
         
-        private bool TryStack(ItemModel existingItem, ItemModel newItem, bool allowStacking)
+        public bool TryStack(ItemModel existingItem, ItemModel newItem, bool allowStacking)
         {
             if (existingItem != null)
             {
@@ -196,6 +196,15 @@ namespace Runtime.Inventory.Common
             }
 
             return false;
+        }
+        
+        public bool CanStackAt(Vector2Int cell, ItemModel itemInHand)
+        {
+            var target = GetItem(cell);
+            if (target == null) return false;
+            if (!target.IsStackable || !itemInHand.IsStackable) return false;
+            if (target.Id != itemInHand.Id) return false;
+            return target.CurrentStack < target.MaxStack;
         }
         
         private bool TryPlaceInGrid(ItemModel item, Vector2Int position)
