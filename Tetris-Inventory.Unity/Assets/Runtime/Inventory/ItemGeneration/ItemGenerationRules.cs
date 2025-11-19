@@ -16,7 +16,7 @@ namespace Runtime.Inventory.ItemGeneration
         public ItemGenerationRules(InventoryModel inventory, ModelStorage modelStorage, ItemGenerationErrorMessage errorMessage)
         {
             _inventory = inventory;
-            _stash = modelStorage.StashInventoryModel;
+            _stash = modelStorage.InventoryStorageModel.Get(InventoryType.Stash);
             _popupModel = modelStorage.PopupModel;
             _errorMessage = errorMessage;
         }
