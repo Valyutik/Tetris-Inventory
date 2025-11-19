@@ -73,7 +73,11 @@ namespace Runtime.Core
             var stashModel = new InventoryModel(_stashInitialSize.x, _stashInitialSize.y);
             var itemGenerationModel = new ItemGenerationModel(_generationConfig);
 
-            _modelStorage = new ModelStorage(inventoryModel, stashModel, itemGenerationModel);
+            _modelStorage = new ModelStorage(itemGenerationModel);
+            
+            _modelStorage.InventoryStorageModel.RegisterInventory(InventoryType.Core, inventoryModel);
+            
+            _modelStorage.InventoryStorageModel.RegisterInventory(InventoryType.Stash, stashModel);
         }
 
         private void OnDestroy()
@@ -100,7 +104,7 @@ namespace Runtime.Core
         {
             var inventoryView = new InventoryView(_inventoryAsset, _menuContent.MenuRoot);
             
-            _inventoryPresenter = new InventoryPresenter(inventoryView, _modelStorage.CoreInventoryModel);
+            _inventoryPresenter = new InventoryPresenter(inventoryView, _modelStorage.InventoryStorageModel.Get(InventoryType.Core));
             
             _inventoryPresenter.Enable();
         }
@@ -108,7 +112,7 @@ namespace Runtime.Core
         private void InitializeStash()
         {
             var stashView = new InventoryView(_stashAsset, _menuContent.MenuRoot);
-            _stashPresenter = new StashPresenter(stashView, _modelStorage.StashInventoryModel, _modelStorage);
+            _stashPresenter = new StashPresenter(stashView, _modelStorage.InventoryStorageModel.Get(InventoryType.Stash), _modelStorage);
             
             _stashPresenter.Enable();
         }
@@ -117,7 +121,7 @@ namespace Runtime.Core
         {
             var itemGenerationView = new ItemGenerationView(_menuContent.MenuRoot, _createButtonAsset);
 
-            var itemGenerationRules = new ItemGenerationRules(_modelStorage.CoreInventoryModel, _modelStorage, _generationErrorMessage);
+            var itemGenerationRules = new ItemGenerationRules(_modelStorage.InventoryStorageModel.Get(InventoryType.Core), _modelStorage, _generationErrorMessage);
             
             _itemGenerationPresenter = new ItemGenerationPresenter(itemGenerationView, _modelStorage.ItemGenerationModel, itemGenerationRules);
             

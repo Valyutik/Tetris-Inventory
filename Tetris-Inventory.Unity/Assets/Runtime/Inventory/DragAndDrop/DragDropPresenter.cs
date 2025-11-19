@@ -23,9 +23,9 @@ namespace Runtime.Inventory.DragAndDrop
             
             _model = model;
             
-            _inventoryModel =  modelStorage.CoreInventoryModel;
+            _inventoryModel =  modelStorage.InventoryStorageModel.Get(InventoryType.Core);
             
-            _stashInventoryModel = modelStorage.StashInventoryModel;
+            _stashInventoryModel = modelStorage.InventoryStorageModel.Get(InventoryType.Stash);
         }
 
         public void Enable()

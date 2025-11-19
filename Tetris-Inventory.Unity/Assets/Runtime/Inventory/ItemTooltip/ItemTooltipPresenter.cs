@@ -13,8 +13,8 @@ namespace Runtime.Inventory.ItemTooltip
         public ItemTooltipPresenter(ItemTooltipView view, ModelStorage modelStorage)
         {
             _view = view;
-            _inventory = modelStorage.CoreInventoryModel;
-            _stash = modelStorage.StashInventoryModel;
+            _inventory = modelStorage.InventoryStorageModel.Get(InventoryType.Core);
+            _stash = modelStorage.InventoryStorageModel.Get(InventoryType.Stash);
         }
 
         public void Enable()
