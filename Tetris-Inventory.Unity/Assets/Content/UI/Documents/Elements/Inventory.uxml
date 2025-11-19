@@ -1,5 +1,4 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements"
-         noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Content/UI/Styles/MainScreenStyles.uss?fileID=7433441132597879392&amp;guid=98f83c414cb8d22439d8d6bfa0af444d&amp;type=3#MainScreenStyles" />
     <ui:VisualElement name="Container" style="flex-grow: 1; flex-direction: row; align-self: auto; align-items: center;">
         <ui:Button name="delete-button" class="delete-button" style="margin-left: 40px; margin-right: 40px; margin-top: 40px; margin-bottom: 40px;" />

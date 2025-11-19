@@ -27,7 +27,7 @@
     display: flex;
     opacity: 1;
     transition-duration: 0.3s;
-    transition-delay: 0s;
+    transition-delay: 0.7s;
     margin-top: 20px;
     transition-property: opacity;
 }
@@ -65,6 +65,7 @@
 .popup-visible {
     opacity: 1;
     display: flex;
+    transition-duration: 0.2s;
 }
 
 .popup-invisible {
