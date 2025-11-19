@@ -9,6 +9,7 @@ namespace Runtime.Inventory.Common
 {
     public class InventoryPresenter : IPresenter
     {
+        public bool Enabled { get; private set; }
         protected InventoryModel Model { get; }
 
         private int Width => Model.Width;
@@ -41,6 +42,8 @@ namespace Runtime.Inventory.Common
             _view.Grid.RegisterCallback<PointerEnterEvent>(HandleEnterInventoryArea);
 
             _view.Grid.RegisterCallback<PointerLeaveEvent>(HandleLeaveInventoryArea);
+            
+            Enabled = true;
         }
 
         public virtual void Disable()
@@ -50,6 +53,12 @@ namespace Runtime.Inventory.Common
             Model.OnRemoveItem -= HandleRemoveItem;
             
             Model.OnItemStacked -= HandleItemStacked;
+            
+            _view.Grid.UnregisterCallback<PointerEnterEvent>(HandleEnterInventoryArea);
+
+            _view.Grid.UnregisterCallback<PointerLeaveEvent>(HandleLeaveInventoryArea);
+            
+            Enabled = false;
         }
 
         private void CreateView()

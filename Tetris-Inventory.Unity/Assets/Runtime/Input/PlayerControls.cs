@@ -666,6 +666,24 @@ namespace Runtime.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""46353c9b-9446-4461-9723-affca897e396"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleStash"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8e9978f-b469-42e3-8140-0a8746be81f2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1097,6 +1115,28 @@ namespace Runtime.Input
                     ""action"": ""RotateItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb77cdc1-bed8-4f6c-932b-3aed4f1c9e1d"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""032a2f4c-3050-4cc9-ac14-70fd206cbc85"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleStash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1188,6 +1228,8 @@ namespace Runtime.Input
             m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
             m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
             m_UI_RotateItem = m_UI.FindAction("RotateItem", throwIfNotFound: true);
+            m_UI_ToggleInventory = m_UI.FindAction("ToggleInventory", throwIfNotFound: true);
+            m_UI_ToggleStash = m_UI.FindAction("ToggleStash", throwIfNotFound: true);
         }
 
         ~@PlayerControls()
@@ -1464,6 +1506,8 @@ namespace Runtime.Input
         private readonly InputAction m_UI_TrackedDevicePosition;
         private readonly InputAction m_UI_TrackedDeviceOrientation;
         private readonly InputAction m_UI_RotateItem;
+        private readonly InputAction m_UI_ToggleInventory;
+        private readonly InputAction m_UI_ToggleStash;
         /// <summary>
         /// Provides access to input actions defined in input action map "UI".
         /// </summary>
@@ -1519,6 +1563,14 @@ namespace Runtime.Input
             /// Provides access to the underlying input action "UI/RotateItem".
             /// </summary>
             public InputAction @RotateItem => m_Wrapper.m_UI_RotateItem;
+            /// <summary>
+            /// Provides access to the underlying input action "UI/ToggleInventory".
+            /// </summary>
+            public InputAction @ToggleInventory => m_Wrapper.m_UI_ToggleInventory;
+            /// <summary>
+            /// Provides access to the underlying input action "UI/ToggleStash".
+            /// </summary>
+            public InputAction @ToggleStash => m_Wrapper.m_UI_ToggleStash;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -1578,6 +1630,12 @@ namespace Runtime.Input
                 @RotateItem.started += instance.OnRotateItem;
                 @RotateItem.performed += instance.OnRotateItem;
                 @RotateItem.canceled += instance.OnRotateItem;
+                @ToggleInventory.started += instance.OnToggleInventory;
+                @ToggleInventory.performed += instance.OnToggleInventory;
+                @ToggleInventory.canceled += instance.OnToggleInventory;
+                @ToggleStash.started += instance.OnToggleStash;
+                @ToggleStash.performed += instance.OnToggleStash;
+                @ToggleStash.canceled += instance.OnToggleStash;
             }
 
             /// <summary>
@@ -1622,6 +1680,12 @@ namespace Runtime.Input
                 @RotateItem.started -= instance.OnRotateItem;
                 @RotateItem.performed -= instance.OnRotateItem;
                 @RotateItem.canceled -= instance.OnRotateItem;
+                @ToggleInventory.started -= instance.OnToggleInventory;
+                @ToggleInventory.performed -= instance.OnToggleInventory;
+                @ToggleInventory.canceled -= instance.OnToggleInventory;
+                @ToggleStash.started -= instance.OnToggleStash;
+                @ToggleStash.performed -= instance.OnToggleStash;
+                @ToggleStash.canceled -= instance.OnToggleStash;
             }
 
             /// <summary>
@@ -1875,6 +1939,20 @@ namespace Runtime.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnRotateItem(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "ToggleInventory" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnToggleInventory(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "ToggleStash" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnToggleStash(InputAction.CallbackContext context);
         }
     }
 }
