@@ -7,6 +7,7 @@ namespace Runtime.Core
 {
     public class ModelStorage
     {
+        public InventoryStorageModel InventoryStorageModel { get; set; }        
         public InventoryModel CoreInventoryModel { get; private set; }
         
         public InventoryModel StashInventoryModel { get; private set; }
@@ -25,6 +26,7 @@ namespace Runtime.Core
             
             DragDropModel = new DragDropModel();
             PopupModel = new PopupModel();
+            InventoryStorageModel = new InventoryStorageModel();
         }
     }
 }
