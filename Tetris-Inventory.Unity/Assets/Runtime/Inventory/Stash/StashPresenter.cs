@@ -44,7 +44,7 @@ namespace Runtime.Inventory.Stash
                 xOffset += item.Width;
             }
 
-            RedrawView();
+            DrawView();
         }
     }
 }

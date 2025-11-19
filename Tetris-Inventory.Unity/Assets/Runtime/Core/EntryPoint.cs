@@ -73,7 +73,7 @@ namespace Runtime.Core
 
         private void InitializeInventoryController()
         {
-            _inventoryController = new InventoryController(_playerControls, _inventoryPresenter, _stashPresenter);
+            _inventoryController = new InventoryController(_playerControls, _modelStorage.InventoryStorageModel, _inventoryPresenter, _stashPresenter);
             
             _inventoryController.Enable();
         }

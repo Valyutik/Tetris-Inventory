@@ -8,18 +8,25 @@ namespace Runtime.Inventory
 {
     public class InventoryController
     {
-        private InventoryPresenter InventoryPresenter { get; set; }
-        private StashPresenter StashPresenter { get; set; }
+        private readonly InventoryPresenter _inventoryPresenter;
+        private readonly InventoryModel _inventoryModel;
+        
+        private readonly StashPresenter _stashPresenter;
+        private readonly InventoryModel _stashModel;
         
         private readonly PlayerControls _playerControls;
 
-        public InventoryController(PlayerControls playerControls, InventoryPresenter inventoryPresenter, StashPresenter  stashPresenter)
+
+        public InventoryController(PlayerControls playerControls, IInventoryStorageModel inventoryStorageModel, InventoryPresenter inventoryPresenter, StashPresenter  stashPresenter)
         {
             _playerControls = playerControls;
             
-            InventoryPresenter = inventoryPresenter;
+            _inventoryPresenter = inventoryPresenter;
             
-            StashPresenter = stashPresenter;
+            _inventoryModel =  inventoryStorageModel.Get(InventoryType.Core);
+            
+            _stashPresenter = stashPresenter;
+            _stashModel = inventoryStorageModel.Get(InventoryType.Stash);
         }
         
         public void Enable()
@@ -27,8 +34,8 @@ namespace Runtime.Inventory
             _playerControls.UI.ToggleInventory.performed += ToggleInventory;
             _playerControls.UI.ToggleStash.performed += ToggleStash;
             
-            StashPresenter.Enable();
-            InventoryPresenter.Enable();
+            _stashPresenter.Enable();
+            _inventoryPresenter.Enable();
         }
 
         public void Disable()
@@ -36,35 +43,33 @@ namespace Runtime.Inventory
             _playerControls.UI.ToggleInventory.performed -= ToggleInventory;
             _playerControls.UI.ToggleStash.performed -= ToggleStash;
             
-            StashPresenter.Disable();
-            InventoryPresenter.Disable();
+            _stashPresenter.Disable();
+            _inventoryPresenter.Disable();
         }
 
         private void ToggleInventory(InputAction.CallbackContext action)
         {
             Debug.Log($"U");
             
-            if (InventoryPresenter.Enabled)
+            if (_inventoryModel.Enabled)
             {
-                InventoryPresenter.Disable();
+                _inventoryPresenter.Disable();
             }
             else
             {
-                InventoryPresenter.Enable();
+                _inventoryPresenter.Enable();
             }
         }
 
         private void ToggleStash(InputAction.CallbackContext action)
         {
-            Debug.Log($"I");
-            
-            if (StashPresenter.Enabled)
+            if (_stashModel.Enabled)
             {
-                InventoryPresenter.Disable();
+                _stashPresenter.Disable();
             }
             else
             {
-                StashPresenter.Enable();
+                _stashPresenter.Enable();
             }
         }
     }

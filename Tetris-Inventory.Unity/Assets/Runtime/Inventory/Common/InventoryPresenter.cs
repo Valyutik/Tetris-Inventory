@@ -9,7 +9,6 @@ namespace Runtime.Inventory.Common
 {
     public class InventoryPresenter : IPresenter
     {
-        public bool Enabled { get; private set; }
         protected InventoryModel Model { get; }
 
         private int Width => Model.Width;
@@ -31,7 +30,7 @@ namespace Runtime.Inventory.Common
 
         public virtual void Enable()
         {
-            CreateView();
+            DrawView();
             
             Model.OnAddItem += HandleAddItem;
 
@@ -43,11 +42,13 @@ namespace Runtime.Inventory.Common
 
             _view.Grid.RegisterCallback<PointerLeaveEvent>(HandleLeaveInventoryArea);
             
-            Enabled = true;
+            Model.Enabled = true;
         }
 
         public virtual void Disable()
         {
+            ClearView();
+            
             Model.OnAddItem -= HandleAddItem;
 
             Model.OnRemoveItem -= HandleRemoveItem;
@@ -58,7 +59,14 @@ namespace Runtime.Inventory.Common
 
             _view.Grid.UnregisterCallback<PointerLeaveEvent>(HandleLeaveInventoryArea);
             
-            Enabled = false;
+            Model.Enabled = false;
+        }
+
+        protected void DrawView()
+        {
+            ClearView();
+            CreateView();
+            DrawItems();
         }
 
         private void CreateView()
@@ -81,24 +89,38 @@ namespace Runtime.Inventory.Common
             }
         }
 
-        protected void RedrawView()
+        private void DrawItems()
         {
-            ClearView();
-            CreateView();
-
             foreach (var item in Model.Items)
             {
                 _items.Add(item, _view.CreateItem(item.ToView()));
             }
         }
-        
+
         private void ClearView()
         {
+            if (_cells != null) UnsubscribeCells();
+            
             _items.Clear();
             _view.ClearGrid();
             _cells = null;
         }
-        
+
+        private void UnsubscribeCells()
+        {
+            for (var y = 0; y < _cells.GetLength(1); y++)
+            {
+                for (var x = 0; x < _cells.GetLength(0); x++)
+                {
+                    var element = _cells[x, y];
+
+                    element.Element.UnregisterCallback<PointerEnterEvent>(HandleCellPointerEnter);
+                    
+                    element.Element.UnregisterCallback<PointerLeaveEvent>(HandleCellPointerLeave);
+                }
+            }
+        }
+
         private void HandleAddItem(Vector2Int position, ItemModel itemModel)
         {
             _items.Add(itemModel, _view.CreateItem(itemModel.ToView()));
