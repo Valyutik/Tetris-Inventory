@@ -201,18 +201,26 @@ namespace Runtime.Inventory.Common
         private bool CanStack(ItemModel existingItem, ItemModel newItem)
         {
             if (existingItem == null || !existingItem.IsStackable || !newItem.IsStackable)
+            {
                 return false;
+            }
 
             if (existingItem.Id != newItem.Id)
+            {
                 return false;
+            }
 
             var space = existingItem.MaxStack - existingItem.CurrentStack;
 
             if (space <= 0)
+            {
                 return false;
+            }
 
             if (newItem.CurrentStack > space)
+            {
                 return false;
+            }
 
             return true;
         }
