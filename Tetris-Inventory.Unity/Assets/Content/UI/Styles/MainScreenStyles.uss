@@ -148,9 +148,9 @@
     margin: 0;
     padding: 0;
     -unity-text-align: lower-right;
-    bottom: 0;
-    right: 0;
     position: absolute;
+    left: 0;
+    top: 0;
 }
 
 .item-drag {
