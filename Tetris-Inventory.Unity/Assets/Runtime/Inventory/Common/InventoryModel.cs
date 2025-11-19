@@ -180,31 +180,65 @@ namespace Runtime.Inventory.Common
         
         public bool TryStack(ItemModel existingItem, ItemModel newItem, bool allowStacking)
         {
-            if (existingItem != null)
+            if (existingItem == null || !allowStacking || !existingItem.IsStackable)
             {
-                if (allowStacking && existingItem.IsStackable)
-                {
-                    if (existingItem.Id == newItem.Id)
-                    {
-                        if (existingItem.TryAddToStack(newItem.CurrentStack))
-                        {
-                            OnItemStacked?.Invoke(existingItem);
-                            return true;
-                        }
-                    }
-                }
+                return false;
+            }
+
+            if (existingItem.Id != newItem.Id)
+            {
+                return false;
+            }
+
+            if (newItem.CurrentStack >= newItem.MaxStack)
+            {
+                return false;
+            }
+
+            if (existingItem.CurrentStack >= existingItem.MaxStack)
+            {
+                return false;
+            }
+            
+            if (existingItem.TryAddToStack(newItem.CurrentStack))
+            {
+                OnItemStacked?.Invoke(existingItem);
+                return true;
             }
 
             return false;
         }
         
-        public bool CanStackAt(Vector2Int cell, ItemModel itemInHand)
+        public bool CanStackAtPosition(Vector2Int position, ItemModel newItem)
         {
-            var target = GetItem(cell);
-            if (target == null) return false;
-            if (!target.IsStackable || !itemInHand.IsStackable) return false;
-            if (target.Id != itemInHand.Id) return false;
-            return target.CurrentStack < target.MaxStack;
+            var existingItem = GetItem(position);
+
+            if (existingItem == null)
+            {
+                return false;
+            }
+
+            if (!existingItem.IsStackable || !newItem.IsStackable)
+            {
+                return false;
+            }
+
+            if (existingItem.Id != newItem.Id)
+            {
+                return false;
+            }
+
+            if (existingItem.CurrentStack >= existingItem.MaxStack)
+            {
+                return false;
+            }
+
+            if (newItem.CurrentStack >= newItem.MaxStack)
+            {
+                return false;
+            }
+
+            return true;
         }
         
         private bool TryPlaceInGrid(ItemModel item, Vector2Int position)

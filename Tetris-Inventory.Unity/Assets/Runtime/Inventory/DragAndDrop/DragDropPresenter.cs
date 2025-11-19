@@ -152,7 +152,7 @@ namespace Runtime.Inventory.DragAndDrop
             {
                 var canPlace = _model.CurrentInventory.CanPlaceItem(_model.CurrentItemModel, _model.CurrentPosition);
 
-                var canStack = _model.CurrentInventory.CanStackAt(_model.CurrentPosition, _model.CurrentItemModel);
+                var canStack = _model.CurrentInventory.CanStackAtPosition(_model.CurrentPosition, _model.CurrentItemModel);
 
                 if (canStack)
                 {
