@@ -113,16 +113,16 @@ namespace Runtime.Inventory.Common
 
         public static Vector2Int CalculateGridSize(IReadOnlyList<ItemModel> items)
         {
-            var totalWidth = 0;
-            var maxHeight = 0;
+            var totalHeight = 0;
+            var maxWidth = 0;
 
             foreach (var item in items)
             {
-                totalWidth += item.Width;
-                maxHeight = Mathf.Max(maxHeight, item.Height);
+                totalHeight += item.Height;
+                maxWidth = Mathf.Max(maxWidth, item.Width);
             }
 
-            return new Vector2Int(totalWidth, maxHeight);
+            return new Vector2Int(maxWidth, totalHeight);
         }
 
         public void Clear()

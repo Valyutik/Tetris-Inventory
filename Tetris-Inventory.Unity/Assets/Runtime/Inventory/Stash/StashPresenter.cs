@@ -33,15 +33,16 @@ namespace Runtime.Inventory.Stash
         private void SetItems(IReadOnlyList<ItemModel> items)
         {
             Model.Clear();
+            
             var size = InventoryModel.CalculateGridSize(items);
+            
             Model.RebuildGrid(size.x, size.y);
             
-            var xOffset = 0;
-            
+            var yOffset = 0;
             foreach (var item in items)
             {
-                Model.TryPlaceItem(item, new Vector2Int(xOffset, 0), allowStacking: false);
-                xOffset += item.Width;
+                Model.TryPlaceItem(item, new Vector2Int(0, yOffset), allowStacking: false);
+                yOffset += item.Height;
             }
 
             DrawView();
