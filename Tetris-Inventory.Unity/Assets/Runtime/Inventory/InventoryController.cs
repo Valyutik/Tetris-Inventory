@@ -34,8 +34,8 @@ namespace Runtime.Inventory
             _playerControls.UI.ToggleInventory.performed += ToggleInventory;
             _playerControls.UI.ToggleStash.performed += ToggleStash;
             
-            _stashPresenter.Enable();
-            _inventoryPresenter.Enable();
+            _stashPresenter.Disable();
+            _inventoryPresenter.Disable();
         }
 
         public void Disable()
