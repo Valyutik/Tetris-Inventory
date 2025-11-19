@@ -20,7 +20,7 @@
     border-right-color: rgb(255, 255, 255);
     border-top-color: rgb(255, 255, 255);
     border-bottom-color: rgb(255, 255, 255);
-    background-image: url("project://database/Assets/Content/Graphics/Icons/Add.png?fileID=21300000&guid=b12f2792510b59d4c9821278b938d7c8&type=3#add");
+    background-image: url("project://database/Assets/Content/Graphics/Icons/add.png?fileID=21300000&guid=b12f2792510b59d4c9821278b938d7c8&type=3#add");
     background-size: 80% 80%;
 }
 
@@ -36,7 +36,7 @@
     max-width: 570px;
     min-height: 100px;
     max-height: 100px;
-    background-image: url("project://database/Assets/Content/Graphics/Icons/Add.png?fileID=21300000&guid=b12f2792510b59d4c9821278b938d7c8&type=3#add");
+    background-image: url("project://database/Assets/Content/Graphics/Icons/add.png?fileID=21300000&guid=b12f2792510b59d4c9821278b938d7c8&type=3#add");
     background-size: 70% 70%;
 }
 
@@ -64,7 +64,7 @@
     max-height: 160px;
     transition-timing-function: ease-in-out;
     transition-duration: 0.1s;
-    background-image: url("project://database/Assets/Content/Graphics/Icons/Trash.png?fileID=2800000&guid=6b049e948fefe1343afecb73b303d1b6&type=3#trash");
+    background-image: url("project://database/Assets/Content/Graphics/Icons/trash.png?fileID=2800000&guid=6b049e948fefe1343afecb73b303d1b6&type=3#trash");
     background-size: 60% 60%;
     -unity-background-image-tint-color: rgb(255, 255, 255);
 }
@@ -93,7 +93,7 @@
     max-height: 160px;
     transition-timing-function: ease-in-out;
     transition-duration: 0.1s;
-    background-image: url("project://database/Assets/Content/Graphics/Icons/Trash.png?fileID=2800000&guid=6b049e948fefe1343afecb73b303d1b6&type=3#trash");
+    background-image: url("project://database/Assets/Content/Graphics/Icons/trash.png?fileID=2800000&guid=6b049e948fefe1343afecb73b303d1b6&type=3#trash");
     background-size: 75% 75%;
     -unity-background-image-tint-color: rgb(255, 255, 255);
 }
@@ -137,19 +137,6 @@
     justify-content: center;
 }
 
-.item-projection-cannot-place {
-    border-top-width: 10px;
-    border-right-width: 10px;
-    border-bottom-width: 10px;
-    border-left-width: 10px;
-    border-left-color: rgb(255, 71, 38);
-    border-right-color: rgb(255, 71, 38);
-    border-top-color: rgb(255, 71, 38);
-    border-bottom-color: rgb(255, 71, 38);
-    background-color: rgb(0, 0, 0);
-    border-radius: 15px;
-}
-
 .item-count-label {
     font-size: 48px;
     color: rgb(255, 255, 255);
@@ -164,4 +151,9 @@
     bottom: 0;
     right: 0;
     position: absolute;
+}
+
+.item-drag {
+    transition-duration: 0.2s;
+    background-size: 80% 80%;
 }

@@ -51,6 +51,8 @@ namespace Runtime.Inventory.DragAndDrop
 
             IsDragging = false;
             
+            _icon.name = "item-icon";
+            
             DraggingElement.Add(_icon);
             
             root.Add(DraggingElement);
@@ -65,6 +67,8 @@ namespace Runtime.Inventory.DragAndDrop
             _dragOffset = GetOffsetByItem(item);
             
             Move(startPosition);
+            
+            Root.Q<VisualElement>("item-icon").AddToClassList("item-drag");
         }
 
         public void SetCanPlace()
@@ -88,6 +92,8 @@ namespace Runtime.Inventory.DragAndDrop
             _dragOffset = GetOffsetByItem(item);
             
             Move(_cachedPointerPosition);
+
+            Root.Q<VisualElement>("item-icon").AddToClassList("item-preview-show");
         }
 
         public void Move(Vector2 screenPosition)
@@ -102,7 +108,12 @@ namespace Runtime.Inventory.DragAndDrop
             }
         }
 
-        public void Drop() => IsDragging = false;
+        public void Drop()
+        {
+            IsDragging = false;
+            
+            Root.Q<VisualElement>("item-icon").RemoveFromClassList("item-drag");
+        }
 
         private void UpdateVisualByItem(ItemViewData item)
         {
