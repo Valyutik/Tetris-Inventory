@@ -180,63 +180,39 @@ namespace Runtime.Inventory.Common
         
         public bool TryStack(ItemModel existingItem, ItemModel newItem, bool allowStacking)
         {
-            if (existingItem == null || !allowStacking || !existingItem.IsStackable)
+            if (!allowStacking || !CanStack(existingItem, newItem))
             {
                 return false;
             }
 
-            if (existingItem.Id != newItem.Id)
-            {
-                return false;
-            }
-
-            if (newItem.CurrentStack >= newItem.MaxStack)
-            {
-                return false;
-            }
-
-            if (existingItem.CurrentStack >= existingItem.MaxStack)
-            {
-                return false;
-            }
+            existingItem.TryAddToStack(newItem.CurrentStack);
             
-            if (existingItem.TryAddToStack(newItem.CurrentStack))
-            {
-                OnItemStacked?.Invoke(existingItem);
-                return true;
-            }
-
-            return false;
+            OnItemStacked?.Invoke(existingItem);
+            return true;
         }
         
         public bool CanStackAtPosition(Vector2Int position, ItemModel newItem)
         {
             var existingItem = GetItem(position);
-
-            if (existingItem == null)
-            {
+            
+            return CanStack(existingItem, newItem);
+        }
+        
+        private bool CanStack(ItemModel existingItem, ItemModel newItem)
+        {
+            if (existingItem == null || !existingItem.IsStackable || !newItem.IsStackable)
                 return false;
-            }
-
-            if (!existingItem.IsStackable || !newItem.IsStackable)
-            {
-                return false;
-            }
 
             if (existingItem.Id != newItem.Id)
-            {
                 return false;
-            }
 
-            if (existingItem.CurrentStack >= existingItem.MaxStack)
-            {
-                return false;
-            }
+            var space = existingItem.MaxStack - existingItem.CurrentStack;
 
-            if (newItem.CurrentStack >= newItem.MaxStack)
-            {
+            if (space <= 0)
                 return false;
-            }
+
+            if (newItem.CurrentStack > space)
+                return false;
 
             return true;
         }
