@@ -49,8 +49,6 @@ namespace Runtime.Inventory
 
         private void ToggleInventory(InputAction.CallbackContext action)
         {
-            Debug.Log($"U");
-            
             if (_inventoryModel.Enabled)
             {
                 _inventoryPresenter.Disable();
