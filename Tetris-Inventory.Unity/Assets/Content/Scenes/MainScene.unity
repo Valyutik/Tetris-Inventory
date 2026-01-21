@@ -186,9 +186,13 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 1ef621c95e1ebe64bab874a73e83835b, type: 3}
   m_SortingOrder: 0
+  m_Position: 0
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
 --- !u!4 &244221744
 Transform:
   m_ObjectHideFlags: 0
@@ -216,7 +220,7 @@ GameObject:
   - component: {fileID: 830032971}
   - component: {fileID: 830032970}
   m_Layer: 0
-  m_Name: GlobalSystems
+  m_Name: '[AUDIO]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -332,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sfxSource: {fileID: 830032970}
-  dragClip: {fileID: 8300000, guid: 3c32395d999e0c24ab65a4fa4c577665, type: 3}
+  dragClip: {fileID: 8300000, guid: e58a4c680ed375c45b10192ab6abd526, type: 3}
 --- !u!4 &830032972
 Transform:
   m_ObjectHideFlags: 0
@@ -488,9 +492,13 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: a5d28a55672b5c342be31f03b3599f6a, type: 3}
   m_SortingOrder: 1
+  m_Position: 0
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
 --- !u!1 &1794183510
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,6 +558,6 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 830032972}
   - {fileID: 1794183512}
   - {fileID: 154682098}
+  - {fileID: 830032972}
