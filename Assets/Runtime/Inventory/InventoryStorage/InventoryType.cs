@@ -1,4 +1,4 @@
-namespace Runtime.Inventory.Common
+namespace Runtime.Inventory.InventoryStorage
 {
     public enum InventoryType
     {

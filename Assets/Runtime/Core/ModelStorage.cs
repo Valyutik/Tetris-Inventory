@@ -1,5 +1,6 @@
 using Runtime.Inventory.Common;
 using Runtime.Inventory.DragAndDrop;
+using Runtime.Inventory.InventoryStorage;
 using Runtime.Inventory.ItemGeneration;
 using Runtime.Popup;
 

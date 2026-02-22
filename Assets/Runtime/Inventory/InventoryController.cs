@@ -1,7 +1,7 @@
 using Runtime.Input;
 using Runtime.Inventory.Common;
+using Runtime.Inventory.InventoryStorage;
 using Runtime.Inventory.Stash;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Runtime.Inventory

@@ -1,7 +1,8 @@
-using Runtime.Inventory.Item.Extensions;
+using System;
 using System.Collections.Generic;
 using Runtime.Inventory.Item;
-using System;
+using Runtime.Inventory.Item.Extensions;
+using Random = UnityEngine.Random;
 
 namespace Runtime.Inventory.ItemGeneration
 {
@@ -27,7 +28,7 @@ namespace Runtime.Inventory.ItemGeneration
             
             for (var i = 0; i < _config.DefaultCount; i++)
             {
-                var randomItemConfig = _config.ItemConfigs[UnityEngine.Random.Range(0, _config.ItemConfigs.Count)];
+                var randomItemConfig = _config.ItemConfigs[Random.Range(0, _config.ItemConfigs.Count)];
                 
                 var item = randomItemConfig.ToModel();
                 

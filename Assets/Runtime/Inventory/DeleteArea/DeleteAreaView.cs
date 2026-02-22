@@ -11,7 +11,7 @@ namespace Runtime.Inventory.DeleteArea
         
         public Button CancelDeleteButton { get;  }
         
-        private VisualElement Root { get; set; }
+        private VisualElement Root { get; }
        
         private readonly PopupContent _popupContent;
         

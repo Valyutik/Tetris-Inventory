@@ -69,7 +69,10 @@ namespace Runtime.Inventory.Common.Data
             }
         }
         
-        public Cell GetCell(int x, int y) => _cells[x, y];
+        public Cell GetCell(int x, int y)
+        {
+            return _cells[x, y];
+        }
 
         public ItemModel GetItem(Vector2Int position)
         {

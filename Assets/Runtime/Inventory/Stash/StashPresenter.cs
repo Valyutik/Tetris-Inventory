@@ -1,8 +1,8 @@
-using Runtime.Inventory.ItemGeneration;
 using System.Collections.Generic;
+using Runtime.Core;
 using Runtime.Inventory.Common;
 using Runtime.Inventory.Item;
-using Runtime.Core;
+using Runtime.Inventory.ItemGeneration;
 using UnityEngine;
 
 namespace Runtime.Inventory.Stash
@@ -41,7 +41,7 @@ namespace Runtime.Inventory.Stash
             var yOffset = 0;
             foreach (var item in items)
             {
-                Model.TryPlaceItem(item, new Vector2Int(0, yOffset), allowStacking: false);
+                Model.TryPlaceItem(item, new Vector2Int(0, yOffset), false);
                 yOffset += item.Height;
             }
 

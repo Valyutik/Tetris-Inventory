@@ -116,6 +116,9 @@ namespace Runtime.Inventory.Common
             el.style.top = ToPx(item.AnchorPosition.y);
         }
         
-        private static float ToPx(int cells) => cells * InventoryConstants.UI.CellSize;
+        private static float ToPx(int cells)
+        {
+            return cells * InventoryConstants.UI.CellSize;
+        }
     }
 }

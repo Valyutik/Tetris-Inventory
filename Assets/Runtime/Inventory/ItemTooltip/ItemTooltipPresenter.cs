@@ -1,5 +1,6 @@
-using Runtime.Inventory.Common;
 using Runtime.Core;
+using Runtime.Inventory.Common;
+using Runtime.Inventory.InventoryStorage;
 using UnityEngine;
 
 namespace Runtime.Inventory.ItemTooltip

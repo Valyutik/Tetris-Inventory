@@ -1,10 +1,10 @@
 #if UNITY_EDITOR
-using UnityEditor.UIElements;
-using UnityEngine.UIElements;
-using Runtime.Inventory.Item;
 using System.Linq;
+using Runtime.Inventory.Item;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Editor
 {
@@ -175,7 +175,7 @@ namespace Editor
 
             var descriptionField = new TextField
             {
-                value = config.Description, multiline = true,
+                value = config.Description, multiline = true
             };
 
             descriptionField.RegisterValueChangedCallback(evt =>

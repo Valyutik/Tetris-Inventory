@@ -1,5 +1,5 @@
-using UnityEngine.UIElements;
 using Runtime.Inventory;
+using UnityEngine.UIElements;
 
 namespace Runtime.Systems.ContentManager
 {

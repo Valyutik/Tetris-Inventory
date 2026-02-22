@@ -1,5 +1,5 @@
-using Runtime.Core;
 using System.Linq;
+using Runtime.Core;
 
 namespace Runtime.Inventory.ItemGeneration
 {

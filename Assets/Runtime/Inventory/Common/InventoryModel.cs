@@ -1,8 +1,8 @@
-using Runtime.Inventory.Item;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Runtime.Inventory.Item;
 using UnityEngine;
-using System;
 using Grid = Runtime.Inventory.Common.Data.Grid;
 
 namespace Runtime.Inventory.Common
@@ -44,7 +44,7 @@ namespace Runtime.Inventory.Common
             }
         }
 
-        private bool _enabled = false;
+        private bool _enabled;
         
         public InventoryModel(int width, int height)
         { 

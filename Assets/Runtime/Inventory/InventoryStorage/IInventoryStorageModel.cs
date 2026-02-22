@@ -1,4 +1,6 @@
-namespace Runtime.Inventory.Common
+using Runtime.Inventory.Common;
+
+namespace Runtime.Inventory.InventoryStorage
 {
     public interface IInventoryStorageModel
     {

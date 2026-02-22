@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using Runtime.Inventory.Item;
-using Runtime.Inventory.ItemGeneration;
+using Runtime.Inventory.Common;
 
-namespace Runtime.Inventory.Common
+namespace Runtime.Inventory.InventoryStorage
 {
     public class InventoryStorageModel :  IInventoryStorageModel
     {

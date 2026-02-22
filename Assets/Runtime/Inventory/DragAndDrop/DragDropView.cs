@@ -1,6 +1,6 @@
 using Runtime.Inventory.Item;
-using UnityEngine.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Runtime.Inventory.DragAndDrop
 {
@@ -32,18 +32,18 @@ namespace Runtime.Inventory.DragAndDrop
                 style =
                 {
                     position = Position.Absolute,
-                    justifyContent = Justify.Center,
+                    justifyContent = Justify.Center
                 },
                 pickingMode = PickingMode.Ignore
             };
 
-            _icon = new VisualElement()
+            _icon = new VisualElement
             {
                 pickingMode = PickingMode.Ignore,
                 
                 style =
                 {
-                    alignSelf = Align.Center,
+                    alignSelf = Align.Center
                 }
             };
             
