@@ -1,6 +1,6 @@
 ﻿# Tetris Inventory – командный учебный проект
 
-🇬🇧 [English Version](#-english-version)
+🇬🇧 [English Version](Docs/README.en.md)
 
 ## Описание проекта
 
